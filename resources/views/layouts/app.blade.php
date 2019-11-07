@@ -38,7 +38,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            no users route found
+                        @if (Route::has('users'))
+                            <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
+                        @endif
                         </li>
                     </ul>
 

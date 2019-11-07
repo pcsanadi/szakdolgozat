@@ -13,7 +13,9 @@
 
 Route::view('/','auth.login');
 Route::view('/login','auth.login');
+Route::view('/users','users')->middleware('admin')->name('users');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
