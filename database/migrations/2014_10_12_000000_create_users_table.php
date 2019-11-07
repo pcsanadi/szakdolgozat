@@ -17,10 +17,13 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('umpire_level', ['none','national','BE accredited','BE certificated','BWF accredited','BWF certificated'])->default('none');
+            $table->tinyInteger('referee_level')->unsigned()->default(0);
+            $table->boolean('admin');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('deleted');
         });
     }
 
