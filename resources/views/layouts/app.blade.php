@@ -18,10 +18,11 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+@section('header_scripts')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@show
 </head>
 <body>
     <div id="app">
@@ -37,20 +38,25 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                        @if (Route::has('users'))
-                            <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
-                        @endif
-                        </li>
+                        <!-- only for admin users -->
+                            @if( !is_null(Auth::user()) && Auth::user()->isAdmin() )
+                                @if (Route::has('users'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
+                                    </li>
+                                @endif
+                            @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                            <!--
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Belépés') }}</a>
                             </li>
+                            -->
                             <!--
                             @if (Route::has('register'))
                                 <li class="nav-item">

@@ -13,7 +13,7 @@
 
 Route::view('/','auth.login');
 Route::view('/login','auth.login');
-Route::view('/users','users')->middleware('admin')->name('users');
+Route::get('/users','UserController@index')->name('users');
 
 Auth::routes();
 

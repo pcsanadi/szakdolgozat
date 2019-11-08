@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('umpire_level', ['none','national','BE accredited','BE certificated','BWF accredited','BWF certificated'])->default('none');
             $table->tinyInteger('referee_level')->unsigned()->default(0);
-            $table->boolean('admin');
+            $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('deleted');
