@@ -18,12 +18,14 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('umpire_level', ['none','national','BE accredited','BE certificated','BWF accredited','BWF certificated'])->default('none');
-            $table->tinyInteger('referee_level')->unsigned()->default(0);
+            $table->bigInteger('umpire_level')->unsigned();
+            $table->bigInteger('referee_level')->unsigned();
             $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('deleted');
+            $table->foreign('umpire_level')->references('id')->on('umpire_levels');
+            $table->foreign('referee_level')->references('id')->on('referee_levels');
         });
     }
 

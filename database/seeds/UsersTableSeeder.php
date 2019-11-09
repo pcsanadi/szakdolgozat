@@ -18,8 +18,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Csanádi Péter',
                 'email' => 'peter.csanadi.840128@gmail.com',
                 'password' => Hash::make('1111'),
-                'umpire_level' => 'BE accredited',
-                'referee_level' => 1,
+                'umpire_level' => 2,
+                'referee_level' => 2,
                 'admin' => true,
                 'deleted' => false
             ],
@@ -27,8 +27,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Kapitány Péter',
                 'email' => 'peter.kapitany@gmail.com',
                 'password' => Hash::make('2222'),
-                'umpire_level' => 'none',
-                'referee_level' => 0,
+                'umpire_level' => 1,
+                'referee_level' => 2,
                 'admin' => false,
                 'deleted' => false
             ]
