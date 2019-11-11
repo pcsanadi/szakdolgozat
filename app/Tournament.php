@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Venue extends Model
+class Tournament extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Venue extends Model
      *
      * @var string
      */
-    protected $table = 'venues';
+    protected $table = 'tournaments';
 
     /**
      * The primary key associated with the table.
@@ -38,10 +38,10 @@ class Venue extends Model
     public $timestamps = true;
 
     /**
-     * Get the tournaments in this venue
+     * Get the venue of this tournament
      */
-    public function tournaments() // a umpire level can connect to many users
+    public function venue()
     {
-        return $this->hasMany('App\Tournament', 'venue_id');
+        return $this->belongsTo('App\Venue', 'venue_id');
     }
 }
