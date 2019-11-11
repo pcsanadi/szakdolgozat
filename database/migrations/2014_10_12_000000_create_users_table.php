@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->bigInteger('umpire_level')->unsigned();
             $table->bigInteger('referee_level')->unsigned();
             $table->boolean('admin')->default(false);
-            $table->rememberToken();
             $table->timestamps(); // adds nullable created_at and updated_at timestamp equivalent columns
             $table->softDeletes();
             $table->foreign('umpire_level')->references('id')->on('umpire_levels');
