@@ -11,11 +11,11 @@ class TournamentsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tournaments')->insert([
-            [
-            ],
-            [
-            ]
-        ]);
+        // DB::table('tournaments')->insert([
+        //     [
+        //     ],
+        //     [
+        //     ]
+        // ]);
     }
 }
