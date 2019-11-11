@@ -21,7 +21,6 @@ class UsersTableSeeder extends Seeder
                 'umpire_level' => 2,
                 'referee_level' => 2,
                 'admin' => true,
-                'deleted' => false
             ],
             [
                 'name' => 'Kapitány Péter',
@@ -30,7 +29,6 @@ class UsersTableSeeder extends Seeder
                 'umpire_level' => 1,
                 'referee_level' => 2,
                 'admin' => false,
-                'deleted' => false
             ]
         ]);
     }

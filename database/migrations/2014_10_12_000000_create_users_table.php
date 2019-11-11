@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->bigInteger('referee_level')->unsigned();
             $table->boolean('admin')->default(false);
             $table->rememberToken();
-            $table->timestamps();
-            $table->boolean('deleted');
+            $table->timestamps(); // adds nullable created_at and updated_at timestamp equivalent columns
+            $table->softDeletes();
             $table->foreign('umpire_level')->references('id')->on('umpire_levels');
             $table->foreign('referee_level')->references('id')->on('referee_levels');
         });
