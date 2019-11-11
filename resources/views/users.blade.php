@@ -23,6 +23,7 @@
                                 <th scope="col">Jv szint</th>
                                 <th scope="col">Döntnök szint</th>
                                 <th scope="col">Admin</th>
+                                <th scope="col">Törölt</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,6 +37,13 @@
                                     <td>
                                         @if( $user->admin )
                                             <span class="fas fa-check"></span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (!is_null($user->deleted_at))
+                                            X <!-- TODO make beautiful -->
+                                        @else
+                                            &nbsp;
                                         @endif
                                     </td>
                                     <td><a href="users/{{$user->id}}"><button type="button" class="btn btn-outline-info">Szerkesztés</button></a></td>

@@ -23,7 +23,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\User::with(['umpireLevel','refereeLevel'])->get();
+        $users = \App\User::withTrashed()
+                        ->with(['umpireLevel','refereeLevel'])->get();
         return view('users', [ "users" => $users ]);
+    }
+
+    public function show($id)
+    {
+        $user = \App\User::with(['umpireLevel','refereeLevel'])->find($id);
+        if ( is_null($user) )
+        {
+            redirect('users')->with('error','user not found');
+        }
+
+        return view('showUser', [ "user" => $user]);
     }
 }
