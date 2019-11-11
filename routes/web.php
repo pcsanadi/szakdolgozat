@@ -14,6 +14,7 @@
 Route::view('/','auth.login');
 Route::view('/login','auth.login');
 Route::get('/users','UserController@index')->name('users');
+Route::get('/users/{id}','UserController@show')->name('showUser');
 
 Auth::routes();
 

@@ -30,12 +30,16 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = \App\User::with(['umpireLevel','refereeLevel'])->find($id);
+        $user = \App\User::find($id);
+        $referee_levels = \App\RefereeLevel::all();
+        $umpire_levels = \App\UmpireLevel::all();
         if ( is_null($user) )
         {
             redirect('users')->with('error','user not found');
         }
 
-        return view('showUser', [ "user" => $user]);
+        return view('showUser', [ "user" => $user,
+                                  "umpire_levels" => $umpire_levels,
+                                  "referee_levels" => $referee_levels ]);
     }
 }
