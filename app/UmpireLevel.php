@@ -33,4 +33,12 @@ class UmpireLevel extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the users having this umpire level
+     */
+    public function umpires() // a umpire level can connect to many users
+    {
+        return $this->hasMany('App\User', 'umpire_level');
+    }
 }

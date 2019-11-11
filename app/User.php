@@ -70,4 +70,20 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->admin;
     }
+
+    /**
+     * Get the umpire level of this user
+     */
+    public function umpireLevel()
+    {
+        return $this->belongsTo('App\UmpireLevel', 'umpire_level');
+    }
+
+    /**
+     * Get the referee level of this user
+     */
+    public function refereeLevel()
+    {
+        return $this->belongsTo('App\RefereeLevel', 'referee_level');
+    }
 }

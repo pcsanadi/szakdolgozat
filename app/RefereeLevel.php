@@ -48,8 +48,11 @@ class RefereeLevel extends Model
      */
     protected $guarded = ['id','level'];
 
-    // public function referees()
-    // {
-    //     return $this->hasMany('App\User');
-    // }
+    /**
+     * Get the users having this level
+     */
+    public function referees() // a referee level can connect to many users
+    {
+        return $this->hasMany('App\User', 'referee_level');
+    }
 }
