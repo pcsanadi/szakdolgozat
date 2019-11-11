@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\User::all();
+        $users = \App\User::with(['umpireLevel','refereeLevel'])->get();
         return view('users', [ "users" => $users ]);
     }
 }

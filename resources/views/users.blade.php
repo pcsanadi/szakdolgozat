@@ -31,8 +31,8 @@
                                     <th scope="row">{{ $user->id}}</th>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->umpire_level }}</td>
-                                    <td>{{ $user->referee_level }}</td>
+                                    <td>{{ $user->umpireLevel->level }}</td>
+                                    <td>{{ $user->refereeLevel->level }}</td>
                                     <td>
                                         @if( $user->admin )
                                             <span class="fas fa-check"></span>
