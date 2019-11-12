@@ -27,8 +27,8 @@ Route::put('/users/{id}/restore','UserController@restore')->where('id','[0-9]+')
 Route::delete('/users/{id}','UserController@destroy')->where('id','[0-9]+');
 
 Route::get('/venues','VenueController@index')->name('venues');
-// Route::post('/venues','VenueController@store');
-// Route::get('/venues/create','VenueController@create');
+Route::post('/venues','VenueController@store');
+Route::get('/venues/create','VenueController@create');
 // Route::get('/venues/{id}','VenueController@show')->where('id','[0-9]+')->name('showUser');
 // Route::put('/venues/{id}','VenueController@save')->where('id','[0-9]+');
 // Route::put('/venues/{id}/restore','VenueController@restore')->where('id','[0-9]+');
