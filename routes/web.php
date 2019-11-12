@@ -15,6 +15,9 @@ Route::view('/','auth.login');
 Route::view('/login','auth.login');
 Route::get('/users','UserController@index')->name('users');
 Route::get('/users/{id}','UserController@show')->name('showUser');
+Route::put('/users/{id}','UserController@save');
+Route::put('/users/{id}/restore','UserController@restore');
+Route::delete('/users/{id}','UserController@delete');
 
 Auth::routes();
 

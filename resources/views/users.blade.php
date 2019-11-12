@@ -23,11 +23,11 @@
                                 <th scope="col">Jv szint</th>
                                 <th scope="col">Döntnök szint</th>
                                 <th scope="col">Admin</th>
-                                <th scope="col">Törölt</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach( $users as $user )
+                                @php($deleted = !is_null($user->deleted_at))
                                 <tr>
                                     <th scope="row">{{ $user->id}}</th>
                                     <td>{{ $user->name }}</td>
@@ -39,30 +39,32 @@
                                             <span class="fas fa-check"></span>
                                         @endif
                                     </td>
+                                    <td><a href="{{Route('users')}}/{{$user->id}}" class="btn btn-outline-info">Szerkesztés</a></td>
                                     <td>
-                                        @if (!is_null($user->deleted_at))
-                                            X <!-- TODO make beautiful -->
-                                        @else
-                                            &nbsp;
-                                        @endif
+                                        <a href="" class="btn"
+                                            onclick="event.preventDefault();document.getElementById('delete_form_{{$user->id}}').submit();">
+                                            @if($deleted)
+                                                Visszaállítás
+                                            @else
+                                                Törlés
+                                            @endif
+                                        </a>
+                                        <form method="POST" id="delete_form_{{$user->id}}"
+                                            @if($deleted)
+                                                action="{{Route('users')}}/{{$user->id}}/restore">
+                                                @method('PUT')
+                                            @else
+                                                action="{{Route('users')}}/{{$user->id}}">
+                                                @method('DELETE')
+                                            @endif
+                                            @csrf
+                                        </form>
                                     </td>
-                                    <td><a href="users/{{$user->id}}"><button type="button" class="btn btn-outline-info">Szerkesztés</button></a></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 @endif
-                    <!-- </div> -->
-
-                <!--<div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in! ({{ Auth::user()->l}})
-                </div> -->
             </div>
         </div>
     </div>
