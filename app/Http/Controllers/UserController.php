@@ -26,7 +26,7 @@ class UserController extends Controller
         $users = \App\User::withTrashed()
                         ->with(['umpireLevel','refereeLevel'])->get();
 
-        return view('users', [ "users" => $users ]);
+        return view('user.list', [ "users" => $users ]);
     }
 
     public function show($id)
@@ -39,9 +39,9 @@ class UserController extends Controller
         $referee_levels = \App\RefereeLevel::all();
         $umpire_levels = \App\UmpireLevel::all();
 
-        return view('showUser', [ "user" => $user,
-                                  "umpire_levels" => $umpire_levels,
-                                  "referee_levels" => $referee_levels ]);
+        return view('user.show', [ "user" => $user,
+                                    "umpire_levels" => $umpire_levels,
+                                    "referee_levels" => $referee_levels ]);
     }
 
     public function save(Request $request, $id)
@@ -72,7 +72,7 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $user = \App\User::find($id);
         if(is_null($user))

@@ -60,16 +60,6 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="admin" class="col-sm-2 col-form-label">Törölt</label>
-            <div class="col-sm-10">
-                <input id="deleted" name="deleted" value="deleted" class="form-check-input" type="checkbox"
-                    @if(!is_null($user->deleted_at))
-                        checked
-                    @endif
-                />
-            </div>
-        </div>
-        <div class="form-group row">
             <input type="reset" class="btn btn-outline-info"/>
             <a href="{{url('/')}}/users" class="btn btn-outline-info">Mégsem</a>
             <input type="submit" class="btn btn-outline-info" value="Mentés"/>
