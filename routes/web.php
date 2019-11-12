@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
 Route::view('/','auth.login');
 Route::view('/login','auth.login');
 Route::get('/users','UserController@index')->name('users');
@@ -21,7 +25,4 @@ Route::put('/users/{id}','UserController@save')->where('id','[0-9]+');
 Route::put('/users/{id}/restore','UserController@restore')->where('id','[0-9]+');
 Route::delete('/users/{id}','UserController@destroy')->where('id','[0-9]+');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
