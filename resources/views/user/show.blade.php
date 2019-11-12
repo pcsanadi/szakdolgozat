@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{url('/')}}/users/{{$user->id}}" method="POST">
+    <form action="{{route('users')}}/{{$user->id}}" method="POST">
         @method('PUT')
         @csrf
         <div class="form-group row">
@@ -61,7 +61,7 @@
         </div>
         <div class="form-group row">
             <input type="reset" class="btn btn-outline-info"/>
-            <a href="{{url('/')}}/users" class="btn btn-outline-info">Mégsem</a>
+            <a href="{{route('users')}}" class="btn btn-outline-info">Mégsem</a>
             <input type="submit" class="btn btn-outline-info" value="Mentés"/>
         </div>
     </form>

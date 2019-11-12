@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <a href="{{url('/')}}/users/create" class="btn btn btn-outline-info">Új felhasználó</a>
+            <a href="{{route('users')}}/create" class="btn btn btn-outline-info">Új felhasználó</a>
         </div>
         <div class="col-md-8">
             <input class="form-check-input" type="checkbox" value="" id="showDeleted"/>
@@ -26,7 +26,6 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="d-none" scope="col">#</th>
                                 <th scope="col">Név</th>
                                 <th scope="col"><span class="far fa-envelope"></span></th>
                                 <th scope="col">Jv szint</th>
@@ -38,7 +37,6 @@
                             @foreach( $users as $user )
                                 @php($deleted = !is_null($user->deleted_at))
                                 <tr @if($deleted)class="d-none"@endif>
-                                    <th class="d-none" scope="row">{{ $user->id}}</th>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->umpireLevel->level }}</td>
@@ -52,7 +50,7 @@
                                         @if($deleted)
                                             <button type="button" class="btn btn-outline-info" disabled>Szerkesztés</button>
                                         @else
-                                            <a href="{{Route('users')}}/{{$user->id}}" class="btn btn-outline-info">
+                                            <a href="{{route('users')}}/{{$user->id}}" class="btn btn-outline-info">
                                                 Szerkesztés
                                             </a>
                                         @endif
@@ -68,10 +66,10 @@
                                         </a>
                                         <form method="POST" id="delete_form_{{$user->id}}"
                                             @if($deleted)
-                                                action="{{Route('users')}}/{{$user->id}}/restore">
+                                                action="{{route('users')}}/{{$user->id}}/restore">
                                                 @method('PUT')
                                             @else
-                                                action="{{Route('users')}}/{{$user->id}}">
+                                                action="{{route('users')}}/{{$user->id}}">
                                                 @method('DELETE')
                                             @endif
                                             @csrf

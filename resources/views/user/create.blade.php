@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{url('/')}}/users" method="POST">
+    <form action="{{route('users')}}" method="POST">
         @csrf
         <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">Név</label>
