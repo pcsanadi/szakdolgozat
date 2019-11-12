@@ -28,6 +28,36 @@ class VenueController extends Controller
         return view('venue.list', [ "venues" => $venues ]);
     }
 
+
+    /**
+     * Restore a previously soft deleted venue
+     */
+    public function restore($id)
+    {
+        $venue = \App\Venue::onlyTrashed()->find($id);
+        if(is_null($venue))
+        {
+            return redirect()->route('users')->with('error','venue not found');
+        }
+        $venue->restore();
+        return redirect()->route('venues');
+    }
+
+    /**
+     * Soft delete a venue
+     *
+     * @return misc
+     */
+    public function destroy($id)
+    {
+        $venue = \App\Venue::find($id);
+        if(is_null($venue))
+        {
+            return redirect()->route('venues')->with('error','venue not found');
+        }
+        $venue->delete();
+        return redirect()->route('venues');
+    }
     /**
      * Show venue.create view
      *

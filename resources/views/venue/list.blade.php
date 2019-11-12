@@ -35,7 +35,7 @@
                         <tbody>
                             @foreach( $venues as $venue )
                                 @php($deleted = !is_null($venue->deleted_at))
-                                <tr>
+                                <tr @if($deleted)class="d-none"@endif>
                                     <th class="d-none" scope="row">{{ $venue->id}}</th>
                                     <td>{{ $venue->name }}</td>
                                     <td>{{ $venue->address }}</td>
