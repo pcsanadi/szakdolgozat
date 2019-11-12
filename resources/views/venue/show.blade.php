@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{url('/')}}/venues/{{$venue->id}}" method="POST">
+    <form action="{{route('venues')}}/{{$venue->id}}" method="POST">
         @method('PUT')
         @csrf
         <div class="form-group row">
@@ -28,18 +28,8 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="accredited" class="col-sm-2 col-form-label">Akkreditált</label>
-            <div class="col-sm-10">
-                <input id="accredited" name="accredited" value="accredited" class="form-check-input" type="checkbox"
-                    @if($venue->accredited == 1)
-                        checked
-                    @endif
-                />
-            </div>
-        </div>
-        <div class="form-group row">
             <input type="reset" class="btn btn-outline-info"/>
-            <a href="{{url('/')}}/venues" class="btn btn-outline-info">Mégsem</a>
+            <a href="{{route('venues')}}" class="btn btn-outline-info">Mégsem</a>
             <input type="submit" class="btn btn-outline-info" value="Mentés"/>
         </div>
     </form>

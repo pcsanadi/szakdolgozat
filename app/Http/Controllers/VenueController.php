@@ -55,7 +55,6 @@ class VenueController extends Controller
         $venue->name = $info['name'];
         $venue->address = $info['address'];
         $venue->courts = $info['courts'];
-        $venue->accredited = array_key_exists( 'accredited', $info );
         $venue->save();
         return redirect()->route('venues');
     }
@@ -116,7 +115,6 @@ class VenueController extends Controller
         $venue->name = $info['name'];
         $venue->address = $info['address'];
         $venue->courts = $info['courts'];
-        $venue->accredited = array_key_exists('accredited', $info);
 
         $venue->save();
 

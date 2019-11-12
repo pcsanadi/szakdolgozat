@@ -18,7 +18,6 @@ class CreateVenuesTable extends Migration
             $table->string('name')->unique();
             $table->string('address')->unique();
             $table->tinyinteger('courts')->unsigned();
-            $table->boolean('accredited');
             $table->timestamps(); // adds nullable created_at and updated_at timestamp equivalent columns
             $table->softDeletes();
         });

@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <a href="{{url('/')}}/venues/create" class="btn btn btn-outline-info">Új csarnok</a>
+            <a href="{{route('venues')}}/create" class="btn btn-outline-info">Új csarnok</a>
         </div>
         <div class="col-md-8">
             <input class="form-check-input" type="checkbox" value="" id="showDeleted"/>
@@ -25,31 +25,23 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="d-none" scope="col">#</th>
                                 <th scope="col">Név</th>
                                 <th scope="col">Cím</th>
                                 <th scope="col">Pályák száma</th>
-                                <th scope="col">Akkreditált</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach( $venues as $venue )
                                 @php($deleted = !is_null($venue->deleted_at))
                                 <tr @if($deleted)class="d-none"@endif>
-                                    <th class="d-none" scope="row">{{ $venue->id}}</th>
                                     <td>{{ $venue->name }}</td>
                                     <td>{{ $venue->address }}</td>
                                     <td>{{ $venue->courts }}</td>
                                     <td>
-                                        @if( $venue->accredited )
-                                            <span class="fas fa-check"></span>
-                                        @endif
-                                    </td>
-                                    <td>
                                         @if($deleted)
                                             <button type="button" class="btn btn-outline-info" disabled>Szerkesztés</button>
                                         @else
-                                            <a href="{{Route('venues')}}/{{$venue->id}}" class="btn btn-outline-info">
+                                            <a href="{{route('venues')}}/{{$venue->id}}" class="btn btn-outline-info">
                                                 Szerkesztés
                                             </a>
                                         @endif
@@ -65,10 +57,10 @@
                                         </a>
                                         <form method="POST" id="delete_form_{{$venue->id}}"
                                             @if($deleted)
-                                                action="{{Route('venues')}}/{{$venue->id}}/restore">
+                                                action="{{route('venues')}}/{{$venue->id}}/restore">
                                                 @method('PUT')
                                             @else
-                                                action="{{Route('venues')}}/{{$venue->id}}">
+                                                action="{{route('venues')}}/{{$venue->id}}">
                                                 @method('DELETE')
                                             @endif
                                             @csrf
