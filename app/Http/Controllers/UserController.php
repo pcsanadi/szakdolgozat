@@ -30,6 +30,11 @@ class UserController extends Controller
         return view('user.list', [ "users" => $users ]);
     }
 
+    /**
+     * Show one user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function show($id)
     {
         $user = \App\User::find($id);
@@ -45,6 +50,11 @@ class UserController extends Controller
                                     "referee_levels" => $referee_levels ]);
     }
 
+    /**
+     * Update a user.
+     *
+     * @return misc
+     */
     public function save(Request $request, $id)
     {
         $info = $request->all();
@@ -62,6 +72,11 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
+    /**
+     * Restore a previously soft deleted user.
+     *
+     * @return misc
+     */
     public function restore($id)
     {
         $user = \App\User::onlyTrashed()->find($id);
@@ -73,6 +88,11 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
+    /**
+     * Soft delete a user
+     *
+     * @return misc
+     */
     public function destroy($id)
     {
         $user = \App\User::find($id);
@@ -84,6 +104,11 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
+    /**
+     * Show user.create view.
+     *
+     * @return misc
+     */
     public function create()
     {
         $umpire_levels = \App\UmpireLevel::all();
@@ -91,6 +116,11 @@ class UserController extends Controller
         return view('user.create', ["umpire_levels" => $umpire_levels, "referee_levels" => $referee_levels]);
     }
 
+    /**
+     * Store a new user
+     *
+     * @return misc
+     */
     public function store(Request $request)
     {
         $info = $request->all();
