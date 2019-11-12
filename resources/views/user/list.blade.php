@@ -10,6 +10,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <a href="{{url('/')}}/users/create" class="btn btn btn-outline-info">Új felhasználó</a>
+        </div>
+        <div class="col-md-8">
             <div class="card">
                 @if( $users->count() == 0 )
                     <div class="card-body">Nincs egyetlen felhasználó sem</div>

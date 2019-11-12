@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash; // tmp
 
 class UserController extends Controller
 {
@@ -81,5 +82,32 @@ class UserController extends Controller
         }
         $user->delete();
         return redirect()->route('users');
+    }
+
+    public function create()
+    {
+        $umpire_levels = \App\UmpireLevel::all();
+        $referee_levels = \App\RefereeLevel::all();
+        return view('user.create', ["umpire_levels" => $umpire_levels, "referee_levels" => $referee_levels]);
+    }
+
+    public function store(Request $request)
+    {
+        $info = $request->all();
+        if( 0 != \App\User::where('email',$info['email'])->count() )
+        {
+            return redirect()->route('users')->with('error','user with this email already exists');
+        }
+        $user = new \App\User;
+        $user->name = $info['name'];
+        $user->email = $info['email'];
+        $user->password = Hash::make($info['email']);
+        $user->umpire_level = $info['ulevel'];
+        $user->referee_level = $info['rlevel'];
+        $user->admin = array_key_exists('admin', $info);
+
+        $user->save();
+
+        return redirect()->route('users')->with('message','user created successsfully');
     }
 }
