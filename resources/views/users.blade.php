@@ -39,7 +39,15 @@
                                             <span class="fas fa-check"></span>
                                         @endif
                                     </td>
-                                    <td><a href="{{Route('users')}}/{{$user->id}}" class="btn btn-outline-info">Szerkesztés</a></td>
+                                    <td>
+                                        @if($deleted)
+                                            <button type="button" class="btn btn-outline-info" disabled>Szerkesztés</button>
+                                        @else
+                                            <a href="{{Route('users')}}/{{$user->id}}" class="btn btn-outline-info">
+                                                Szerkesztés
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="" class="btn"
                                             onclick="event.preventDefault();document.getElementById('delete_form_{{$user->id}}').submit();">
