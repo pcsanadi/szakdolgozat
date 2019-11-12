@@ -13,6 +13,12 @@
             <a href="{{url('/')}}/users/create" class="btn btn btn-outline-info">Új felhasználó</a>
         </div>
         <div class="col-md-8">
+            <input class="form-check-input" type="checkbox" value="" id="showDeleted"/>
+            <label class="form-check-label" for="showDeleted">
+                Töröltek megjelenítése
+            </label>
+        </div>
+        <div class="col-md-8">
             <div class="card">
                 @if( $users->count() == 0 )
                     <div class="card-body">Nincs egyetlen felhasználó sem</div>
@@ -20,7 +26,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none" scope="col">#</th>
                                 <th scope="col">Név</th>
                                 <th scope="col"><span class="far fa-envelope"></span></th>
                                 <th scope="col">Jv szint</th>
@@ -31,8 +37,8 @@
                         <tbody>
                             @foreach( $users as $user )
                                 @php($deleted = !is_null($user->deleted_at))
-                                <tr>
-                                    <th scope="row">{{ $user->id}}</th>
+                                <tr @if($deleted)class="d-none"@endif>
+                                    <th class="d-none" scope="row">{{ $user->id}}</th>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->umpireLevel->level }}</td>
