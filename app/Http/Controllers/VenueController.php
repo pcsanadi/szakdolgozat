@@ -28,6 +28,37 @@ class VenueController extends Controller
         return view('venue.list', [ "venues" => $venues ]);
     }
 
+    /**
+     * Show one venue
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function show($id)
+    {
+        $venue = \App\Venue::find($id);
+        if ( is_null($venue) )
+        {
+            return redirect()->route('venues')->with('error','venue not found');
+        }
+
+        return view('venue.show', [ "venue" => $venue ]);
+    }
+
+    public function save(Request $request, $id)
+    {
+        $info = $request->all();
+        $venue = \App\Venue::find($id);
+        if(is_null($venue))
+        {
+            return redirect()->route('venues')->with('error','venue not found');
+        }
+        $venue->name = $info['name'];
+        $venue->address = $info['address'];
+        $venue->courts = $info['courts'];
+        $venue->accredited = array_key_exists( 'accredited', $info );
+        $venue->save();
+        return redirect()->route('venues');
+    }
 
     /**
      * Restore a previously soft deleted venue
@@ -58,6 +89,7 @@ class VenueController extends Controller
         $venue->delete();
         return redirect()->route('venues');
     }
+
     /**
      * Show venue.create view
      *
