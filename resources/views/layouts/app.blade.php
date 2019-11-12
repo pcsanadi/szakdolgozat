@@ -44,6 +44,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('venues') }}">{{ __('Csarnokok')}}</a>
+                                    </li>
                                 @endif
                             @endif
                     </ul>
