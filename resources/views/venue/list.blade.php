@@ -6,22 +6,26 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <a href="{{route('venues')}}/create" class="btn btn-outline-info">Új csarnok</a>
+<div class="container justify-content-center">
+    <div class="row">
+        <div class="col">
+            <a href="{{route('venues')}}/create" class="btn">Új csarnok</a>
         </div>
-        <div class="col-md-8">
-            <input class="form-check-input" type="checkbox" value="" id="showDeleted"/>
-            <label class="form-check-label" for="showDeleted">
+    </div>
+    <div class="row">
+        <div class="col">
+            <input class="form-check-input" type="checkbox" id="cbShowDeleted"
+            />
+            <label class="form-check-label" for="cbShowDeleted">
                 Töröltek megjelenítése
             </label>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                @if( $venues->count() == 0 )
-                    <div class="card-body">Nincs egyetlen csarnok sem</div>
-                @else
+    </div>
+    <div class="row">
+        <div class="col">
+            @if( $venues->count() == 0 )
+                Nincs egyetlen csarnok sem
+            @else
                     <table class="table">
                         <thead>
                             <tr>
@@ -70,8 +74,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                @endif
-            </div>
+            @endif
         </div>
     </div>
 </div>
