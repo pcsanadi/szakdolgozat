@@ -25,7 +25,7 @@ class VenueController extends Controller
     {
         $venues = \App\Venue::withTrashed()->get();
 
-        return view('venue.list', [ "venues" => $venues ]);
+        return view('venue.list', [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -33,7 +33,7 @@ class VenueController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $venue = \App\Venue::find($id);
         if ( is_null($venue) )
@@ -62,15 +62,15 @@ class VenueController extends Controller
     /**
      * Restore a previously soft deleted venue
      */
-    public function restore($id)
+    public function restore(Request $request,$id)
     {
         $venue = \App\Venue::onlyTrashed()->find($id);
         if(is_null($venue))
         {
-            return redirect()->route('users')->with('error','venue not found');
+            return redirect()->route('venues')->with('error','venue not found');
         }
         $venue->restore();
-        return redirect()->route('venues');
+        return redirect()->route('venues')->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
@@ -78,7 +78,7 @@ class VenueController extends Controller
      *
      * @return misc
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $venue = \App\Venue::find($id);
         if(is_null($venue))
@@ -86,7 +86,7 @@ class VenueController extends Controller
             return redirect()->route('venues')->with('error','venue not found');
         }
         $venue->delete();
-        return redirect()->route('venues');
+        return redirect()->route('venues')->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
