@@ -34,7 +34,7 @@
                             sd[i].value=(this.checked?'true':'false');
                         }"
                 />
-                <label class="form-check-label" for="showDeleted">
+                <label class="form-check-label" for="cbShowDeleted">
                     Töröltek megjelenítése
                 </label>
             </div>
