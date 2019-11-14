@@ -40,12 +40,19 @@
                     <ul class="navbar-nav mr-auto">
                         <!-- only for admin users -->
                             @if( !is_null(Auth::user()) && Auth::user()->isAdmin() )
-                                @if (Route::has('users'))
+                                @if(Route::has('users'))
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
                                     </li>
+                                @endif
+                                @if(Route::has('venues'))
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('venues') }}">{{ __('Csarnokok')}}</a>
+                                    </li>
+                                @endif
+                                @if(Route::has('tournaments'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Versenyek')}}</a>
                                     </li>
                                 @endif
                             @endif

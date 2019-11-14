@@ -34,7 +34,7 @@ Route::put('/venues/{id}','VenueController@save')->where('id','[0-9]+');
 Route::put('/venues/{id}/restore','VenueController@restore')->where('id','[0-9]+');
 Route::delete('/venues/{id}','VenueController@destroy')->where('id','[0-9]+');
 
-// Route::get('/tournaments','TournamentController@index')->name('users');
+Route::get('/tournaments','TournamentController@index')->name('tournaments');
 // Route::post('/tournaments','TournamentController@store');
 // Route::get('/tournaments/create','TournamentController@create');
 // Route::get('/tournaments/{id}','TournamentController@show')->where('id','[0-9]+')->name('showUser');
