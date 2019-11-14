@@ -30,6 +30,22 @@ class TournamentController extends Controller
     }
 
     /**
+     * Restore a previously soft deleted tournament
+     *
+     * @return misc
+     */
+    public function restore(Request $request, $id)
+    {
+        $tournament = \App\Tournament::onlyTrashed()->find($id);
+        if(is_null($tournament))
+        {
+            return redirect()->route('tournaments')->with('error','tournament not found');
+        }
+        $tournament->restore();
+        return redirect()->route('tournaments')->with("showDeleted",$request->input('showDeleted'));
+    }
+
+    /**
      * Soft delete a tournament
      *
      * @return misc
