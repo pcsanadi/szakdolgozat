@@ -18,7 +18,7 @@ class RedirectIfNotAdmin
     {
         if (is_null(Auth::user()) || !Auth::user()->admin)
         {
-            return redirect('/home');
+            return redirect('/versenynaptar');
         }
         return $next($request);
     }
