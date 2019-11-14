@@ -6,3 +6,8 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.yjrb29_button {
+    @extend .btn;
+    @extend .btn-outline-info;
+}
