@@ -96,6 +96,7 @@
                                     @endif
                                     @csrf
                                     <input type="hidden" name="showDeleted" id="showDeleted" value="{{$showDeleted}}"/>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

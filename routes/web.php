@@ -40,4 +40,4 @@ Route::get('/tournaments','TournamentController@index')->name('tournaments');
 // Route::get('/tournaments/{id}','TournamentController@show')->where('id','[0-9]+')->name('showUser');
 // Route::put('/tournaments/{id}','TournamentController@save')->where('id','[0-9]+');
 // Route::put('/tournaments/{id}/restore','TournamentController@restore')->where('id','[0-9]+');
-// Route::delete('/tournaments/{id}','TournamentController@destroy')->where('id','[0-9]+');
+Route::delete('/tournaments/{id}','TournamentController@destroy')->where('id','[0-9]+');

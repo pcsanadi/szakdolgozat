@@ -28,4 +28,20 @@ class TournamentController extends Controller
 
         return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
+
+    /**
+     * Soft delete a tournament
+     *
+     * @return misc
+     */
+    public function destroy(Request $request, $id)
+    {
+        $tournament = \App\Tournament::find($id);
+        if(is_null($tournament))
+        {
+            return redirect()->route('tournaments')->with('error','tournament not found');
+        }
+        $tournament->delete();
+        return redirect()->route('tournaments')->with("showDeleted",$request->input('showDeleted'));
+    }
 }
