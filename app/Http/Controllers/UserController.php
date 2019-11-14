@@ -27,7 +27,7 @@ class UserController extends Controller
         $users = \App\User::withTrashed()
                         ->with(['umpireLevel','refereeLevel'])->get();
 
-        return view('user.list', [ "users" => $users ]);
+        return view('user.list', [ "users" => $users ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = \App\User::find($id);
         if ( is_null($user) )
@@ -77,7 +77,7 @@ class UserController extends Controller
      *
      * @return misc
      */
-    public function restore($id)
+    public function restore(Request $request, $id)
     {
         $user = \App\User::onlyTrashed()->find($id);
         if(is_null($user))
@@ -85,7 +85,7 @@ class UserController extends Controller
             return redirect()->route('users')->with('error','user not found');
         }
         $user->restore();
-        return redirect()->route('users');
+        return redirect()->route('users')->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
@@ -93,7 +93,7 @@ class UserController extends Controller
      *
      * @return misc
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $user = \App\User::find($id);
         if(is_null($user))
@@ -101,7 +101,7 @@ class UserController extends Controller
             return redirect()->route('users')->with('error','user not found');
         }
         $user->delete();
-        return redirect()->route('users');
+        return redirect()->route('users')->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
