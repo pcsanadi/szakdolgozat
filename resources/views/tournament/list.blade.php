@@ -16,23 +16,10 @@
     @if( $tournaments->count() > 0 )
         <div class="row">
             <div class="col">
-                <input class="form-check-input" type="checkbox" value="" id="cbShowDeleted"
+                <input class="form-check-input cbShowDeleted" type="checkbox" value=""
                     @if($showDeleted == "true")
                         checked="checked"
                     @endif
-                    onclick="var d=document.getElementsByName('deleted_row');
-                        for(var i=0;i<d.length;++i)
-                        {
-                            if(this.checked)
-                                d[i].classList.remove('d-none');
-                            else
-                                d[i].classList.add('d-none');
-                        }
-                        var sd=document.getElementsByName('showDeleted');
-                        for(var i=0;i<sd.length;++i)
-                        {
-                            sd[i].value=(this.checked?'true':'false');
-                        }"
                 />
                 <label class="form-check-label" for="cbShowDeleted">
                     Töröltek megjelenítése

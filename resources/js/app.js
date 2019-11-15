@@ -41,4 +41,19 @@ $(function () {
         closeText: "Bezárás",
         regional: "hu"
     });
+    $('.cbShowDeleted').click(function() {
+        var d=document.getElementsByName('deleted_row');
+        for(var i=0;i<d.length;++i)
+        {
+            if(this.checked)
+                d[i].classList.remove('d-none');
+            else
+                d[i].classList.add('d-none');
+        }
+        var sd=document.getElementsByName('showDeleted');
+        for(var i=0;i<sd.length;++i)
+        {
+            sd[i].value=(this.checked?'true':'false');
+        }
+    });
 });
