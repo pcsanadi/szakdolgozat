@@ -98,4 +98,15 @@ class TournamentController extends Controller
         $tournament->delete();
         return redirect()->route('tournaments')->with("showDeleted",$request->input('showDeleted'));
     }
+
+    /**
+     * Show tournament.create view
+     *
+     * @return misc
+     */
+    public function create()
+    {
+        $venues = \App\Venue::all();
+        return view('tournament.create', ["venues" => $venues]);
+    }
 }
