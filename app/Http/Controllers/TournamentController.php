@@ -63,6 +63,8 @@ class TournamentController extends Controller
         $tournament->datefrom = $info['datefrom'];
         $tournament->dateto = $info['dateto'];
         $tournament->venue_id = $info['venue'];
+        $tournament->international = array_key_exists('international',$info);
+        $tournament->requested_umpires = $info['requested_umpires'];
         $tournament->save();
         return redirect()->route('tournaments');
     }
@@ -108,5 +110,24 @@ class TournamentController extends Controller
     {
         $venues = \App\Venue::all();
         return view('tournament.create', ["venues" => $venues]);
+    }
+
+    /**
+     * Store a new tournament
+     *
+     * @return misc
+     */
+    public function store(Request $request)
+    {
+        $info = $request->all();
+        $tournament = new \App\Tournament;
+        $tournament->title = $info['title'];
+        $tournament->datefrom = $info['datefrom'];
+        $tournament->dateto = $info['dateto'];
+        $tournament->venue_id = $info['venue'];
+        $tournament->international = array_key_exists('international',$info);
+        $tournament->requested_umpires = $info['requested_umpires'];
+        $tournament->save();
+        return redirect()->route('tournaments')->with('message','tournament created successsfully');
     }
 }

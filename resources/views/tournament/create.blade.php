@@ -23,7 +23,7 @@
         <div class="form-group row">
             <label for="dateto" class="col-form-label">{{ __('End date') }}</label>
             <div class="col">
-                <input type="text" class=datepicker" id="dateto" name="dateto" value=""/>
+                <input type="text" class="datepicker" id="dateto" name="dateto" value=""/>
             </div>
         </div>
         <div class="form-group row">
@@ -34,6 +34,18 @@
                         <option value="{{ $venue->id }}">{{ $venue->name }}</option>
                     @endforeach
                 </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="international" class="col-form-label">{{ __('International') }}</label>
+            <div class="col">
+                <input type="checkbox" class="form-check-input" id="international" name="international" value="international"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="requested_umpires" class="col-form-label">{{ __('Requested umpires') }}</label>
+            <div class="col">
+                <input type="number" class="form-control" id="requested_umpires" name="requested_umpires"/>
             </div>
         </div>
         <div class="form-group row">

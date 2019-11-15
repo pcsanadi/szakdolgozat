@@ -20,6 +20,7 @@ class CreateTournamentsTable extends Migration
             $table->date('dateto');
             $table->bigInteger('venue_id')->unsigned();
             $table->boolean('international')->default(false);
+            $table->bigInteger('requested_umpires')->unsigned();
             $table->timestamps(); // adds nullable created_at and updated_at timestamp equivalent columns
             $table->softDeletes();
             $table->foreign('venue_id')->references('id')->on('venues');

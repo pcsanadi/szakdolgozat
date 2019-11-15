@@ -42,6 +42,22 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="international" class="col-form-label">{{ __('International') }}</label>
+            <div class="col">
+                <input id="international" name="international" value="international" class="form-check-input" type="checkbox"
+                    @if($tournament->international == 1)
+                        checked
+                    @endif
+                />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="requested_umpires" class="col-form-label">{{ __('Requested umpires') }}</label>
+            <div class="col">
+                <input id="requested_umpires" name="requested_umpires", value="{{$tournament->requested_umpires}}" type="number"/>
+            </div>
+        </div>
+        <div class="form-group row">
             <div class="col">
                 <input type="reset" class="btn" value="{{ __('Reset') }}"/>
             </div>
