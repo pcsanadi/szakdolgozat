@@ -47,6 +47,27 @@ class TournamentController extends Controller
     }
 
     /**
+     * Update a tournament.
+     *
+     * @return misc
+     */
+    public function save(Request $request, $id)
+    {
+        $info = $request->all();
+        $tournament = \App\Tournament::find($id);
+        if(is_null($tournament))
+        {
+            return redirect()->route('tournaments')->with('error','tournament not found');
+        }
+        $tournament->title = $info['title'];
+        $tournament->datefrom = $info['datefrom'];
+        $tournament->dateto = $info['dateto'];
+        $tournament->venue_id = $info['venue'];
+        $tournament->save();
+        return redirect()->route('tournaments');
+    }
+
+    /**
      * Restore a previously soft deleted tournament
      *
      * @return misc
