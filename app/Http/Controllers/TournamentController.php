@@ -30,6 +30,23 @@ class TournamentController extends Controller
     }
 
     /**
+     * Show one tournament.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function show(Request $request, $id)
+    {
+        $tournament = \App\Tournament::find($id);
+        if ( is_null($tournament) )
+        {
+            return redirect()->route('tournaments')->with('error','tournament not found');
+        }
+        $venues = \App\Venue::all();
+        return view('tournament.show', [ "tournament" => $tournament,
+                                    "venues" => $venues ]);
+    }
+
+    /**
      * Restore a previously soft deleted tournament
      *
      * @return misc
