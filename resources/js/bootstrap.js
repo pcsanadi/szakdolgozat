@@ -8,10 +8,12 @@ window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = require('jquery'),require('jquery-ui');
 
     require('bootstrap');
 } catch (e) {}
+import 'jquery-ui/ui/widgets/datepicker';
+import 'jquery-ui/ui/i18n/datepicker-hu';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

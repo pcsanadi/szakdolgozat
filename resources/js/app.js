@@ -30,3 +30,15 @@ require('./bootstrap');
 // const app = new Vue({
 //     el: '#app',
 // });
+
+$(function () {
+    $('.datepicker').datepicker({
+        firstDay: 1,
+        dateFormat: "yy-mm-dd",
+        altFormat: "(yy-mm-dd)",
+        showButtonPanel: true,
+        currentText: "Ma",
+        closeText: "Bezárás",
+        regional: "hu"
+    });
+});
