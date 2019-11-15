@@ -39948,7 +39948,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window
 
 
 $(function () {
-  // $.datepicker.setDefaults($.datepicker.regional["hu"]);
   $('.datepicker').datepicker({
     firstDay: 1,
     dateFormat: "yy-mm-dd",
