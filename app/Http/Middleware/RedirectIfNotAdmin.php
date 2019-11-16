@@ -18,7 +18,8 @@ class RedirectIfNotAdmin
     {
         if (is_null(Auth::user()) || !Auth::user()->admin)
         {
-            return redirect('/versenynaptar');
+            // return redirect()->route('calendar'));
+            return redirect('/');
         }
         return $next($request);
     }
