@@ -138,7 +138,7 @@ class TournamentController extends Controller
     */
     public function showCalendar()
     {
-        $tournaments = \App\Tournament::all();
+        $tournaments = \App\Tournament::all()->sortBy('datefrom');
         $newTournaments = array();
         foreach($tournaments as $tournament)
         {
@@ -168,8 +168,12 @@ class TournamentController extends Controller
             $newTournament->title = $tournament->title;
             $newTournament->venue = $tournament->venue;
             $newTournament->requested_umpires = $tournament->requested_umpires;
-            // $newTournament->umpire_applications = $tournament->umpire_applications;
-            // $newTournament->referee_applications = $tournament->referee_appliacations;
+            $newTournament->umpireApplications = $tournament->umpireApplications;
+            if( !is_null($newTournament->umpireApplications) )
+                $newTournament->umpireApplications = $newTournament->umpireApplications->sort();
+            $newTournament->refereeApplications = $tournament->refereeApplications;
+            if( !is_null($newTournament->refereeApplications) )
+                $newTournament->refereeApplications = $newTournament->refereeApplications->sort();
             array_push($newTournaments,$newTournament);
         }
         $authenticated = !is_null(\Auth::user());

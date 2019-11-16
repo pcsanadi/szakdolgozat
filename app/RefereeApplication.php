@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class referee_applications extends Model
+class RefereeApplication extends Model
 {
 /**
      * The table associated with the model

@@ -5,9 +5,6 @@
 @endsection
 
 @section('content')
-admin: {{ $user->admin }}<br/>
-ref: {{ $user->possible_referee }}<br/>
-ump: {{ $user->possible_umpire }}<br/>
 <div class="container justify-content-center">
     <div class="row">
         <div class="col">{{ __('Date') }}</div>
@@ -35,19 +32,19 @@ ump: {{ $user->possible_umpire }}<br/>
                 ({{ $tournament->venue->address }})
             </div>
             <div class="col">{{ $tournament->requested_umpires }}</div>
-            <div class="col">{{-- $tournament->umpire_applications->count() --}}</div>
+            <div class="col">{{ $tournament->umpireApplications->count() }}</div>
             @if($user->admin)
                 <div class="col">
-                    {{--@foreach($tournament->referee_applications as $application)
-                        {{ $application->name }}
+                    @foreach($tournament->refereeApplications as $application)
+                        {{ $application->user->name }}
                         @if(!$loop->last)<br/>@endif
-                    @endforeach--}}
+                    @endforeach
                 </div>
                 <div class="col">
-                    {{--@foreach($tournament->umpire_applications as $application)
-                        {{ $application->name }}
+                    @foreach($tournament->umpireApplications as $application)
+                        {{ $application->user->name }}
                         @if(!$loop->last)<br/>@endif
-                    @endforeach--}}
+                    @endforeach
                 </div>
             @endif
         @if($user->possible_referee)
