@@ -52,4 +52,12 @@ class Tournament extends Model
     {
         return $this->hasMany('App\UmpireApplication', 'tournament_id');
     }
+
+    /**
+     * Get the referee applications for this tournament
+     */
+    public function refereeApplications()
+    {
+        return $this->hasMany('App\RefereeApplication', 'tournament_id');
+    }
 }

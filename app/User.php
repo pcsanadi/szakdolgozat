@@ -85,4 +85,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\UmpireApplication', 'umpire_id');
     }
+
+    /**
+     * Get the referee applications of this user
+     */
+    public function refereeApplications()
+    {
+        return $this->hasMany('App\RefereeApplication', 'referee_id');
+    }
 }
