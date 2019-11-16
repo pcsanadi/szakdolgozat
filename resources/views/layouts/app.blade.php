@@ -25,7 +25,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('login') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -35,21 +35,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @if( $admin )
-                        <!-- only for admin users -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('users') }}">{{ __('Users') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('venues') }}">{{ __('Venues') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Tournaments') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#">|</a>
-                            </li>
-                        @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('calendar') }}">{{ __('Tournament calendar') }}</a>
                             </li>
@@ -60,21 +45,23 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <!--
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Belépés') }}</a>
+                        @if( $admin )
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
+                                    <a class="nav-link" href="{{ route('users') }}">{{ __('Users') }}</a>
+                                    <a class="nav-link" href="{{ route('venues') }}">{{ __('Venues') }}</a>
+                                    <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Tournaments') }}</a>
+                                </div>
                             </li>
-                            -->
-                            <!--
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                            -->
-                        @else
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">|</a>
+                            </li>
+                        @endif
+                        <!-- Authentication Links -->
+                        @auth
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
