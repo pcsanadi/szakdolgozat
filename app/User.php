@@ -77,4 +77,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\RefereeLevel', 'referee_level');
     }
+
+    /**
+     * Get the umpire applications of this user
+     */
+    public function umpireApplications()
+    {
+        return $this->hasMany('App\UmpireApplication', 'umpire_id');
+    }
 }

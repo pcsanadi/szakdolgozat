@@ -3,18 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tournament extends Model
+class UmpireApplication extends Model
 {
-    use SoftDeletes;
-
     /**
      * The table associated with the model
      *
      * @var string
      */
-    protected $table = 'tournaments';
+    protected $table = 'umpire_applications';
 
     /**
      * The primary key associated with the table.
@@ -38,18 +35,18 @@ class Tournament extends Model
     public $timestamps = true;
 
     /**
-     * Get the venue of this tournament
+     * Get the user of this application
      */
-    public function venue()
+    public function user()
     {
-        return $this->belongsTo('App\Venue', 'venue_id');
+        return $this->belongsTo('App\User', 'umpire_id');
     }
 
     /**
-     * Get the umpire applications for this tournament
-     */
-    public function umpireApplications()
+     * Get the tournament of this application
+    */
+    public function tournament()
     {
-        return $this->hasMany('App\UmpireApplication', 'tournament_id');
+        return $this->belongsTo('App\Tournament', 'tournament_id');
     }
 }
