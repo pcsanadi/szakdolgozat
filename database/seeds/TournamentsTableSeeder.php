@@ -13,20 +13,20 @@ class TournamentsTableSeeder extends Seeder
     {
         DB::table('tournaments')->insert([
             [
-                'title' => 'Budapest Bajnokság',
-                'datefrom' => '20200118',
-                'dateto' => '20200118',
-                'venue_id' => 2,
-                'international' => false,
-                'requested_umpires' => 15
-            ],
-            [
                 'title' => 'Felnőtt Országos Bajnokság',
                 'datefrom' => '20200201',
                 'dateto' => '20200202',
                 'venue_id' => 1,
                 'international' => false,
                 'requested_umpires' => 13
+            ],
+            [
+                'title' => 'Budapest Bajnokság',
+                'datefrom' => '20200118',
+                'dateto' => '20200118',
+                'venue_id' => 2,
+                'international' => false,
+                'requested_umpires' => 15
             ],
             [
                 'title' => '10th Multi Alarm Hungarian Junior Championships',
