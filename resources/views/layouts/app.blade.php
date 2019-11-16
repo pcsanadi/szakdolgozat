@@ -1,3 +1,4 @@
+@php($admin = !is_null(Auth::user()) && Auth::user()->isAdmin())
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -12,9 +13,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-@section('header_scripts')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@section('header_scripts')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -34,24 +35,27 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @if( $admin )
                         <!-- only for admin users -->
-                            @if( !is_null(Auth::user()) && Auth::user()->isAdmin() )
-                                @if(Route::has('users'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('users') }}">{{ __('Felhasználók')}}</a>
-                                    </li>
-                                @endif
-                                @if(Route::has('venues'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('venues') }}">{{ __('Csarnokok')}}</a>
-                                    </li>
-                                @endif
-                                @if(Route::has('tournaments'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Versenyek')}}</a>
-                                    </li>
-                                @endif
-                            @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users') }}">{{ __('Users') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('venues') }}">{{ __('Venues') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Tournaments') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">|</a>
+                            </li>
+                        @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('calendar') }}">{{ __('Tournament calendar') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">{{ __('My applications') }}</a>
+                            </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

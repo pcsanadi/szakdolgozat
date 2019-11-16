@@ -41,3 +41,5 @@ Route::get('/tournaments/{id}','TournamentController@show')->where('id','[0-9]+'
 Route::put('/tournaments/{id}','TournamentController@save')->where('id','[0-9]+');
 Route::put('/tournaments/{id}/restore','TournamentController@restore')->where('id','[0-9]+');
 Route::delete('/tournaments/{id}','TournamentController@destroy')->where('id','[0-9]+');
+
+Route::get('/tournament-calendar','TournamentController@showCalendar')->name('calendar');

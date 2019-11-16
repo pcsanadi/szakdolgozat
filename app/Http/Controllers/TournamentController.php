@@ -130,4 +130,62 @@ class TournamentController extends Controller
         $tournament->save();
         return redirect()->route('tournaments')->with('message','tournament created successsfully');
     }
+
+    /**
+     * Show the tournament calendar
+     *
+     * @return misc
+    */
+    public function showCalendar()
+    {
+        $tournaments = \App\Tournament::all();
+        $newTournaments = array();
+        foreach($tournaments as $tournament)
+        {
+            $newTournament = new \stdClass();
+            $newTournament->id = $tournament->id;
+            // date
+            if( $tournament->datefrom === $tournament->dateto )
+                $newTournament->date = date_format(date_create($tournament->datefrom),"Y. m. d.");
+            else
+            {
+                $datefrom = new \DateTime($tournament->datefrom);
+                $dateto = new \DateTime($tournament->dateto);
+                $yearfrom = $datefrom->format("Y");
+                $yearto = $dateto->format("Y");
+                $monthfrom = $datefrom->format("m");
+                $monthto = $dateto->format("m");
+                $dayfrom = $datefrom->format("d");
+                $dayto = $dateto->format("d");
+                $newTournament->date = $yearfrom . ". " . $monthfrom . ". " . $dayfrom . " - ";
+                if( $yearfrom != $yearto )
+                    $newTournament->date .= $yearto . ". " . $monthto . ". " . $dayto . ".";
+                else if( $monthfrom != $monthto )
+                    $newTournament->date .= $monthto . ". " . $dayto . ".";
+                else
+                    $newTournament->date .= $dayto . ".";
+            }
+            $newTournament->title = $tournament->title;
+            $newTournament->venue = $tournament->venue;
+            $newTournament->requested_umpires = $tournament->requested_umpires;
+            // $newTournament->umpire_applications = $tournament->umpire_applications;
+            // $newTournament->referee_applications = $tournament->referee_appliacations;
+            array_push($newTournaments,$newTournament);
+        }
+        $authenticated = !is_null(\Auth::user());
+        $user = new \stdClass();
+        if( $authenticated )
+        {
+            $user->admin = \Auth::user()->isAdmin();
+            $user->possible_referee = (\Auth::user()->referee_level > 1);
+            $user->possible_umpire = (\Auth::user()->umpire_level > 1);
+        }
+        else
+        {
+            $user->admin = false;
+            $user->possible_referee = false;
+            $user->possible_umpire = false;
+        }
+        return view('tournament.calendar',["tournaments" => $newTournaments, "user" => $user]);
+    }
 }
