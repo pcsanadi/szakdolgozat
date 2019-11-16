@@ -18,8 +18,7 @@ class RedirectIfNotAdmin
     {
         if (is_null(Auth::user()) || !Auth::user()->admin)
         {
-            // return redirect()->route('calendar'));
-            return redirect('/');
+            return redirect()->route('calendar');
         }
         return $next($request);
     }
