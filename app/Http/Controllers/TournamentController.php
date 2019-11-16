@@ -23,8 +23,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournaments = \App\Tournament::withTrashed()
-                                    ->with(['venue'])->get();
+        $tournaments = \App\Tournament::withTrashed()->with(['venue'])->get()->sortBy('datefrom');
 
         return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
@@ -41,9 +40,8 @@ class TournamentController extends Controller
         {
             return redirect()->route('tournaments')->with('error','tournament not found');
         }
-        $venues = \App\Venue::all();
-        return view('tournament.show', [ "tournament" => $tournament,
-                                    "venues" => $venues ]);
+        $venues = \App\Venue::all()->sortBy('name');
+        return view('tournament.show', [ "tournament" => $tournament, "venues" => $venues ]);
     }
 
     /**
@@ -108,7 +106,7 @@ class TournamentController extends Controller
      */
     public function create()
     {
-        $venues = \App\Venue::all();
+        $venues = \App\Venue::all()->sortBy('name');
         return view('tournament.create', ["venues" => $venues]);
     }
 

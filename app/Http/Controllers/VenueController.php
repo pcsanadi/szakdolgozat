@@ -23,7 +23,7 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = \App\Venue::withTrashed()->get();
+        $venues = \App\Venue::withTrashed()->get()->sortBy('name');
 
         return view('venue.list', [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
     }

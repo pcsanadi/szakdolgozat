@@ -24,8 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\User::withTrashed()
-                        ->with(['umpireLevel','refereeLevel'])->get();
+        $users = \App\User::withTrashed()->with(['umpireLevel','refereeLevel'])->get()->sortBy('name');
 
         return view('user.list', [ "users" => $users ])->with("showDeleted",session("showDeleted","false"));
     }
@@ -42,8 +41,8 @@ class UserController extends Controller
         {
             return redirect()->route('users')->with('error','user not found');
         }
-        $referee_levels = \App\RefereeLevel::all();
-        $umpire_levels = \App\UmpireLevel::all();
+        $referee_levels = \App\RefereeLevel::all()->sortBy('id');
+        $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
 
         return view('user.show', [ "user" => $user,
                                     "umpire_levels" => $umpire_levels,
@@ -111,8 +110,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $umpire_levels = \App\UmpireLevel::all();
-        $referee_levels = \App\RefereeLevel::all();
+        $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
+        $referee_levels = \App\RefereeLevel::all()->sortBy('id');
         return view('user.create', ["umpire_levels" => $umpire_levels, "referee_levels" => $referee_levels]);
     }
 
