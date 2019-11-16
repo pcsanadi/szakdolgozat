@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+{{ __('Tournament calendar') }}<br/>
 <div class="container justify-content-center">
     <div class="row">
         <div class="col">{{ __('Date') }}</div>

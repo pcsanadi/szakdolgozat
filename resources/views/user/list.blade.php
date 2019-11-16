@@ -7,10 +7,11 @@
 @endsection
 
 @section('content')
+{{ __('Users') }}<br/>
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="{{route('users')}}/create" class="btn">Új felhasználó</a>
+            <a href="{{route('users')}}/create" class="btn">{{ __('New user') }}</a>
         </div>
     </div>
     @if( $users->count() > 0 )
@@ -22,7 +23,7 @@
                     @endif
                 />
                 <label class="form-check-label" for="cbShowDeleted">
-                    Töröltek megjelenítése
+                    {{ __('Show deleted') }}
                 </label>
             </div>
         </div>
@@ -32,11 +33,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Név</th>
+                        <th scope="col">{{ __('Name') }}</th>
                         <th scope="col"><span class="far fa-envelope"></span></th>
-                        <th scope="col">Jv szint</th>
-                        <th scope="col">Döntnök szint</th>
-                        <th scope="col">Admin</th>
+                        <th scope="col">{{ __('U level') }}</th>
+                        <th scope="col">{{ __('R level') }}</th>
+                        <th scope="col">{{ __('Admin') }}</th>
                         <th scope="col">&nbsp;</th>
                         <th scope="col">&nbsp;</th>
                     </tr>
@@ -63,10 +64,10 @@
                             </td>
                             <td>
                                 @if($deleted)
-                                    <button type="button" class="btn" disabled>Szerkesztés</button>
+                                    <button type="button" class="btn" disabled>{{ __('Edit') }}</button>
                                 @else
                                     <a href="{{route('users')}}/{{$user->id}}" class="btn">
-                                        Szerkesztés
+                                        {{ __('Edit') }}
                                     </a>
                                 @endif
                             </td>
@@ -74,9 +75,9 @@
                                 <a href="" class="btn"
                                     onclick="event.preventDefault();document.getElementById('delete_form_{{$user->id}}').submit();">
                                     @if($deleted)
-                                        Visszaállítás
+                                        {{ __('Restore') }}
                                     @else
-                                        Törlés
+                                        {{ __('Delete') }}
                                     @endif
                                 </a>
                                 <form method="POST" id="delete_form_{{$user->id}}"

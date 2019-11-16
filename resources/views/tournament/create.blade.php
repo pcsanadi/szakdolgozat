@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+{{ __('New tournament') }}<br/>
 <div class="container">
     <form action="{{route('tournaments')}}" method="POST">
         @csrf

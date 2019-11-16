@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+{{ __('Edit tournament') }}<br/>
 <div class="container justify-content-center">
     <form action="{{route('tournaments')}}/{{$tournament->id}}" method="POST">
         @method('PUT')

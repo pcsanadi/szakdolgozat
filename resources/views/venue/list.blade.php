@@ -6,10 +6,11 @@
 @endsection
 
 @section('content')
-<div class="container justify-content-center">
+{{ __('Venues') }}<br/>
+<div class="container">
     <div class="row">
         <div class="col">
-            <a href="{{route('venues')}}/create" class="btn">Új csarnok</a>
+            <a href="{{route('venues')}}/create" class="btn">{{ __('New venue') }}</a>
         </div>
     </div>
     @if( $venues->count() > 0 )
@@ -21,7 +22,7 @@
                     @endif
                 />
                 <label class="form-check-label" for="cbShowDeleted">
-                    Töröltek megjelenítése
+                    {{ __('Show deleted') }}
                 </label>
             </div>
         </div>
@@ -31,9 +32,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Név</th>
-                        <th scope="col">Cím</th>
-                        <th scope="col">Pályák száma</th>
+                        <th scope="col">{{ __('Name') }}</th>
+                        <th scope="col">{{ __('Address') }}</th>
+                        <th scope="col">{{ __('# of courts') }}</th>
                         <th scope="col">&nbsp;</th>
                         <th scope="col">&nbsp;</th>
                     </tr>
@@ -54,10 +55,10 @@
                             <td>{{ $venue->courts }}</td>
                             <td>
                                 @if($deleted)
-                                    <button type="button" class="btn" disabled>Szerkesztés</button>
+                                    <button type="button" class="btn" disabled>{{ __('Edit') }}</button>
                                 @else
                                     <a href="{{route('venues')}}/{{$venue->id}}" class="btn">
-                                        Szerkesztés
+                                        {{ __('Edit') }}
                                     </a>
                                 @endif
                             </td>
@@ -65,9 +66,9 @@
                                 <a href="" class="btn"
                                     onclick="event.preventDefault();document.getElementById('delete_form_{{$venue->id}}').submit();">
                                     @if($deleted)
-                                        Visszaállítás
+                                        {{ __('Restore') }}
                                     @else
-                                        Törlés
+                                        {{ __('Delete') }}
                                     @endif
                                 </a>
                                 <form method="POST" id="delete_form_{{$venue->id}}"
