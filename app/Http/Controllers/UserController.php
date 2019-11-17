@@ -68,7 +68,7 @@ class UserController extends Controller
         $user->referee_level = $info['rlevel'];
         $user->admin = array_key_exists( 'admin', $info );
         $user->save();
-        return redirect()->route('users');
+        return redirect()->route('users')->with('message','user saved successfully');
     }
 
     /**

@@ -56,7 +56,7 @@ class VenueController extends Controller
         $venue->address = $info['address'];
         $venue->courts = $info['courts'];
         $venue->save();
-        return redirect()->route('venues');
+        return redirect()->route('venues')->with('message','venue saved successfully');
     }
 
     /**

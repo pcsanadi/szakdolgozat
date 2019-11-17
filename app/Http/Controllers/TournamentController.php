@@ -14,6 +14,7 @@ class TournamentController extends Controller
     public function __construct()
     {
         $this->middleware('admin')->except('showCalendar');
+        $this->middleware('auth')->only('showCalendar');
     }
 
     /**
@@ -23,7 +24,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournaments = \App\Tournament::withTrashed()->with(['venue'])->get()->sortBy('datefrom');
+        $tournaments = \App\Tournament::withTrashed()->get()->sortBy('datefrom');
 
         return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
@@ -64,7 +65,7 @@ class TournamentController extends Controller
         $tournament->international = array_key_exists('international',$info);
         $tournament->requested_umpires = $info['requested_umpires'];
         $tournament->save();
-        return redirect()->route('tournaments');
+        return redirect()->route('tournaments')->with('message','tournament updated successfully');
     }
 
     /**

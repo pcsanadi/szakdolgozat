@@ -38,6 +38,13 @@ class Tournament extends Model
     public $timestamps = true;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['venue'];
+
+    /**
      * Get the venue of this tournament
      */
     public function venue()

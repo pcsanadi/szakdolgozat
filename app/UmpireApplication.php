@@ -35,6 +35,13 @@ class UmpireApplication extends Model
     public $timestamps = true;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['user','tournament.venue'];
+
+    /**
      * Get the user of this application
      */
     public function user()
