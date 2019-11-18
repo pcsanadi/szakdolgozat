@@ -14,14 +14,14 @@ class Venue extends Model
      *
      * @var string
      */
-    protected $table = 'venues';
+    protected $table = "venues";
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -38,10 +38,37 @@ class Venue extends Model
     public $timestamps = true;
 
     /**
+     * The attributes that should be cast to native types
+     */
+    protected $casts = [
+        "courts" => "integer"
+    ];
+
+    /**
+     * The attributes that are mass assignable
+     */
+    protected $fillable = [
+        "name",
+        "address",
+        "courts"
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
+
+    /**
      * Get the tournaments in this venue
      */
-    public function tournaments() // a umpire level can connect to many users
+    public function tournaments()
     {
-        return $this->hasMany('App\Tournament', 'venue_id');
+        return $this->hasMany("App\Tournament", "venue_id");
     }
 }

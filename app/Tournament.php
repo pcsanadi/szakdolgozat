@@ -14,14 +14,14 @@ class Tournament extends Model
      *
      * @var string
      */
-    protected $table = 'tournaments';
+    protected $table = "tournaments";
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -38,18 +38,60 @@ class Tournament extends Model
     public $timestamps = true;
 
     /**
+     * The attributes that should be cast to native types
+     */
+    protected $casts = [
+        "international" => "boolean",
+        "requested_umpires" => "integer"
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
      */
-    protected $with = ['venue'];
+    protected $with = [
+        "venue"
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        "datefrom",
+        "dateto"
+    ];
+
+    /**
+     * The attributes that are mass assignable
+     */
+    protected $fillable = [
+        "title",
+        "datefrom",
+        "dateto",
+        "venue_id",
+        "requested_umpires"
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
 
     /**
      * Get the venue of this tournament
      */
     public function venue()
     {
-        return $this->belongsTo('App\Venue', 'venue_id');
+        return $this->belongsTo("App\Venue", "venue_id");
     }
 
     /**
@@ -57,7 +99,7 @@ class Tournament extends Model
      */
     public function umpireApplications()
     {
-        return $this->hasMany('App\UmpireApplication', 'tournament_id');
+        return $this->hasMany("App\UmpireApplication", "tournament_id");
     }
 
     /**
@@ -65,6 +107,6 @@ class Tournament extends Model
      */
     public function refereeApplications()
     {
-        return $this->hasMany('App\RefereeApplication', 'tournament_id');
+        return $this->hasMany("App\RefereeApplication", "tournament_id");
     }
 }

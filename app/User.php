@@ -17,14 +17,14 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected $table = 'users';
+    protected $table = "users";
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -46,7 +46,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'admin'
+        "name",
+        "email",
+        "password",
+        "admin"
     ];
 
     /**
@@ -55,19 +58,35 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password' //, 'remember_token'
+        "password",
+        "created_at",
+        "updated_at",
+        "deleted_at"
     ];
 
-    public function isAdmin() {
-        return $this->admin;
-    }
+    /**
+     * The attributes that should be cast to native types
+     */
+    protected $casts = [
+        "admin" => "boolean"
+    ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        "umpireLevel",
+        "refereeLevel"
+    ];
 
     /**
      * Get the umpire level of this user
      */
     public function umpireLevel()
     {
-        return $this->belongsTo('App\UmpireLevel', 'umpire_level');
+        return $this->belongsTo("App\UmpireLevel", "umpire_level");
     }
 
     /**
@@ -75,7 +94,7 @@ class User extends Authenticatable
      */
     public function refereeLevel()
     {
-        return $this->belongsTo('App\RefereeLevel', 'referee_level');
+        return $this->belongsTo("App\RefereeLevel", "referee_level");
     }
 
     /**
@@ -83,7 +102,7 @@ class User extends Authenticatable
      */
     public function umpireApplications()
     {
-        return $this->hasMany('App\UmpireApplication', 'umpire_id');
+        return $this->hasMany("App\UmpireApplication", "umpire_id");
     }
 
     /**

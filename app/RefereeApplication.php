@@ -11,14 +11,14 @@ class RefereeApplication extends Model
      *
      * @var string
      */
-    protected $table = 'referee_applications';
+    protected $table = "referee_applications";
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -39,14 +39,17 @@ class RefereeApplication extends Model
      *
      * @var array
      */
-    protected $with = ['user','tournament.venue'];
+    protected $with = [
+        "user",
+        "tournament.venue"
+    ];
 
     /**
      * Get the user of this application
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'referee_id');
+        return $this->belongsTo("App\User", "referee_id");
     }
 
     /**
@@ -54,6 +57,6 @@ class RefereeApplication extends Model
     */
     public function tournament()
     {
-        return $this->belongsTo('App\Tournament', 'tournament_id');
+        return $this->belongsTo("App\Tournament", "tournament_id");
     }
 }

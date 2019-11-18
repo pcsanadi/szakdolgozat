@@ -11,14 +11,14 @@ class RefereeLevel extends Model
      * 
      * @var string 
      */
-    protected $table = 'referee_levels';
+    protected $table = "referee_levels";
 
     /**
      * The primary key associated with the table.
      * 
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -46,13 +46,16 @@ class RefereeLevel extends Model
      * 
      * @var array
      */
-    protected $guarded = ['id','level'];
+    protected $guarded = [
+        "id",
+        "level"
+    ];
 
     /**
      * Get the users having this level
      */
-    public function referees() // a referee level can connect to many users
+    public function referees()
     {
-        return $this->hasMany('App\User', 'referee_level');
+        return $this->hasMany("App\User", "referee_level");
     }
 }

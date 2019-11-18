@@ -11,14 +11,14 @@ class UmpireLevel extends Model
      * 
      * @var string 
      */
-    protected $table = 'umpire_levels';
+    protected $table = "umpire_levels";
 
     /**
      * The primary key associated with the table.
      * 
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
 
     /**
      * Indicaes if the IDs are auto-incrementing.
@@ -37,8 +37,8 @@ class UmpireLevel extends Model
     /**
      * Get the users having this umpire level
      */
-    public function umpires() // a umpire level can connect to many users
+    public function umpires()
     {
-        return $this->hasMany('App\User', 'umpire_level');
+        return $this->hasMany("App\User", "umpire_level");
     }
 }
