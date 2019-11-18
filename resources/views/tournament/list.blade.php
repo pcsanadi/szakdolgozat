@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="{{route('tournaments')}}/create" class="btn">{{ __('New tournament')}}</a>
+            <a href="{{route('createTournament')}}" class="btn">{{ __('New tournament')}}</a>
         </div>
     </div>
     @if( $tournaments->count() > 0 )
@@ -68,7 +68,7 @@
                                 @if($deleted)
                                     <button type="button" class="btn" disabled>{{ __('Edit') }}</button>
                                 @else
-                                    <a href="{{route('tournaments')}}/{{$tournament->id}}" class="btn">
+                                    <a href="{{route('showTournament',$tournament->id)}}" class="btn">
                                         {{ __('Edit') }}
                                     </a>
                                 @endif
@@ -84,10 +84,10 @@
                                 </a>
                                 <form method="POST" id="delete_form_{{$tournament->id}}"
                                     @if($deleted)
-                                        action="{{route('tournaments')}}/{{$tournament->id}}/restore">
+                                        action="{{route('restoreTournament',$tournament->id)}}">
                                         @method('PUT')
                                     @else
-                                        action="{{route('tournaments')}}/{{$tournament->id}}">
+                                        action="{{route('showTournament',$tournament->id)}}">
                                         @method('DELETE')
                                     @endif
                                     @csrf

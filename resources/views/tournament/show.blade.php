@@ -7,7 +7,7 @@
 @section('content')
 {{ __('Edit tournament') }}<br/>
 <div class="container justify-content-center">
-    <form action="{{route('tournaments')}}/{{$tournament->id}}" method="POST">
+    <form action="{{route('showTournament',$tournament->id)}}" method="POST">
         @method('PUT')
         @csrf
         <div class="form-group row">

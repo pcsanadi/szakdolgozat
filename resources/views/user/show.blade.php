@@ -7,7 +7,7 @@
 @section('content')
 {{ __('Edit user') }}<br/>
 <div class="container justify-content-center">
-    <form action="{{route('users')}}/{{$user->id}}" method="POST">
+    <form action="{{route('showUser',$user->id)}}" method="POST">
         @method('PUT')
         @csrf
         <div class="form-group row">

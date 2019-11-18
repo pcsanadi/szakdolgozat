@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="{{route('users')}}/create" class="btn">{{ __('New user') }}</a>
+            <a href="{{route('createUser')}}" class="btn">{{ __('New user') }}</a>
         </div>
     </div>
     @if( $users->count() > 0 )
@@ -66,7 +66,7 @@
                                 @if($deleted)
                                     <button type="button" class="btn" disabled>{{ __('Edit') }}</button>
                                 @else
-                                    <a href="{{route('users')}}/{{$user->id}}" class="btn">
+                                    <a href="{{route('showUser',$user->id)}}" class="btn">
                                         {{ __('Edit') }}
                                     </a>
                                 @endif
@@ -82,10 +82,10 @@
                                 </a>
                                 <form method="POST" id="delete_form_{{$user->id}}"
                                     @if($deleted)
-                                        action="{{route('users')}}/{{$user->id}}/restore">
+                                        action="{{route('restoreUser',$user->id)}}">
                                         @method('PUT')
                                     @else
-                                        action="{{route('users')}}/{{$user->id}}">
+                                        action="{{route('showUser',$user->id)}}">
                                         @method('DELETE')
                                     @endif
                                     @csrf
