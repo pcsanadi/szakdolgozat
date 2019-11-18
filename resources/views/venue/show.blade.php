@@ -5,38 +5,57 @@
 @endsection
 
 @section('content')
-{{ __('Edit venue') }}<br/>
-<div class="container justify-content-center">
-    <form action="{{route('venues')}}/{{$venue->id}}" method="POST">
+<p class="yjrb29-page-title-bottom-padding">{{ __('Edit venue') }}</p>
+<div class="container">
+    <form action="{{route('showVenue',$venue->id)}}" method="POST" autocomplete="off">
         @method('PUT')
         @csrf
         <div class="form-group row">
-            <label for="name" class="col-form-label">{{ __('Name') }}</label>
-            <div class="col">
-                <input type="text" class="form-control" name="name" id="name" placeholder="Név" value="{{ $venue->name }}"/>
+            <div class="yjrb29-form-left-spacer"></div>
+            <div class="yjrb29-form-label">
+                <label for="name">{{ __('Name') }}</label>
+            </div>
+            <div class="yjrb29-form-content">
+                <input type="text" class="form-control" name="name" placeholder="{{ __('Name') }}" value="{{ $venue->name }}"/>
             </div>
         </div>
         <div class="form-group row">
-            <label for="address" class="col-form-label">{{ __('Address') }}</label>
-            <div class="col">
-                <input type="text" class="form-control" name="address" id="address" placeholder="Cím" value="{{ $venue->address }}"/>
+            <div class="yjrb29-form-left-spacer"></div>
+            <div class="yjrb29-form-label">
+                <label for="short_name">{{ __('Short name') }}</label>
+            </div>
+            <div class="yjrb29-form-content">
+                <input type="text" class="form-control" name="short_name" placeholder="{{ __('Short name') }}" value="{{ $venue->short_name }}"/>
             </div>
         </div>
         <div class="form-group row">
-            <label for="courts" class="col-form-label">{{ __('# of courts') }}</label>
-            <div class="col">
-                <input type="number" class="form-control" name="courts" id="courts" placeholder="Pályák száma" value="{{ $venue->courts }}"/>
+            <div class="yjrb29-form-left-spacer"></div>
+            <div class="yjrb29-form-label">
+                <label for="address">{{ __('Address') }}</label>
+            </div>
+            <div class="yjrb29-form-content">
+                <input type="text" class="form-control" name="address" placeholder="{{ __('Address') }}" value="{{ $venue->address }}"/>
             </div>
         </div>
         <div class="form-group row">
-            <div class="col">
-                <input type="reset" class="btn" value="{{ __('Reset') }}"/>
+            <div class="yjrb29-form-left-spacer"></div>
+            <div class="yjrb29-form-label">
+                <label for="courts">{{ __('# of courts') }}</label>
             </div>
-            <div class="col">
-                <a href="{{route('venues')}}" class="btn">{{ __('Cancel') }}</a>
+            <div class="yjrb29-form-content">
+                <input type="number" class="form-control" name="courts" placeholder="{{ __('# of courts') }}" value="{{ $venue->courts }}"/>
             </div>
-            <div class="col">
-                <input type="submit" class="btn" value="{{ __('Save') }}"/>
+        </div>
+        <div class="form-group row">
+            <div class="yjrb29-form-left-spacer"></div>
+            <div class="yjrb29-show-page-button">
+                <input type="reset" class="yjrb29-btn-blue" value="{{ __('Reset') }}"/>
+            </div>
+            <div class="yjrb29-show-page-button">
+                <a href="{{route('venues')}}" class="yjrb29-btn-red">{{ __('Cancel') }}</a>
+            </div>
+            <div class="yjrb29-show-page-button">
+                <input type="submit" class="yjrb29-btn-green" value="{{ __('Save') }}"/>
             </div>
         </div>
     </form>
