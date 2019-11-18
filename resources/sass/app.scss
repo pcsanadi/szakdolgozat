@@ -9,7 +9,93 @@
 
 @import '~jquery-ui/themes/base/all.css';
 
-.yjrb29_button {
+.yjrb29-page-title {
+    @extend .h1;
+    @extend .text-center;
+}
+
+.yjrb29-page-title-bottom-padding {
+    @extend .yjrb29-page-title;
+    @extend .pb-5;
+}
+
+.yjrb29-top-row {
+    @extend .row;
+    @extend .my-3;
+    @extend .align-items-center;
+}
+
+.yjrb29-col-create-new {
+    @extend .col;
+    @extend .pl-5;
+    @extend .py-3;
+}
+
+.yjrb29-btn-blue {
     @extend .btn;
     @extend .btn-outline-info;
+}
+
+.yjrb29-top-row-spacer {
+    @extend .col-8;
+}
+
+.yjrb29-col-show-deleted {
+    @extend .col;
+    white-space: nowrap;
+}
+
+.yjrb29-btn-yellow {
+    @extend .btn;
+    @extend .btn-outline-warning;
+    @extend .text-center;
+}
+
+.yjrb29-btn-red {
+    @extend .btn;
+    @extend .btn-outline-danger;
+    @extend .text-center;
+}
+
+.yjrb29-btn-green {
+    @extend .btn;
+    @extend .btn-outline-success;
+    @extend .text-center;
+}
+
+.yjrb29-table-header-row {
+    @extend .border-top;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.yjrb29-table-header {
+    @extend .py-3;
+    font-weight: bold;
+    @extend .text-center;
+}
+
+.yjrb29-table-row {
+    @extend .border-top;
+    @extend .align-items-center;
+}
+
+.yjrb29-table-cell {
+    @extend .py-3;
+}
+
+.yjrb29-form-left-spacer {
+    @extend .col-3;
+}
+
+.yjrb29-form-label {
+    @extend .col-form-label;
+    @extend .col-2;
+}
+
+.yjrb29-form-content {
+    @extend .col-4;
+}
+
+.yjrb29-show-page-button {
+    @extend .col-2;
 }
