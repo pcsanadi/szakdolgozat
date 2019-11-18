@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Csanádi Péter',
                 'email' => 'peter.csanadi.840128@gmail.com',
                 'password' => Hash::make('1111'),
-                'umpire_level' => 2,
+                'umpire_level' => 3,
                 'referee_level' => 2,
                 'admin' => true
             ],
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Balogh Richárd',
                 'email' => 'rbalogh@gmail.com',
                 'password' => Hash::make('3333'),
-                'umpire_level' => 4,
+                'umpire_level' => 1,
                 'referee_level' => 3,
                 'admin' => false
             ],
@@ -42,8 +42,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Varga Miklós',
                 'email' => 'varga.miklos@variovision.hu',
                 'password' => Hash::make('4444'),
-                'umpire_level' => 2,
-                'referee_level' => 1,
+                'umpire_level' => 3,
+                'referee_level' => 2,
                 'admin' => false
             ]
         ]);

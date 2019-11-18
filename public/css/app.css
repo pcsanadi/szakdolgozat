@@ -2143,6 +2143,8 @@ pre code {
 }
 
 .row,
+.yjrb29-table-row,
+.yjrb29-table-header-row,
 .yjrb29-top-row {
   display: -webkit-box;
   display: flex;
@@ -3821,7 +3823,8 @@ textarea.form-control {
   padding-left: 5px;
 }
 
-.form-check {
+.form-check,
+.yjrb29-form-check {
   position: relative;
   display: block;
   padding-left: 1.25rem;
@@ -4151,7 +4154,8 @@ textarea.form-control.is-invalid {
           align-items: center;
 }
 
-.form-inline .form-check {
+.form-inline .form-check,
+.form-inline .yjrb29-form-check {
   width: 100%;
 }
 
@@ -4194,7 +4198,8 @@ textarea.form-control.is-invalid {
     width: auto;
   }
 
-  .form-inline .form-check {
+  .form-inline .form-check,
+  .form-inline .yjrb29-form-check {
     display: -webkit-box;
     display: flex;
     -webkit-box-align: center;
@@ -12997,5 +13002,9 @@ a.text-dark:focus {
 
 .yjrb29-table-header {
   font-weight: bold;
+}
+
+.yjrb29-form-check {
+  white-space: nowrap;
 }
 

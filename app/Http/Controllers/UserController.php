@@ -44,7 +44,7 @@ class UserController extends Controller
         $referee_levels = \App\RefereeLevel::all()->sortBy('id');
         $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
 
-        return view('user.show', [ "user" => $user,
+        return view('user.edit', [ "user" => $user,
                                     "umpire_levels" => $umpire_levels,
                                     "referee_levels" => $referee_levels ]);
     }
@@ -112,7 +112,8 @@ class UserController extends Controller
     {
         $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
         $referee_levels = \App\RefereeLevel::all()->sortBy('id');
-        return view('user.create', ["umpire_levels" => $umpire_levels, "referee_levels" => $referee_levels]);
+        return view('user.edit', [ "umpire_levels" => $umpire_levels,
+                                    "referee_levels" => $referee_levels]);
     }
 
     /**

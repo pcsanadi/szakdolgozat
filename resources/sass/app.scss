@@ -64,6 +64,7 @@
 }
 
 .yjrb29-table-header-row {
+    @extend .row;
     @extend .border-top;
     border-bottom: 1px solid #dee2e6;
 }
@@ -75,6 +76,7 @@
 }
 
 .yjrb29-table-row {
+    @extend .row;
     @extend .border-top;
     @extend .align-items-center;
 }
@@ -85,6 +87,11 @@
 
 .yjrb29-form-left-spacer {
     @extend .col-3;
+}
+
+.yjrb29-form-check {
+    @extend .form-check;
+    white-space:nowrap;
 }
 
 .yjrb29-form-label {
