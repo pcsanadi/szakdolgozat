@@ -15,7 +15,7 @@
         <div class="yjrb29-top-row-spacer"></div>
         @if( $venues->count() > 0 )
             <div class="yjrb29-col-show-deleted">
-                <div class="form-check" style="white-space:nowrap;">
+                <div class="yjrb29-form-check">
                     <input class="form-check-input cbShowDeleted" type="checkbox"
                         @if($showDeleted == "true") checked="checked" @endif
                     />
@@ -26,7 +26,7 @@
             </div>
         @endif
     </div>
-    <div class="row yjrb29-table-header-row">
+    <div class="yjrb29-table-header-row">
         <div class="col-3 yjrb29-table-header">{{ __('Name') }}</div>
         <div class="col-2 yjrb29-table-header">{{ __('Short name') }}</div>
         <div class="col-3 yjrb29-table-header">{{ __('Address') }}</div>
@@ -39,13 +39,13 @@
         <div
             @if($deleted)
                 @if($showDeleted!="true")
-                    class="row yjrb29-table-row d-none"
+                    class="yjrb29-table-row d-none"
                 @else
-                    class="row yjrb29-table-row"
+                    class="yjrb29-table-row"
                 @endif
                 name="deleted_row"
             @else
-                class="row yjrb29-table-row"
+                class="yjrb29-table-row"
             @endif>
             <div class="col-3 yjrb29-table-cell">{{ $venue->name }}</div>
             <div class="col-2 yjrb29-table-cell text-center">{{ $venue->short_name }}</div>
@@ -83,12 +83,12 @@
                     <form method="POST" id="restore_form_{{$venue->id}}" action="{{route('restoreVenue',$venue->id)}}">
                         @method('PUT')
                         @csrf
-                        <input type="hidden" name="showDeleted" id="showDeleted" value="{{$showDeleted}}"/>
+                        <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
                     <form method="POST" id="delete_form_{{$venue->id}}" action="{{route('showVenue',$venue->id)}}">
                         @method('DELETE')
                         @csrf
-                        <input type="hidden" name="showDeleted" id="showDeleted" value="{{$showDeleted}}"/>
+                        <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
                 </div>
             </div>

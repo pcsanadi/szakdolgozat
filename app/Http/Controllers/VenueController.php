@@ -37,7 +37,7 @@ class VenueController extends Controller
         $venue = \App\Venue::find($id);
         return is_null($venue)
             ? redirect()->route("venues")->with("error", "venue not found")
-            : view("venue.show", ["venue" => $venue]);
+            : view("venue.edit", ["venue" => $venue]);
     }
 
     /**
@@ -94,7 +94,7 @@ class VenueController extends Controller
      */
     public function create()
     {
-        return view("venue.create");
+        return view("venue.edit");
     }
 
     /**
