@@ -13,7 +13,7 @@ class VenueController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin'); // always use the 'admin' middleware for this controller
+        $this->middleware("admin"); // always use the 'admin' middleware for this controller
     }
 
     /**
@@ -23,9 +23,8 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = \App\Venue::withTrashed()->get()->sortBy('name');
-
-        return view('venue.list', [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
+        $venues = \App\Venue::withTrashed()->get()->sortBy("name");
+        return view("venue.list", [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -36,27 +35,29 @@ class VenueController extends Controller
     public function show(Request $request, $id)
     {
         $venue = \App\Venue::find($id);
-        if ( is_null($venue) )
-        {
-            return redirect()->route('venues')->with('error','venue not found');
-        }
-
-        return view('venue.show', [ "venue" => $venue ]);
+        return is_null($venue)
+            ? redirect()->route("venues")->with("error", "venue not found")
+            : view("venue.show", ["venue" => $venue]);
     }
 
+    /**
+     * Update a venue
+     */
     public function save(Request $request, $id)
     {
         $info = $request->all();
         $venue = \App\Venue::find($id);
         if(is_null($venue))
         {
-            return redirect()->route('venues')->with('error','venue not found');
+            return redirect()->route("venues")->with("error","venue not found");
         }
-        $venue->name = $info['name'];
-        $venue->address = $info['address'];
-        $venue->courts = $info['courts'];
-        $venue->save();
-        return redirect()->route('venues')->with('message','venue saved successfully');
+        $venue->name = $info["name"];
+        $venue->short_name = $info["short_name"];
+        $venue->address = $info["address"];
+        $venue->courts = $info["courts"];
+        return $venue->save()
+            ? redirect()->route("venues")->with("message","venue saved successfully")
+            : redirect()->route("venues")->with("error","save unsuccessful");
     }
 
     /**
@@ -67,10 +68,11 @@ class VenueController extends Controller
         $venue = \App\Venue::onlyTrashed()->find($id);
         if(is_null($venue))
         {
-            return redirect()->route('venues')->with('error','venue not found');
+            return redirect()->route("venues")->with("error","venue not found");
         }
-        $venue->restore();
-        return redirect()->route('venues')->with("showDeleted",$request->input('showDeleted'));
+        return $venue->restore()
+            ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
+            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "restore unsuccessful"]);
     }
 
     /**
@@ -80,13 +82,9 @@ class VenueController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $venue = \App\Venue::find($id);
-        if(is_null($venue))
-        {
-            return redirect()->route('venues')->with('error','venue not found');
-        }
-        $venue->delete();
-        return redirect()->route('venues')->with("showDeleted",$request->input('showDeleted'));
+        return \App\Venue::destroy($id)
+            ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
+            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "delete unsuccessful"]);
     }
 
     /**
@@ -96,7 +94,7 @@ class VenueController extends Controller
      */
     public function create()
     {
-        return view('venue.create');
+        return view("venue.create");
     }
 
     /**
@@ -107,17 +105,20 @@ class VenueController extends Controller
     public function store(Request $request)
     {
         $info = $request->all();
-        if( 0 != \App\Venue::where('name',$info['name'])->orWhere('address',$info['address'])->count() )
+        if( 0 != \App\Venue::where("name",$info["name"])
+                    ->orWhere("short_name",$info["short_name"])
+                    ->orWhere("address",$info["address"])
+                    ->count() )
         {
-            return redirect()->route('venues')->with('error','venue with this name or address already exists');
+            return redirect()->route("venues")->with("error","venue with this name, short name or address already exists");
         }
         $venue = new \App\Venue;
-        $venue->name = $info['name'];
-        $venue->address = $info['address'];
-        $venue->courts = $info['courts'];
-
-        $venue->save();
-
-        return redirect()->route('venues')->with('message','venue created successsfully');
+        $venue->name = $info["name"];
+        $venue->short_name = $info["short_name"];
+        $venue->address = $info["address"];
+        $venue->courts = $info["courts"];
+        return $venue->save()
+            ? redirect()->route("venues")->with("message","venue created successsfully")
+            : redirect()->route("venues")->with("error","venue not created");
     }
 }
