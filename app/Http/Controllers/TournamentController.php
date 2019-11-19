@@ -13,8 +13,8 @@ class TournamentController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin')->except('showCalendar');
-        $this->middleware('auth')->only('showCalendar');
+        $this->middleware("admin")->except("showCalendar");
+        $this->middleware("auth")->only("showCalendar");
     }
 
     /**
@@ -24,7 +24,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournaments = \App\Tournament::withTrashed()->get()->sortBy('datefrom');
+        $tournaments = \App\Tournament::withTrashed()->get()->sortBy("datefrom");
 
         return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
@@ -42,7 +42,8 @@ class TournamentController extends Controller
             return redirect()->route('tournaments')->with('error','tournament not found');
         }
         $venues = \App\Venue::all()->sortBy('name');
-        return view('tournament.show', [ "tournament" => $tournament, "venues" => $venues ]);
+        return view('tournament.edit', [ "tournament" => $tournament,
+                                        "venues" => $venues ]);
     }
 
     /**
@@ -62,7 +63,6 @@ class TournamentController extends Controller
         $tournament->datefrom = $info['datefrom'];
         $tournament->dateto = $info['dateto'];
         $tournament->venue_id = $info['venue'];
-        $tournament->international = array_key_exists('international',$info);
         $tournament->requested_umpires = $info['requested_umpires'];
         $tournament->save();
         return redirect()->route('tournaments')->with('message','tournament updated successfully');
@@ -124,7 +124,6 @@ class TournamentController extends Controller
         $tournament->datefrom = $info['datefrom'];
         $tournament->dateto = $info['dateto'];
         $tournament->venue_id = $info['venue'];
-        $tournament->international = array_key_exists('international',$info);
         $tournament->requested_umpires = $info['requested_umpires'];
         $tournament->save();
         return redirect()->route('tournaments')->with('message','tournament created successsfully');
@@ -135,14 +134,41 @@ class TournamentController extends Controller
      *
      * @return misc
     */
-    public function showCalendar()
+    public function showCalendar($id = 0)
     {
-        $tournaments = \App\Tournament::all()->sortBy('datefrom');
+        $filtered = ( $id != 0 );
+        $tournaments = \App\Tournament::with(['umpireApplications.user','refereeApplications.user'])->get()->sortBy('datefrom');
         $newTournaments = array();
+        $userId = ( $filtered ? $id : \Auth::user()->id );
         foreach($tournaments as $tournament)
         {
+            $appliedAsReferee = false;
+            $appliedAsUmpire = false;
+            $skip = true;
+            foreach($tournament->umpireApplications as $application)
+            {
+                if( $application->user->id == $userId )
+                {
+                    $skip = false;
+                    $appliedAsUmpire = true;
+                    break;
+                }
+            }
+            foreach($tournament->refereeApplications as $application)
+            {
+                if( $application->user->id == $userId )
+                {
+                    $skip = false;
+                    $appliedAsReferee = true;
+                    break;
+                }
+            }
+            if($filtered and $skip)
+                continue;
             $newTournament = new \stdClass();
             $newTournament->id = $tournament->id;
+            $newTournament->appliedAsUmpire = $appliedAsUmpire;
+            $newTournament->appliedAsReferee = $appliedAsReferee;
             // date
             if( $tournament->datefrom === $tournament->dateto )
                 $newTournament->date = date_format(date_create($tournament->datefrom),"Y. m. d.");
@@ -175,20 +201,10 @@ class TournamentController extends Controller
                 $newTournament->refereeApplications = $newTournament->refereeApplications->sort();
             array_push($newTournaments,$newTournament);
         }
-        $authenticated = !is_null(\Auth::user());
         $user = new \stdClass();
-        if( $authenticated )
-        {
-            $user->admin = \Auth::user()->isAdmin();
-            $user->possible_referee = (\Auth::user()->referee_level > 1);
-            $user->possible_umpire = (\Auth::user()->umpire_level > 1);
-        }
-        else
-        {
-            $user->admin = false;
-            $user->possible_referee = false;
-            $user->possible_umpire = false;
-        }
-        return view('tournament.calendar',["tournaments" => $newTournaments, "user" => $user]);
+        $user->admin = \Auth::user()->admin;
+        $user->possible_referee = (\Auth::user()->referee_level > 1);
+        $user->possible_umpire = (\Auth::user()->umpire_level > 1);
+        return view('tournament.calendar',["tournaments" => $newTournaments, "user" => $user, "filtered" => $filtered]);
     }
 }

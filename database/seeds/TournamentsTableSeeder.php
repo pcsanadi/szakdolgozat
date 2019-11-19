@@ -17,7 +17,6 @@ class TournamentsTableSeeder extends Seeder
                 'datefrom' => '20200201',
                 'dateto' => '20200202',
                 'venue_id' => 1,
-                'international' => false,
                 'requested_umpires' => 13
             ],
             [
@@ -25,15 +24,13 @@ class TournamentsTableSeeder extends Seeder
                 'datefrom' => '20200118',
                 'dateto' => '20200118',
                 'venue_id' => 2,
-                'international' => false,
                 'requested_umpires' => 15
             ],
             [
                 'title' => '10th Multi Alarm Hungarian Junior Championships',
                 'datefrom' => '20200206',
-                'dateato' => '20200209',
+                'dateto' => '20200209',
                 'venue_id' => 1,
-                'international' => true,
                 'requested_umpires' => 0
             ]
         ]);

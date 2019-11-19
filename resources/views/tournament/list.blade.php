@@ -7,98 +7,97 @@
 @endsection
 
 @section('content')
-{{ __('Tournaments') }}
+<p class="yjrb29-page-title">{{ __('Tournaments') }}</p>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <a href="{{route('createTournament')}}" class="btn">{{ __('New tournament')}}</a>
+    <div class="yjrb29-top-row">
+        <div class="yjrb29-col-create-new">
+            <a href="{{route('createTournament')}}" class="yjrb29-btn-green">{{ __('New tournament')}}</a>
         </div>
+        <div class="yjrb29-top-row-spacer"></div>
+        @if( $tournaments->count() > 0 )
+            <div class="yjrb29-col-show-deleted">
+                <div class="yjrb29-form-check">
+                    <input class="form-check-input cbShowDeleted" type="checkbox" value=""
+                        @if($showDeleted == "true")
+                            checked="checked"
+                        @endif
+                    />
+                    <label class="form-check-label" for="cbShowDeleted">
+                        {{ __('Show deleted') }}
+                    </label>
+                </div>
+            </div>
+        @endif
     </div>
-    @if( $tournaments->count() > 0 )
-        <div class="row">
-            <div class="col">
-                <input class="form-check-input cbShowDeleted" type="checkbox" value=""
-                    @if($showDeleted == "true")
-                        checked="checked"
+    <div class="yjrb29-table-header-row">
+        <div class="col-3 yjrb29-table-header">{{ __('Name') }}</div>
+        <div class="col-2 yjrb29-table-header">{{ __('Start date') }}</div>
+        <div class="col-2 yjrb29-table-header">{{ __('End date') }}</div>
+        <div class="col-2 yjrb29-table-header">{{ __('Venue') }}</div>
+        <div class="col-1 yjrb29-table-header">{{ __('Requested umpires') }}</div>
+        <div class="col-1 yjrb29-table-header"></div>
+        <div class="col-1 yjrb29-table-header"></div>
+    </div>
+    @foreach( $tournaments as $tournament )
+        @php($deleted = !is_null($tournament->deleted_at))
+        <div
+            @if($deleted)
+                @if($showDeleted!="true")
+                    class="yjrb29-table-row d-none"
+                @else
+                    class="yjrb29-table-row"
+                @endif
+                name="deleted_row"
+            @else
+                class="yjrb29-table-row"
+            @endif>
+            <div class="col-3 yjrb29-table-cell">{{$tournament->title}}</div>
+            <div class="col-2 yjrb29-table-cell text-center">{{date_format(date_create($tournament->datefrom),"Y. m. d.")}}</div>
+            <div class="col-2 yjrb29-table-cell text-center">{{date_format(date_create($tournament->dateto),"Y. m. d.")}}</div>
+            <div class="col-2 yjrb29-table-cell text-center">{{$tournament->venue->short_name}}</div>
+            <div class="col-1 yjrb29-table-cell text-center">{{$tournament->requested_umpires}}</div>
+            <div class="col-1 yjrb29-table-cell">
+                <div class="pr-3">
+                    @if($deleted)
+                        <a href="#" class="yjrb29-btn-blue d-none">{{ __('Edit') }}</a>
+                    @else
+                        <a href="{{route('showTournament',$tournament->id)}}" class="yjrb29-btn-blue">{{ __('Edit') }}</a>
                     @endif
-                />
-                <label class="form-check-label" for="cbShowDeleted">
-                    {{ __('Show deleted') }}
-                </label>
+                </div>
+            </div>
+            <div class="col-1 yjrb29-table-cell">
+                <div class="px-3">
+                    <a href="#"
+                        @if($deleted)
+                            class="yjrb29-btn-green"
+                        @else
+                            class="yjrb29-btn-green d-none"
+                        @endif
+                        onclick="event.preventDefault();document.getElementById('restore_form_{{$tournament->id}}').submit();">
+                        {{ __('Restore') }}
+                    </a>
+                    <a href="#"
+                        @if($deleted)
+                            class="yjrb29-btn-red d-none"
+                        @else
+                            class="yjrb29-btn-red"
+                        @endif
+                        onclick="event.preventDefault();document.getElementById('delete_form_{{$tournament->id}}').submit();">
+                        {{ __('Delete') }}
+                    </a>
+                    <form method="POST" id="restore_form_{{$tournament->id}}" action="{{route('restoreTournament',$tournament->id)}}">
+                        @method('PUT')
+                        @csrf
+                        <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
+                    </form>
+                    <form method="POST" id="delete_form_{{$tournament->id}}" action="{{route('showTournament',$tournament->id)}}">
+                        @method('DELETE')
+                        @csrf
+                        <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
+                    </form>
+                </div>
             </div>
         </div>
-    @endif
-    <div class="row">
-        <div class="col">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">{{ __('Name') }}</th>
-                        <th scope="col">{{ __('Start date') }}</th>
-                        <th scope="col">{{ __('End date') }}</th>
-                        <th scope="col">{{ __('Venue') }}</th>
-                        <th scope="col">{{ __('International') }}</th>
-                        <th scope="col">{{ __('Requested umpires') }}</th>
-                        <th scope="col">&nbsp;</th>
-                        <th scope="col">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach( $tournaments as $tournament )
-                        @php($deleted = !is_null($tournament->deleted_at))
-                        <tr
-                            @if($deleted)
-                                name="deleted_row"
-                                @if($showDeleted!="true")
-                                    class="d-none"
-                                @endif
-                            @endif
-                        >
-                            <td>{{$tournament->title}}</td>
-                            <td>{{date_format(date_create($tournament->datefrom),"Y. m. d.")}}</td>
-                            <td>{{date_format(date_create($tournament->dateto),"Y. m. d.")}}</td>
-                            <td>{{$tournament->venue->name}}</td>
-                            <td>
-                                @if($tournament->international)
-                                    <span class="fas fa-check"></span>
-                                @endif
-                            </td>
-                            <td>{{$tournament->requested_umpires}}</td>
-                            <td>
-                                @if($deleted)
-                                    <button type="button" class="btn" disabled>{{ __('Edit') }}</button>
-                                @else
-                                    <a href="{{route('showTournament',$tournament->id)}}" class="btn">
-                                        {{ __('Edit') }}
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="" class="btn"
-                                    onclick="event.preventDefault();document.getElementById('delete_form_{{$tournament->id}}').submit();">
-                                    @if($deleted)
-                                        {{ __('Restore') }}
-                                    @else
-                                        {{ __('Delete') }}
-                                    @endif
-                                </a>
-                                <form method="POST" id="delete_form_{{$tournament->id}}"
-                                    @if($deleted)
-                                        action="{{route('restoreTournament',$tournament->id)}}">
-                                        @method('PUT')
-                                    @else
-                                        action="{{route('showTournament',$tournament->id)}}">
-                                        @method('DELETE')
-                                    @endif
-                                    @csrf
-                                    <input type="hidden" name="showDeleted" id="showDeleted" value="{{$showDeleted}}"/>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+    @endforeach
 </div>
 @endsection

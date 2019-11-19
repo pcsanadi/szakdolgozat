@@ -41,7 +41,6 @@ class Tournament extends Model
      * The attributes that should be cast to native types
      */
     protected $casts = [
-        "international" => "boolean",
         "requested_umpires" => "integer"
     ];
 
