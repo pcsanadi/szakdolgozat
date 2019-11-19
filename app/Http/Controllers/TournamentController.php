@@ -130,6 +130,30 @@ class TournamentController extends Controller
     }
 
     /**
+     * Create desired date interval format
+     *
+     * @return string
+     */
+    protected function intervalDate( $from, $to )
+    {
+        $yearfrom = $from->format('Y');
+        $monthfrom = $from->format('m');
+        $dayfrom = $from->format('d');
+        $yearto = $to->format('Y');
+        $monthto = $to->format('m');
+        $dayto = $to->format('d');
+        $ret = $yearfrom . ". " . $monthfrom . ". " . $dayfrom . " - ";
+        if( $yearfrom != $yearto )
+            return  $ret . $yearto . ". " . $monthto . ". " . $dayto . ".";
+        else if( $monthfrom != $monthto )
+            return $ret . $monthto . ". " . $dayto . ".";
+        else if( $dayfrom != $dayto )
+            return $ret . $dayto . ".";
+        else
+            return $from->format('Y. m. d.');
+    }
+
+    /**
      * Show the tournament calendar
      *
      * @return misc
@@ -169,27 +193,7 @@ class TournamentController extends Controller
             $newTournament->id = $tournament->id;
             $newTournament->appliedAsUmpire = $appliedAsUmpire;
             $newTournament->appliedAsReferee = $appliedAsReferee;
-            // date
-            if( $tournament->datefrom === $tournament->dateto )
-                $newTournament->date = date_format(date_create($tournament->datefrom),"Y. m. d.");
-            else
-            {
-                $datefrom = new \DateTime($tournament->datefrom);
-                $dateto = new \DateTime($tournament->dateto);
-                $yearfrom = $datefrom->format("Y");
-                $yearto = $dateto->format("Y");
-                $monthfrom = $datefrom->format("m");
-                $monthto = $dateto->format("m");
-                $dayfrom = $datefrom->format("d");
-                $dayto = $dateto->format("d");
-                $newTournament->date = $yearfrom . ". " . $monthfrom . ". " . $dayfrom . " - ";
-                if( $yearfrom != $yearto )
-                    $newTournament->date .= $yearto . ". " . $monthto . ". " . $dayto . ".";
-                else if( $monthfrom != $monthto )
-                    $newTournament->date .= $monthto . ". " . $dayto . ".";
-                else
-                    $newTournament->date .= $dayto . ".";
-            }
+            $newTournament->date = $this->intervalDate($tournament->datefrom,$tournament->dateto);
             $newTournament->title = $tournament->title;
             $newTournament->venue = $tournament->venue;
             $newTournament->requested_umpires = $tournament->requested_umpires;

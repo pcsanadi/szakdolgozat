@@ -1,5 +1,6 @@
 {
     "Address": "Cím",
+    "Apply": "Jelentkezem",
     "Cancel": "Mégsem",
     "Choose": "Válassz",
     "Create": "Létrehozás",
@@ -29,6 +30,7 @@
     "Referee(s)": "Döntnök(ök)",
     "Reset": "Visszaállítás",
     "Restore": "Visszaállítás",
+    "Revoke": "Visszavonom",
     "Save": "Mentés",
     "Short name": "Rövid név",
     "Show deleted": "Töröltek megjelenítése",

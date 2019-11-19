@@ -2,62 +2,88 @@
 
 @section('header_scripts')
     @parent
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 check -->
 @endsection
 
 @section('content')
-{{ __('Tournament calendar') }}<br/>
-<div class="container justify-content-center">
-    <div class="row">
-        <div class="col">{{ __('Date') }}</div>
-        <div class="col">{{ __('Title') }}</div>
-        <div class="col">{{ __('Location') }}</div>
-        <div class="col">{{ __('Requested umpires') }}</div>
-        <div class="col">{{ __('Umpire applications') }}</div>
-        @if($user->admin)
-            <div class="col">{{ __('Referee(s)') }}</div>
-            <div class="col">{{ __('Umpires') }}</div>
-        @endif
+<p class="yjrb29-page-title-bottom-padding">
+    @if($filtered)
+        {{ __('My applications') }}
+    @else
+        {{ __('Tournament calendar') }}
+    @endif
+</p>
+<div class="container">
+    <div class="yjrb29-top-row">
+        <div class="col-2 yjrb29-table-header">{{ __('Date') }}</div>
+        <div class="col-3 yjrb29-table-header">{{ __('Title') }}</div>
+        <div class="col-2 yjrb29-table-header">{{ __('Location') }}</div>
+        <div class="col-1 yjrb29-table-header">{{ __('Requested umpires') }}</div>
+        <div class="col-1 yjrb29-table-header">{{ __('Umpire applications') }}</div>
         @if($user->possible_referee)
-            <div class="col">&nbsp;</div>
+            <div class="col yjrb29-table-header">D</div>
         @endif
         @if($user->possible_umpire)
-            <div class="col">&nbsp;</div>
+            <div class="col yjrb29-table-header">Jv</div>
         @endif
     </div>
     @foreach($tournaments as $tournament)
-        <div class="row">
-            <div class="col">{{ $tournament->date }}</div>
-            <div class="col">{{ $tournament->title }}</div>
-            <div class="col">
-                {{ $tournament->venue->name }}<br/>
-                ({{ $tournament->venue->address }})
+        <div class="yjrb29-table-row">
+            <div class="col-2 yjrb29-table-cell">{{ $tournament->date }}</div>
+            <div class="col-3 yjrb29-table-cell">{{ $tournament->title }}</div>
+            <div class="col-2 yjrb29-table-cell text-center">
+                {{ $tournament->venue->short_name }}
             </div>
-            <div class="col">{{ $tournament->requested_umpires }}</div>
-            <div class="col">{{ $tournament->umpireApplications->count() }}</div>
-            @if($user->admin)
-                <div class="col">
-                    @foreach($tournament->refereeApplications as $application)
-                        {{ $application->user->name }}
-                        @if(!$loop->last)<br/>@endif
-                    @endforeach
-                </div>
-                <div class="col">
-                    @foreach($tournament->umpireApplications as $application)
-                        {{ $application->user->name }}
-                        @if(!$loop->last)<br/>@endif
-                    @endforeach
+            <div class="col-1 yjrb29-table-cell text-center">{{ $tournament->requested_umpires }}</div>
+            <div class="col-1 yjrb29-table-cell text-center">{{ $tournament->umpireApplications->count() }}</div>
+            @if($user->possible_referee)
+                <div class="col yjrb29-table-cell text-center">
+                    @if($tournament->appliedAsReferee)
+                        <a href="#" class="yjrb29-btn-red"
+                            onclick="event.preventDefault();document.getElementById('delete_referee_{{$tournament->id}}').submit();">
+                            <span class="fas fa-check"></span>
+                        </a>
+                        <form action="{{route('referee',$tournament->id)}}" method="POST" id="delete_referee_{{$tournament->id}}">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" name="filtered" value="{{$filtered}}"/>
+                        </form>
+                    @elseif(!$filtered)
+                        <a href="#" class="yjrb29-btn-green"
+                            onclick="event.preventDefault();document.getElementById('apply_referee_{{$tournament->id}}').submit();">
+                            {{ __('Apply') }}
+                        </a>
+                        <form action="{{route('referee',$tournament->id)}}" method="POST" id="apply_referee_{{$tournament->id}}">
+                            @method('PUT')
+                            @csrf
+                        </form>
+                    @endif
                 </div>
             @endif
-        @if($user->possible_referee)
-            <div class="col">
-                apply for referee
-            </div>
-        @endif
-        @if($user->possible_umpire)
-            <div class="col">
-                apply for umpire
-            </div>
-        @endif
+            @if($user->possible_umpire)
+                <div class="col yjrb29-table-cell text-center">
+                    @if($tournament->appliedAsUmpire)
+                        <a href="#" class=".text-success" style="color:green"
+                            onclick="event.preventDefault();document.getElementById('delete_umpire_{{$tournament->id}}').submit();">
+                            <span class="fas fa-check"></span>
+                        </a>
+                        <form action="{{route('umpire',$tournament->id)}}" method="POST" id="delete_umpire_{{$tournament->id}}">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" name="filtered" value="{{$filtered}}"/>
+                        </form>
+                    @elseif(!$filtered)
+                        <a href="#" class="yjrb29-btn-green"
+                            onclick="event.preventDefault();document.getElementById('apply_umpire_{{$tournament->id}}').submit();">
+                            {{ __('Apply') }}
+                        </a>
+                        <form action="{{route('umpire',$tournament->id)}}" method="POST" id="apply_umpire_{{$tournament->id}}">
+                            @method('PUT')
+                            @csrf
+                        </form>
+                    @endif
+                </div>
+            @endif
         </div>
     @endforeach
 </div>
