@@ -84,21 +84,29 @@
                     <div class="col yjrb29-table-cell text-center">
                         @if(!$tournament->past)
                             @if($tournament->appliedAsReferee)
-                                <span class="fas fa-check text-success yjrb29-big"></span>
-                                <a href="#"
-                                    onclick="event.preventDefault();document.getElementById('delete_referee_{{$tournament->id}}').submit();">
-                                    <span class="fas fa-times yjrb29-small text-danger" title="{{ __('Revoke') }}"></span>
-                                </a>
-                                <form action="{{route('referee',$tournament->id)}}" method="POST" id="delete_referee_{{$tournament->id}}">
-                                    @method('DELETE')
-                                    @csrf
-                                    <input type="hidden" name="filtered" value="{{$filtered}}"/>
-                                </form>
+                                @if($tournament->refereeApplicationProcessed)
+                                    @if($tournament->refereeApplicationApproved)
+                                        <span class="fas fa-check yjrb29-big-green"></span>
+                                    @else
+                                        <span class="fas fa-times yjrb29-big-red"></span>
+                                    @endif
+                                @else
+                                    <span class="fas fa-check yjrb29-big-green"></span>
+                                    <a href="#"
+                                        onclick="event.preventDefault();document.getElementById('delete_referee_{{$tournament->id}}').submit();">
+                                        <span class="fas fa-times yjrb29-small-red" title="{{ __('Revoke') }}"></span>
+                                    </a>
+                                    <form action="{{route('referee',$tournament->id)}}" method="POST" id="delete_referee_{{$tournament->id}}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <input type="hidden" name="filtered" value="{{$filtered}}"/>
+                                    </form>
+                                @endif
                             @elseif(!$filtered)
-                                <span class="fas fa-times yjrb29-big text-danger"></span>
+                                <span class="fas fa-times yjrb29-big-red"></span>
                                 <a href="#"
                                     onclick="event.preventDefault();document.getElementById('apply_referee_{{$tournament->id}}').submit();">
-                                    <span class="fas fa-check yjrb29-small text-success" title="{{ __('Apply') }}"></span>
+                                    <span class="fas fa-check yjrb29-small-green" title="{{ __('Apply') }}"></span>
                                 </a>
                                 <form action="{{route('referee',$tournament->id)}}" method="POST" id="apply_referee_{{$tournament->id}}">
                                     @method('PUT')
@@ -112,21 +120,29 @@
                     <div class="col yjrb29-table-cell text-center">
                         @if(!$tournament->past)
                             @if($tournament->appliedAsUmpire)
-                                <span class="fas fa-check text-success yjrb29-big"></span>
-                                <a href="#"
-                                    onclick="event.preventDefault();document.getElementById('delete_umpire_{{$tournament->id}}').submit();">
-                                    <span class="fas fa-times yjrb29-small text-danger" title="{{ __('Revoke') }}"></span>
-                                </a>
-                                <form action="{{route('umpire',$tournament->id)}}" method="POST" id="delete_umpire_{{$tournament->id}}">
-                                    @method('DELETE')
-                                    @csrf
-                                    <input type="hidden" name="filtered" value="{{$filtered}}"/>
-                                </form>
+                                @if($tournament->umpireApplicationProcessed)
+                                    @if($tournament->umpireApplicationApproved)
+                                        <span class="fas fa-check yjrb29-big-green"></span>
+                                    @else
+                                        <span class="fas fa-times yjrb29-big-red"></span>
+                                    @endif
+                                @else
+                                    <span class="fas fa-check yjrb29-big-green"></span>
+                                    <a href="#"
+                                        onclick="event.preventDefault();document.getElementById('delete_umpire_{{$tournament->id}}').submit();">
+                                        <span class="fas fa-times yjrb29-small-red" title="{{ __('Revoke') }}"></span>
+                                    </a>
+                                    <form action="{{route('umpire',$tournament->id)}}" method="POST" id="delete_umpire_{{$tournament->id}}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <input type="hidden" name="filtered" value="{{$filtered}}"/>
+                                    </form>
+                                @endif
                             @elseif(!$filtered)
-                                <span class="fas fa-times yjrb29-big text-danger"></span>
+                                <span class="fas fa-times yjrb29-big-red"></span>
                                 <a href="#"
                                     onclick="event.preventDefault();document.getElementById('apply_umpire_{{$tournament->id}}').submit();">
-                                    <span class="fas fa-check yjrb29-small text-success" title="{{ __('Apply') }}"></span>
+                                    <span class="fas fa-check yjrb29-small-green" title="{{ __('Apply') }}"></span>
                                 </a>
                                 <form action="{{route('umpire',$tournament->id)}}" method="POST" id="apply_umpire_{{$tournament->id}}">
                                     @method('PUT')

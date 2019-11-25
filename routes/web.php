@@ -44,3 +44,7 @@ Route::delete('/tournaments/{id}','TournamentController@destroy')->where('id','[
 Route::put('/tournaments/{id}/restore','TournamentController@restore')->where('id','[0-9]+')->name('restoreTournament');
 Route::match(['get','post'],'/tournament-calendar/{id?}','TournamentController@showCalendar')->name('calendar');
 
+Route::put('/umpire/{id}','ApplicationController@addUmpire')->where('id','[0-9]+')->name('umpire');
+Route::delete('/umpire/{id}','ApplicationController@removeUmpire')->where('id','[0-9]+');
+Route::put('/referee/{id}','ApplicationController@addReferee')->where('id','[0-9]+')->name('referee');
+Route::delete('/referee/{id}','ApplicationController@removeReferee')->where('id','[0-9]+');

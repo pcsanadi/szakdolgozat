@@ -161,7 +161,7 @@ class TournamentController extends Controller
     public function showCalendar(Request $request, $id = 0)
     {
         $info = $request->all();
-        // determine season
+
         if( array_key_exists('season', $info ) )
         {
             $season = intval($info['season']);
@@ -170,7 +170,9 @@ class TournamentController extends Controller
         {
             $season = ( ( intval(date('m')) >= 9 ) ? intval(date('Y')) : intval(date('Y') - 1 ) );
         }
+
         $filtered = ( $id != 0 );
+
         $tournaments = \App\Tournament::with(['umpireApplications.user','refereeApplications.user'])
             ->where('datefrom','>=',strval($season).'-09-01')
             ->where('dateto','<=',strval($season+1).'-08-31')
@@ -178,10 +180,17 @@ class TournamentController extends Controller
             ->sortBy('datefrom');
         $newTournaments = array();
         $userId = ( $filtered ? $id : \Auth::user()->id );
+
         foreach($tournaments as $tournament)
         {
             $appliedAsReferee = false;
+            $umpireApplicationProcessed = false;
+            $umpireApplicationApproved = false;
+
             $appliedAsUmpire = false;
+            $refereeApplicationProcessed = false;
+            $refereeApplicationApproved = false;
+
             $skip = true;
             foreach($tournament->umpireApplications as $application)
             {
@@ -189,6 +198,8 @@ class TournamentController extends Controller
                 {
                     $skip = false;
                     $appliedAsUmpire = true;
+                    $umpireApplicationProcessed = $application->processed;
+                    $umpireApplicationApproved = $application->approved;
                     break;
                 }
             }
@@ -198,15 +209,24 @@ class TournamentController extends Controller
                 {
                     $skip = false;
                     $appliedAsReferee = true;
+                    $refereeApplicationProcessed = $application->processed;
+                    $refereeApplicationApproved = $application->approved;
                     break;
                 }
             }
             if($filtered and $skip)
+            {
                 continue;
+            }
+            
             $newTournament = new \stdClass();
             $newTournament->id = $tournament->id;
             $newTournament->appliedAsUmpire = $appliedAsUmpire;
+            $newTournament->umpireApplicationProcessed = $umpireApplicationProcessed;
+            $newTournament->umpireApplicationApproved = $umpireApplicationApproved;
             $newTournament->appliedAsReferee = $appliedAsReferee;
+            $newTournament->refereeApplicationProcessed = $refereeApplicationProcessed;
+            $newTournament->refereeApplicationApproved = $refereeApplicationApproved;
             $newTournament->date = $this->intervalDate($tournament->datefrom,$tournament->dateto);
             $newTournament->title = $tournament->title;
             $newTournament->venue = $tournament->venue;
@@ -214,17 +234,23 @@ class TournamentController extends Controller
             $newTournament->umpireApplications = $tournament->umpireApplications;
             $newTournament->past = ( date('Ymd') > $tournament->datefrom->format('Ymd') );
             if( !is_null($newTournament->umpireApplications) )
+            {
                 $newTournament->umpireApplications = $newTournament->umpireApplications->sort();
+            }
             $newTournament->refereeApplications = $tournament->refereeApplications;
             if( !is_null($newTournament->refereeApplications) )
+            {
                 $newTournament->refereeApplications = $newTournament->refereeApplications->sort();
+            }
             array_push($newTournaments,$newTournament);
         }
+
         $user = new \stdClass();
         $user->admin = \Auth::user()->admin;
         $user->id = \Auth::user()->id;
         $user->possible_referee = (\Auth::user()->referee_level > 1);
         $user->possible_umpire = (\Auth::user()->umpire_level > 1);
+
         return view('tournament.calendar',[ "tournaments" => $newTournaments,
                                             "user" => $user,
                                             "filtered" => $filtered,

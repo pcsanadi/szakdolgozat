@@ -12795,12 +12795,18 @@ a.text-secondary:focus {
   color: #494f54 !important;
 }
 
-.text-success {
+.text-success,
+.yjrb29-small-green,
+.yjrb29-big-green {
   color: #38c172 !important;
 }
 
 a.text-success:hover,
-a.text-success:focus {
+a.yjrb29-small-green:hover,
+a.yjrb29-big-green:hover,
+a.text-success:focus,
+a.yjrb29-small-green:focus,
+a.yjrb29-big-green:focus {
   color: #27864f !important;
 }
 
@@ -12822,12 +12828,18 @@ a.text-warning:focus {
   color: #fde300 !important;
 }
 
-.text-danger {
+.text-danger,
+.yjrb29-small-red,
+.yjrb29-big-red {
   color: #e3342f !important;
 }
 
 a.text-danger:hover,
-a.text-danger:focus {
+a.yjrb29-small-red:hover,
+a.yjrb29-big-red:hover,
+a.text-danger:focus,
+a.yjrb29-small-red:focus,
+a.yjrb29-big-red:focus {
   color: #ae1c17 !important;
 }
 
@@ -13008,11 +13020,15 @@ a.text-dark:focus {
   white-space: nowrap;
 }
 
-.yjrb29-big {
+.yjrb29-big,
+.yjrb29-big-green,
+.yjrb29-big-red {
   font-size: 150%;
 }
 
-.yjrb29-small {
+.yjrb29-small,
+.yjrb29-small-green,
+.yjrb29-small-red {
   font-size: 50%;
 }
 

@@ -111,6 +111,26 @@
     font-size: 150%;
 }
 
+.yjrb29-big-red {
+    @extend .yjrb29-big;
+    @extend .text-danger;
+}
+
+.yjrb29-big-green {
+    @extend .yjrb29-big;
+    @extend .text-success;
+}
+
 .yjrb29-small {
     font-size: 50%;
+}
+
+.yjrb29-small-red {
+    @extend .yjrb29-small;
+    @extend .text-danger;
+}
+
+.yjrb29-small-green {
+    @extend .yjrb29-small;
+    @extend .text-success;
 }

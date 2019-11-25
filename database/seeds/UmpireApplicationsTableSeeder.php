@@ -15,7 +15,7 @@ class UmpireApplicationsTableSeeder extends Seeder
             [
                 'umpire_id' => 1,
                 'tournament_id' => 3,
-                'processed' => false,
+                'processed' => true,
                 'approved' => false
             ],
             [
@@ -27,8 +27,8 @@ class UmpireApplicationsTableSeeder extends Seeder
             [
                 'umpire_id' => 2,
                 'tournament_id' => 3,
-                'processed' => false,
-                'approved' => false
+                'processed' => true,
+                'approved' => true
             ]
         ]);
     }

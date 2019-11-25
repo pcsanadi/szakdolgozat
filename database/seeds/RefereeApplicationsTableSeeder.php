@@ -21,7 +21,7 @@ class RefereeApplicationsTableSeeder extends Seeder
             [
                 'referee_id' => 3,
                 'tournament_id' => 2,
-                'processed' => false,
+                'processed' => true,
                 'approved' => false
             ]
         ]);
