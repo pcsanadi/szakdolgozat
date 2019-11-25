@@ -158,10 +158,24 @@ class TournamentController extends Controller
      *
      * @return misc
     */
-    public function showCalendar($id = 0)
+    public function showCalendar(Request $request, $id = 0)
     {
+        $info = $request->all();
+        // determine season
+        if( array_key_exists('season', $info ) )
+        {
+            $season = intval($info['season']);
+        }
+        else
+        {
+            $season = ( ( intval(date('m')) >= 9 ) ? intval(date('Y')) : intval(date('Y') - 1 ) );
+        }
         $filtered = ( $id != 0 );
-        $tournaments = \App\Tournament::with(['umpireApplications.user','refereeApplications.user'])->get()->sortBy('datefrom');
+        $tournaments = \App\Tournament::with(['umpireApplications.user','refereeApplications.user'])
+            ->where('datefrom','>=',strval($season).'-09-01')
+            ->where('dateto','<=',strval($season+1).'-08-31')
+            ->get()
+            ->sortBy('datefrom');
         $newTournaments = array();
         $userId = ( $filtered ? $id : \Auth::user()->id );
         foreach($tournaments as $tournament)
@@ -198,6 +212,7 @@ class TournamentController extends Controller
             $newTournament->venue = $tournament->venue;
             $newTournament->requested_umpires = $tournament->requested_umpires;
             $newTournament->umpireApplications = $tournament->umpireApplications;
+            $newTournament->past = ( date('Ymd') > $tournament->datefrom->format('Ymd') );
             if( !is_null($newTournament->umpireApplications) )
                 $newTournament->umpireApplications = $newTournament->umpireApplications->sort();
             $newTournament->refereeApplications = $tournament->refereeApplications;
@@ -207,8 +222,12 @@ class TournamentController extends Controller
         }
         $user = new \stdClass();
         $user->admin = \Auth::user()->admin;
+        $user->id = \Auth::user()->id;
         $user->possible_referee = (\Auth::user()->referee_level > 1);
         $user->possible_umpire = (\Auth::user()->umpire_level > 1);
-        return view('tournament.calendar',["tournaments" => $newTournaments, "user" => $user, "filtered" => $filtered]);
+        return view('tournament.calendar',[ "tournaments" => $newTournaments,
+                                            "user" => $user,
+                                            "filtered" => $filtered,
+                                            "season" => $season]);
     }
 }
