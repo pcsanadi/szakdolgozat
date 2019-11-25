@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>MTLSZ JVB</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,12 +26,12 @@
         @auth
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('login') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <!-- <a class="navbar-brand" href="{{ route('login') }}">
+                    MTLSZ JVB
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> -->
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
@@ -42,9 +42,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('calendar',Auth::user()->id) }}">{{ __('My applications') }}</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Documents') }}</a>
-                        </li>
+                        </li> -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
