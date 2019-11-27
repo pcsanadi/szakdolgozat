@@ -18,7 +18,7 @@
     @method('PUT')
     @csrf
     <div class="yjrb29-application-row">
-        <div class="yjrb29-application-placeholder"></div>
+        <div class="yjrb29-application-spacer"></div>
         <div class="yjrb29-application-group">
             <label for="referee_applications">{{ __('Referee applications') }}</label>
         </div>
@@ -32,7 +32,7 @@
     </div>
     @foreach($refereeApplications as $application)
         <div class="yjrb29-application-row">
-            <div class="yjrb29-application-placeholder"></div>
+            <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
             <div class="col-1">
                 <label for="referee_application_processed_{{$application->id}}">
@@ -81,7 +81,7 @@
         </div>
     @endforeach
     <div class="yjrb29-application-row">
-        <div class="yjrb29-application-placeholder"></div>
+        <div class="yjrb29-application-spacer"></div>
         <div class="yjrb29-application-group">
             <label for="referee_applications">{{ __('Umpire applications') }}</label>
         </div>
@@ -95,7 +95,7 @@
     </div>
     @foreach($umpireApplications as $application)
         <div class="yjrb29-application-row">
-            <div class="yjrb29-application-placeholder"></div>
+            <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
             <div class="col-1">
                 <label for="umpire_application_processed_{{$application->id}}">

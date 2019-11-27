@@ -25,17 +25,6 @@
     @extend .align-items-center;
 }
 
-.yjrb29-col-create-new {
-    @extend .col;
-    @extend .pl-5;
-    @extend .py-3;
-}
-
-.yjrb29-btn-blue {
-    @extend .btn;
-    @extend .btn-outline-info;
-}
-
 .yjrb29-top-row-spacer {
     @extend .col-8;
 }
@@ -45,9 +34,9 @@
     white-space: nowrap;
 }
 
-.yjrb29-btn-yellow {
+.yjrb29-btn-blue {
     @extend .btn;
-    @extend .btn-outline-warning;
+    @extend .btn-outline-info;
 }
 
 .yjrb29-btn-red {
@@ -101,7 +90,7 @@
     @extend .col-2;
 }
 
-.yjrb29-application-placeholder {
+.yjrb29-application-spacer {
     @extend .col-3;
 }
 

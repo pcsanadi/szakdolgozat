@@ -10,7 +10,7 @@
     <div class="col-auto yjrb29-page-title">{{ __('Tournaments') }}</div>
 </div>
 <div class="yjrb29-top-row">
-    <div class="yjrb29-col-create-new">
+    <div class="col">
         <a href="{{route('createTournament')}}" class="yjrb29-btn-green">{{ __('New tournament')}}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>

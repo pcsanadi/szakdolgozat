@@ -10,7 +10,7 @@
     <div class="col-auto yjrb29-page-title">{{ __('Users') }}</div>
 </div>
 <div class="yjrb29-top-row">
-    <div class="yjrb29-col-create-new">
+    <div class="col">
         <a href="{{route('createUser')}}" class="yjrb29-btn-green">{{ __('New user') }}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>
