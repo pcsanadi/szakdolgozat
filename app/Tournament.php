@@ -108,4 +108,14 @@ class Tournament extends Model
     {
         return $this->hasMany("App\RefereeApplication", "tournament_id");
     }
+
+    /**
+     * Check if the tournament will happen in the future
+     *
+     * @return boolean
+     */
+    public function isFuture()
+    {
+        return $this->datefrom->format('Ymd') >= date('Ymd');
+    }
 }

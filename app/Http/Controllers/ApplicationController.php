@@ -22,6 +22,15 @@ class ApplicationController extends Controller
     public function addUmpire($id)
     {
         $userId = \Auth::user()->id;
+        $tournament = \App\Tournament::find($id);
+        if( null == $tournament )
+        {
+            return redirect()->route("calendar")->with("error","tournament not found");
+        }
+        if( !$tournament->isFuture() )
+        {
+            abort(403,"Application to a tournament in the past.");
+        }
         if( \App\UmpireApplication::where(['tournament_id'=>$id,'umpire_id'=>$userId])->count() > 0 )
         {
             return redirect()->route('calendar')->with('error','application already in database');
@@ -58,6 +67,14 @@ class ApplicationController extends Controller
     public function addReferee($id)
     {
         $userId = \Auth::user()->id;
+        if( null == $tournament )
+        {
+            return redirect()->route("calendar")->with("error","tournament not found");
+        }
+        if( !$tournament->isFuture() )
+        {
+            abort(403,"Application to a tournament in the past.");
+        }
         if( \App\RefereeApplication::where(['tournament_id'=>$id,'referee_id'=>$userId])->count() > 0 )
         {
             return redirect()->route('calendar')->with('error','application already in database');
