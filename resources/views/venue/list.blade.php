@@ -2,7 +2,7 @@
 
 @section('header_scripts')
     @parent
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 check -->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 -->
 @endsection
 
 @section('content')
@@ -48,49 +48,38 @@
                 class="yjrb29-table-row"
             @endif>
             <div class="col-3 yjrb29-table-cell">{{ $venue->name }}</div>
-            <div class="col-2 yjrb29-table-cell text-center">{{ $venue->short_name }}</div>
-            <div class="col-3 yjrb29-table-cell pl-3">{{ $venue->address }}</div>
-            <div class="col-2 yjrb29-table-cell text-center">{{ $venue->courts }}</div>
-            <div class="col-1 yjrb29-table-cell">
-                <div class="pr-3">
-                    @if($deleted)
-                        <a href="#" class="yjrb29-btn-blue d-none">{{ __('Edit') }}</a>
-                    @else
-                        <a href="{{route('showVenue',$venue->id)}}" class="yjrb29-btn-blue">{{ __('Edit') }}</a>
-                    @endif
-                </div>
-            </div>
-            <div class="col-1 yjrb29-table-cell">
-                <div class="px-3">
-                    <a href="#"
-                        @if($deleted)
-                            class="yjrb29-btn-green"
-                        @else
-                            class="yjrb29-btn-green d-none"
-                        @endif
-                        onclick="event.preventDefault();document.getElementById('restore_form_{{$venue->id}}').submit();">
-                        {{ __('Restore') }}
+            <div class="col-2 yjrb29-table-cell-center">{{ $venue->short_name }}</div>
+            <div class="col-3 yjrb29-table-cell">{{ $venue->address }}</div>
+            <div class="col-2 yjrb29-table-cell-center">{{ $venue->courts }}</div>
+            <div class="col-1 yjrb29-table-cell-center">
+                @if(!$deleted)
+                    <a href="{{route('showVenue',$venue->id)}}" class="text-info">
+                        <span class="fas fa-edit" title="{{ __('Edit') }}"></span>
                     </a>
-                    <a href="#"
-                        @if($deleted)
-                            class="yjrb29-btn-red d-none"
-                        @else
-                            class="yjrb29-btn-red"
-                        @endif
-                        onclick="event.preventDefault();document.getElementById('delete_form_{{$venue->id}}').submit();">
-                        {{ __('Delete') }}
+                @endif
+            </div>
+            <div class="col-1 yjrb29-table-cell-center">
+                @if($deleted)
+                    <a href="#" class="text-success"
+                        onclick="event.preventDefault();document.getElementById('restore_form_{{$venue->id}}').submit();">
+                        <span class="fas fa-trash-restore" title="{{ __('Restore') }}"></span>
                     </a>
                     <form method="POST" id="restore_form_{{$venue->id}}" action="{{route('restoreVenue',$venue->id)}}">
                         @method('PUT')
                         @csrf
                         <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
+                @else
+                    <a href="#" class="text-danger"
+                        onclick="event.preventDefault();document.getElementById('delete_form_{{$venue->id}}').submit();">
+                        <span class="fas fa-trash-alt" title="{{ __('Delete') }}"></span>
+                    </a>
                     <form method="POST" id="delete_form_{{$venue->id}}" action="{{route('showVenue',$venue->id)}}">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
-                </div>
+                @endif
             </div>
         </div>
     @endforeach
