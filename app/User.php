@@ -48,7 +48,9 @@ class User extends Authenticatable
     protected $fillable = [
         "name",
         "email",
-        "admin"
+        "admin",
+        "umpire_level",
+        "referee_level"
     ];
 
     /**

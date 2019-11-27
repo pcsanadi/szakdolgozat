@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; // tmp
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin'); // always use the 'admin' middleware for this controller
+        $this->middleware("admin");
     }
 
     /**
@@ -24,9 +24,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\User::withTrashed()->with(['umpireLevel','refereeLevel'])->get()->sortBy('name');
+        $users = \App\User::withTrashed()->with(["umpireLevel","refereeLevel"])->get()->sortBy('name');
+        if( is_null($users) )
+        {
+            abort(500,"Internal Server Error");
+        }
 
-        return view('user.list', [ "users" => $users ])->with("showDeleted",session("showDeleted","false"));
+        return view("user.list", [ "users" => $users ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -39,14 +43,10 @@ class UserController extends Controller
         $user = \App\User::find($id);
         if ( is_null($user) )
         {
-            return redirect()->route('users')->with('error','user not found');
+            return redirect()->route("users")->with("error","user not found");
         }
-        $referee_levels = \App\RefereeLevel::all()->sortBy('id');
-        $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
 
-        return view('user.edit', [ "user" => $user,
-                                    "umpire_levels" => $umpire_levels,
-                                    "referee_levels" => $referee_levels ]);
+        return view('user.edit', [ "user" => $user ]);
     }
 
     /**
@@ -58,17 +58,32 @@ class UserController extends Controller
     {
         $info = $request->all();
         $user = \App\User::find($id);
-        if(is_null($user))
+        if( is_null($user) )
         {
-            return redirect()->route('users')->with('error','user not found');
+            return redirect()->route("users")->with("error","user not found");
         }
-        $user->name = $info['name'];
-        $user->email = $info['email'];
-        $user->umpire_level = $info['ulevel'];
-        $user->referee_level = $info['rlevel'];
-        $user->admin = array_key_exists( 'admin', $info );
-        $user->save();
-        return redirect()->route('users')->with('message','user saved successfully');
+        if( !array_key_exists( "name", $info )
+            or !array_key_exists( "email", $info )
+            or !array_key_exists( "ulevel", $info )
+            or !array_key_exists( "rlevel", $info ) )
+        {
+            return redirect()->route("users")->with("error","could not save user");
+        }
+        $user->name = $info["name"];
+        $user->email = $info["email"];
+        $user->umpire_level = $info["ulevel"];
+        $user->referee_level = $info["rlevel"];
+        $user->admin = array_key_exists( "admin", $info );
+        $user->password = Hash::make("5555");
+        if( $user->save() )
+        {
+            // TODO send out initial password
+            return redirect()->route("users")->with("message","user saved successfully");
+        }
+        else
+        {
+            return redirect()->route("users")->with("error","could not save user");
+        }
     }
 
     /**
@@ -79,12 +94,12 @@ class UserController extends Controller
     public function restore(Request $request, $id)
     {
         $user = \App\User::onlyTrashed()->find($id);
-        if(is_null($user))
+        if( is_null($user) )
         {
-            return redirect()->route('users')->with('error','user not found');
+            return redirect()->route("users")->with("error","user not found");
         }
         $user->restore();
-        return redirect()->route('users')->with("showDeleted",$request->input('showDeleted'));
+        return redirect()->route("users")->with("showDeleted",$request->input("showDeleted"));
     }
 
     /**
@@ -95,12 +110,12 @@ class UserController extends Controller
     public function destroy(Request $request, $id)
     {
         $user = \App\User::find($id);
-        if(is_null($user))
+        if( is_null($user) )
         {
-            return redirect()->route('users')->with('error','user not found');
+            return redirect()->route("users")->with("error","user not found");
         }
         $user->delete();
-        return redirect()->route('users')->with("showDeleted",$request->input('showDeleted'));
+        return redirect()->route("users")->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
@@ -112,7 +127,11 @@ class UserController extends Controller
     {
         $umpire_levels = \App\UmpireLevel::all()->sortBy('id');
         $referee_levels = \App\RefereeLevel::all()->sortBy('id');
-        return view('user.edit', [ "umpire_levels" => $umpire_levels,
+        if( is_null($umpire_levels) or is_null($referee_levels) )
+        {
+            abort(500,"Internal Server Error");
+        }
+        return view("user.edit", [ "umpire_levels" => $umpire_levels,
                                     "referee_levels" => $referee_levels]);
     }
 
@@ -124,20 +143,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $info = $request->all();
-        if( 0 != \App\User::where('email',$info['email'])->count() )
+        if( 0 != \App\User::where("email",$info["email"])->count() )
         {
-            return redirect()->route('users')->with('error','user with this email already exists');
+            return redirect()->route("users")->with("error","user with this email already exists");
+        }
+        if( !array_key_exists("name",$info)
+            or !array_key_exists("email",$info)
+            or !array_key_exists("ulevel",$info)
+            or !array_key_exists("rlevel",$info) )
+        {
+            return redirect()->route("users")->with("error","could not save user");
         }
         $user = new \App\User;
-        $user->name = $info['name'];
-        $user->email = $info['email'];
-        $user->password = Hash::make($info['email']);
-        $user->umpire_level = $info['ulevel'];
-        $user->referee_level = $info['rlevel'];
-        $user->admin = array_key_exists('admin', $info);
+        $user->name = $info["name"];
+        $user->email = $info["email"];
+        $user->umpire_level = $info["ulevel"];
+        $user->referee_level = $info["rlevel"];
+        $user->admin = array_key_exists("admin", $info);
 
-        $user->save();
-
-        return redirect()->route('users')->with('message','user created successsfully');
+        return $user->save()
+            ? redirect()->route("users")->with("message","user created successsfully")
+            : redirect()->route("users")->with("error","could not save user");
     }
 }
