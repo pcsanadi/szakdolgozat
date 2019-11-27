@@ -48,3 +48,6 @@ Route::put('/umpire/{id}','ApplicationController@addUmpire')->where('id','[0-9]+
 Route::delete('/umpire/{id}','ApplicationController@removeUmpire')->where('id','[0-9]+');
 Route::put('/referee/{id}','ApplicationController@addReferee')->where('id','[0-9]+')->name('referee');
 Route::delete('/referee/{id}','ApplicationController@removeReferee')->where('id','[0-9]+');
+
+Route::get('/applications/{id}','ApplicationController@show')->where('id','[0-9]+')->name('applications');
+Route::put('/applications/{id}','ApplicationController@save')->where('id','[0-9]+')->name('saveApplications');

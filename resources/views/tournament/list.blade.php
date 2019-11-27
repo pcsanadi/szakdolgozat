@@ -2,8 +2,7 @@
 
 @section('header_scripts')
     @parent
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 check -->
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 envelope -->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 -->
 @endsection
 
 @section('content')
@@ -33,8 +32,8 @@
         <div class="col-3 yjrb29-table-header">{{ __('Name') }}</div>
         <div class="col-2 yjrb29-table-header">{{ __('Start date') }}</div>
         <div class="col-2 yjrb29-table-header">{{ __('End date') }}</div>
-        <div class="col-2 yjrb29-table-header">{{ __('Venue') }}</div>
-        <div class="col-1 yjrb29-table-header">{{ __('Requested umpires') }}</div>
+        <div class="col-1 yjrb29-table-header">{{ __('Venue') }}</div>
+        <div class="col-2 yjrb29-table-header">{{ __('Requested umpires') }}</div>
         <div class="col-1 yjrb29-table-header"></div>
         <div class="col-1 yjrb29-table-header"></div>
     </div>
@@ -52,50 +51,46 @@
                 class="yjrb29-table-row"
             @endif>
             <div class="col-3 yjrb29-table-cell">{{$tournament->title}}</div>
-            <div class="col-2 yjrb29-table-cell text-center">{{date_format(date_create($tournament->datefrom),"Y. m. d.")}}</div>
-            <div class="col-2 yjrb29-table-cell text-center">{{date_format(date_create($tournament->dateto),"Y. m. d.")}}</div>
-            <div class="col-2 yjrb29-table-cell text-center">{{$tournament->venue->short_name}}</div>
-            <div class="col-1 yjrb29-table-cell text-center">{{$tournament->requested_umpires}}</div>
-            <div class="col-1 yjrb29-table-cell">
-                <div class="pr-3">
-                    @if($deleted)
-                        <a href="#" class="yjrb29-btn-blue d-none">{{ __('Edit') }}</a>
-                    @else
-                        <a href="{{route('showTournament',$tournament->id)}}" class="yjrb29-btn-blue">{{ __('Edit') }}</a>
-                    @endif
-                </div>
-            </div>
-            <div class="col-1 yjrb29-table-cell">
-                <div class="px-3">
-                    <a href="#"
-                        @if($deleted)
-                            class="yjrb29-btn-green"
-                        @else
-                            class="yjrb29-btn-green d-none"
-                        @endif
-                        onclick="event.preventDefault();document.getElementById('restore_form_{{$tournament->id}}').submit();">
-                        {{ __('Restore') }}
+            <div class="col-2 yjrb29-table-cell-center">{{date_format(date_create($tournament->datefrom),"Y. m. d.")}}</div>
+            <div class="col-2 yjrb29-table-cell-center">{{date_format(date_create($tournament->dateto),"Y. m. d.")}}</div>
+            <div class="col-1 yjrb29-table-cell-center">{{$tournament->venue->short_name}}</div>
+            <div class="col-1 yjrb29-table-cell-center">{{$tournament->requested_umpires}}</div>
+            <div class="col-1 yjrb29-table-cell-center">
+                @if(!$deleted)
+                    <a href="{{route('applications',$tournament->id)}}" class="text-dark">
+                        <span class="fas fa-user" title="{{ __('Edit applications')}}"></span>
                     </a>
-                    <a href="#"
-                        @if($deleted)
-                            class="yjrb29-btn-red d-none"
-                        @else
-                            class="yjrb29-btn-red"
-                        @endif
-                        onclick="event.preventDefault();document.getElementById('delete_form_{{$tournament->id}}').submit();">
-                        {{ __('Delete') }}
+                @endif
+            </div>
+            <div class="col-1 yjrb29-table-cell-center">
+                @if(!$deleted)
+                    <a href="{{route('showTournament',$tournament->id)}}" class="text-info">
+                        <span class="fas fa-edit" title="{{ __('Edit') }}"></span>
+                    </a>
+                @endif
+            </div>
+            <div class="col-1 yjrb29-table-cell-center">
+                @if($deleted)
+                    <a href="#" class="text-success"
+                        onclick="event.preventDefault();document.getElementById('restore_form_{{$tournament->id}}').submit();">
+                        <span class="fas fa-trash-restore" title="{{ __('Restore') }}"></span>
                     </a>
                     <form method="POST" id="restore_form_{{$tournament->id}}" action="{{route('restoreTournament',$tournament->id)}}">
                         @method('PUT')
                         @csrf
                         <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
+                @else
+                    <a href="#" class="text-danger"
+                        onclick="event.preventDefault();document.getElementById('delete_form_{{$tournament->id}}').submit();">
+                        <span class="fas fa-trash-alt" title="{{ __('Delete') }}"></span>
+                    </a>
                     <form method="POST" id="delete_form_{{$tournament->id}}" action="{{route('showTournament',$tournament->id)}}">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                     </form>
-                </div>
+                @endif
             </div>
         </div>
     @endforeach

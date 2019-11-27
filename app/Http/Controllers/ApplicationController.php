@@ -104,4 +104,46 @@ class ApplicationController extends Controller
         $application->delete();
         return $filtered ? redirect()->route('calendar',$userId) : redirect()->route('calendar');
     }
+
+    /**
+     * Show list of applications for a tournament
+     */
+    public function show($id)
+    {
+        $umpireApplications = \App\UmpireApplication::where('tournament_id',$id)->get();
+        $refereeApplications = \App\RefereeApplication::where('tournament_id',$id)->get();
+        $tournament = \App\Tournament::find($id);
+
+        return view("tournament.applications",[ "umpireApplications" => $umpireApplications,
+                                                "refereeApplications" => $refereeApplications,
+                                                "tournament" => $tournament ]);
+    }
+
+    /**
+     * Save application details
+     */
+    public function save(Request $request, $id)
+    {
+        $info = $request->all();
+        // loop through all the applications of the tournament and check if we got information of them
+        $umpireApplications = \App\UmpireApplication::where('tournament_id',$id)->get();
+        $refereeApplications = \App\RefereeApplication::where('tournament_id',$id)->get();
+        foreach($umpireApplications as $application)
+        {
+            $processed_name = "umpire_application_processed_" . strval($application->id) . "_value";
+            $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
+            $approved_name = "umpire_application_approved_" . strval($application->id) . "_value";
+            $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
+            $application->save();
+        }
+        foreach($refereeApplications as $application)
+        {
+            $processed_name = "referee_application_processed_" . strval($application->id) . "_value";
+            $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
+            $approved_name = "referee_application_approved_" . strval($application->id) . "_value";
+            $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
+            $application->save();
+        }
+        return redirect()->route('tournaments');
+    }
 }
