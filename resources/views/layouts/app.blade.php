@@ -91,14 +91,14 @@
                 @if(session('error'))
                     <div class="row justify-content-center">
                         <div class="col col-auto alert alert-danger" role="alert">
-                            {{session('error')}}
+                            {{ __(session('error')) }}
                         </div>
                     </div>
                 @endif
                 @if(session('message'))
                     <div class="row justify-content-center">
                         <div class="col col-auto alert alert-success" role="alert">
-                            {{session('message')}}
+                            {{ __(session('message')) }}
                         </div>
                     </div>
                 @endif
