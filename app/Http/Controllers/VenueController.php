@@ -13,7 +13,7 @@ class VenueController extends Controller
      */
     public function __construct()
     {
-        $this->middleware("admin"); // always use the 'admin' middleware for this controller
+        $this->middleware("admin");
     }
 
     /**
@@ -24,6 +24,10 @@ class VenueController extends Controller
     public function index()
     {
         $venues = \App\Venue::withTrashed()->get()->sortBy("name");
+        if( is_null($venues) )
+        {
+            abort(500,"Internal Server Error");
+        }
         return view("venue.list", [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
     }
 
@@ -47,17 +51,24 @@ class VenueController extends Controller
     {
         $info = $request->all();
         $venue = \App\Venue::find($id);
-        if(is_null($venue))
+        if( is_null($venue) )
         {
             return redirect()->route("venues")->with("error","venue not found");
+        }
+        if( !array_key_exists("name",$info)
+            or !array_key_exists("short_name",$info)
+            or !array_key_exists("address",$info)
+            or !array_key_exists("courts",$info) )
+        {
+            abort(500,"Internal Server Error");
         }
         $venue->name = $info["name"];
         $venue->short_name = $info["short_name"];
         $venue->address = $info["address"];
-        $venue->courts = $info["courts"];
+        $venue->courts = intval($info["courts"]);
         return $venue->save()
             ? redirect()->route("venues")->with("message","venue saved successfully")
-            : redirect()->route("venues")->with("error","save unsuccessful");
+            : redirect()->route("venues")->with("error","could not save venue");
     }
 
     /**
@@ -66,13 +77,12 @@ class VenueController extends Controller
     public function restore(Request $request,$id)
     {
         $venue = \App\Venue::onlyTrashed()->find($id);
-        if(is_null($venue))
+        if( is_null($venue) )
         {
             return redirect()->route("venues")->with("error","venue not found");
         }
-        return $venue->restore()
-            ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
-            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "restore unsuccessful"]);
+        $venue->restore();
+        return redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"));
     }
 
     /**
@@ -84,7 +94,7 @@ class VenueController extends Controller
     {
         return \App\Venue::destroy($id)
             ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
-            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "delete unsuccessful"]);
+            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete venue"]);
     }
 
     /**
@@ -110,15 +120,22 @@ class VenueController extends Controller
                     ->orWhere("address",$info["address"])
                     ->count() )
         {
-            return redirect()->route("venues")->with("error","venue with this name, short name or address already exists");
+            return redirect()->route("venues")->with("error","a venue with this name, short name or address already exists");
+        }
+        if( !array_key_exists("name",$info)
+            or !array_key_exists("short_name",$info)
+            or !array_key_exists("address",$info)
+            or !array_key_exists("courts",$info) )
+        {
+            abort(500,"Internal Server Error");
         }
         $venue = new \App\Venue;
         $venue->name = $info["name"];
         $venue->short_name = $info["short_name"];
         $venue->address = $info["address"];
-        $venue->courts = $info["courts"];
+        $venue->courts = intval($info["courts"]);
         return $venue->save()
             ? redirect()->route("venues")->with("message","venue created successsfully")
-            : redirect()->route("venues")->with("error","venue not created");
+            : redirect()->route("venues")->with("error","could not create venue");
     }
 }
