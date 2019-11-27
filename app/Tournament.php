@@ -116,6 +116,6 @@ class Tournament extends Model
      */
     public function isFuture()
     {
-        return $this->datefrom->format('Ymd') >= date('Ymd');
+        return $this->datefrom->format("Ymd") >= date("Ymd");
     }
 }

@@ -25,9 +25,13 @@ class TournamentController extends Controller
     public function index()
     {
         $tournaments = \App\Tournament::withTrashed()
-            ->where("dateto",">=",date('Y-m-d'))->get()->sortBy("datefrom");
+            ->where("dateto",">=",date("Y-m-d"))->get()->sortBy("datefrom");
+        if( is_null($tournaments) )
+        {
+            abort(500,"Internal Server Error");
+        }
 
-        return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
+        return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -38,13 +42,16 @@ class TournamentController extends Controller
     public function show(Request $request, $id)
     {
         $tournament = \App\Tournament::find($id);
-        if ( is_null($tournament) )
+        if( is_null($tournament) )
         {
-            return redirect()->route('tournaments')->with('error','tournament not found');
+            return redirect()->route("tournaments")->with("error","tournament not found");
         }
-        $venues = \App\Venue::all()->sortBy('name');
-        return view('tournament.edit', [ "tournament" => $tournament,
-                                        "venues" => $venues ]);
+        $venues = \App\Venue::all()->sortBy("name");
+        if( is_null($venues) )
+        {
+            abort(500,"Internal Server Error");
+        }
+        return view("tournament.edit", [ "tournament" => $tournament, "venues" => $venues ]);
     }
 
     /**
@@ -56,17 +63,23 @@ class TournamentController extends Controller
     {
         $info = $request->all();
         $tournament = \App\Tournament::find($id);
-        if(is_null($tournament))
+        if( is_null($tournament)
+            or !array_key_exists("title",$info)
+            or !array_key_exists("datefrom",$info)
+            or !array_key_exists("dateto",$info)
+            or !array_key_exists("venue",$info)
+            or !array_key_exists("requested_umpires") )
         {
-            return redirect()->route('tournaments')->with('error','tournament not found');
+            return redirect()->route("tournaments")->with("error","could not save tournament");
         }
-        $tournament->title = $info['title'];
-        $tournament->datefrom = $info['datefrom'];
-        $tournament->dateto = $info['dateto'];
-        $tournament->venue_id = $info['venue'];
-        $tournament->requested_umpires = $info['requested_umpires'];
-        $tournament->save();
-        return redirect()->route('tournaments')->with('message','tournament updated successfully');
+        $tournament->title = $info["title"];
+        $tournament->datefrom = $info["datefrom"];
+        $tournament->dateto = $info["dateto"];
+        $tournament->venue_id = $info["venue"];
+        $tournament->requested_umpires = intval($info["requested_umpires"]);
+        return $tournament->save()
+            ? redirect()->route("tournaments")->with("message","tournament updated successfully")
+            : redirect()->route("tournaments")->with("error","could not save tournament");
     }
 
     /**
@@ -79,10 +92,10 @@ class TournamentController extends Controller
         $tournament = \App\Tournament::onlyTrashed()->find($id);
         if(is_null($tournament))
         {
-            return redirect()->route('tournaments')->with('error','tournament not found');
+            return redirect()->route("tournaments")->with("error","tournament not found");
         }
         $tournament->restore();
-        return redirect()->route('tournaments')->with("showDeleted",$request->input('showDeleted'));
+        return redirect()->route("tournaments")->with("showDeleted",$request->input('showDeleted'));
     }
 
     /**
@@ -95,10 +108,10 @@ class TournamentController extends Controller
         $tournament = \App\Tournament::find($id);
         if(is_null($tournament))
         {
-            return redirect()->route('tournaments')->with('error','tournament not found');
+            return redirect()->route("tournaments")->with("error","tournament not found");
         }
         $tournament->delete();
-        return redirect()->route('tournaments')->with("showDeleted",$request->input('showDeleted'));
+        return redirect()->route("tournaments")->with("showDeleted",$request->input("showDeleted"));
     }
 
     /**
@@ -108,8 +121,12 @@ class TournamentController extends Controller
      */
     public function create()
     {
-        $venues = \App\Venue::all()->sortBy('name');
-        return view('tournament.create', ["venues" => $venues]);
+        $venues = \App\Venue::all()->sortBy("name");
+        if( is_null($venues) )
+        {
+            abort(500,"Internal Server Error");
+        }
+        return view("tournament.create", ["venues" => $venues]);
     }
 
     /**
@@ -120,14 +137,23 @@ class TournamentController extends Controller
     public function store(Request $request)
     {
         $info = $request->all();
+        if( !array_key_exists("title",$info)
+            or !array_key_exists("datefrom")
+            or !array_key_exists("dateto")
+            or !array_key_exists("venue")
+            or !array_key_exists("requested_umpires") )
+        {
+            abort(500,"Internal Server Error");
+        }
         $tournament = new \App\Tournament;
-        $tournament->title = $info['title'];
-        $tournament->datefrom = $info['datefrom'];
-        $tournament->dateto = $info['dateto'];
-        $tournament->venue_id = $info['venue'];
-        $tournament->requested_umpires = $info['requested_umpires'];
-        $tournament->save();
-        return redirect()->route('tournaments')->with('message','tournament created successsfully');
+        $tournament->title = $info["title"];
+        $tournament->datefrom = $info["datefrom"];
+        $tournament->dateto = $info["dateto"];
+        $tournament->venue_id = intval($info["venue"]);
+        $tournament->requested_umpires = intval($info["requested_umpires"]);
+        return $tournament->save()
+            ? redirect()->route("tournaments")->with("message","tournament created successsfully")
+            : redirect()->route("tournaments")->with("error","could not create tournament");
     }
 
     /**
@@ -135,14 +161,14 @@ class TournamentController extends Controller
      *
      * @return string
      */
-    protected function intervalDate( $from, $to )
+    private function intervalDate( $from, $to )
     {
-        $yearfrom = $from->format('Y');
-        $monthfrom = $from->format('m');
-        $dayfrom = $from->format('d');
-        $yearto = $to->format('Y');
-        $monthto = $to->format('m');
-        $dayto = $to->format('d');
+        $yearfrom = $from->format("Y");
+        $monthfrom = $from->format("m");
+        $dayfrom = $from->format("d");
+        $yearto = $to->format("Y");
+        $monthto = $to->format("m");
+        $dayto = $to->format("d");
         $ret = $yearfrom . ". " . $monthfrom . ". " . $dayfrom . " - ";
         if( $yearfrom != $yearto )
             return  $ret . $yearto . ". " . $monthto . ". " . $dayto . ".";
@@ -151,7 +177,7 @@ class TournamentController extends Controller
         else if( $dayfrom != $dayto )
             return $ret . $dayto . ".";
         else
-            return $from->format('Y. m. d.');
+            return $from->format("Y. m. d.");
     }
 
     /**
@@ -163,22 +189,26 @@ class TournamentController extends Controller
     {
         $info = $request->all();
 
-        if( array_key_exists('season', $info ) )
+        if( array_key_exists("season", $info ) )
         {
-            $season = intval($info['season']);
+            $season = intval($info["season"]);
         }
         else
         {
-            $season = ( ( intval(date('m')) >= 9 ) ? intval(date('Y')) : intval(date('Y') - 1 ) );
+            $season = ( ( intval(date("m")) >= 9 ) ? intval(date("Y")) : intval(date("Y") - 1 ) );
         }
 
         $filtered = ( $id != 0 );
 
-        $tournaments = \App\Tournament::with(['umpireApplications.user','refereeApplications.user'])
-            ->where('datefrom','>=',strval($season).'-09-01')
-            ->where('dateto','<=',strval($season+1).'-08-31')
+        $tournaments = \App\Tournament::with(["umpireApplications.user","refereeApplications.user"])
+            ->where("datefrom",">=",strval($season)."-09-01")
+            ->where("dateto","<=",strval($season+1)."-08-31")
             ->get()
-            ->sortBy('datefrom');
+            ->sortBy("datefrom");
+        if( is_null($tournaments) )
+        {
+            abort(500,"Internal Server Error");
+        }
         $newTournaments = array();
         $userId = ( $filtered ? $id : \Auth::user()->id );
 
@@ -232,8 +262,8 @@ class TournamentController extends Controller
             $newTournament->title = $tournament->title;
             $newTournament->venue = $tournament->venue;
             $newTournament->requested_umpires = $tournament->requested_umpires;
+            $newTournament->past = ( date("Ymd") > $tournament->datefrom->format("Ymd") );
             $newTournament->umpireApplications = $tournament->umpireApplications;
-            $newTournament->past = ( date('Ymd') > $tournament->datefrom->format('Ymd') );
             if( !is_null($newTournament->umpireApplications) )
             {
                 $newTournament->umpireApplications = $newTournament->umpireApplications->sort();
@@ -252,7 +282,7 @@ class TournamentController extends Controller
         $user->possible_referee = (\Auth::user()->referee_level > 1);
         $user->possible_umpire = (\Auth::user()->umpire_level > 1);
 
-        return view('tournament.calendar',[ "tournaments" => $newTournaments,
+        return view("tournament.calendar",[ "tournaments" => $newTournaments,
                                             "user" => $user,
                                             "filtered" => $filtered,
                                             "season" => $season]);
