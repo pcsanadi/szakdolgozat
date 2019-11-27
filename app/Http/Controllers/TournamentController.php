@@ -24,7 +24,8 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournaments = \App\Tournament::withTrashed()->get()->sortBy("datefrom");
+        $tournaments = \App\Tournament::withTrashed()
+            ->where("dateto",">=",date('Y-m-d'))->get()->sortBy("datefrom");
 
         return view('tournament.list', [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
