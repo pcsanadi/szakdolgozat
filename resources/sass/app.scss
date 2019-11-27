@@ -95,13 +95,13 @@
 }
 
 .yjrb29-application-group {
-    @extend .col-3;
+    @extend .col;
     @extend .font-weight-bold;
     font-size: 120%;
 }
 
 .yjrb29-application-name {
-    @extend .col-2;
+    @extend .col-3;
 }
 
 .yjrb29-application-row {

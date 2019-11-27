@@ -19,9 +19,7 @@
     @csrf
     <div class="yjrb29-application-row">
         <div class="yjrb29-application-spacer"></div>
-        <div class="yjrb29-application-group">
-            <label for="referee_applications">{{ __('Referee applications') }}</label>
-        </div>
+        <div class="yjrb29-application-group">{{ __('Referee applications') }}</div>
         <div class="col-6">
             @if(!count($refereeApplications))
                 <input type="text" readonly class="form-control-plaintext" id="referee_applications"
@@ -34,12 +32,7 @@
         <div class="yjrb29-application-row">
             <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
-            <div class="col-1">
-                <label for="referee_application_processed_{{$application->id}}">
-                    {{ __('Processed') }}
-                </label>
-            </div>
-            <div class="col-1">
+            <div class="col-2">
                 <input  id="referee_application_processed_{{$application->id}}"
                         name="referee_application_processed_{{$application->id}}"
                         value="referee_application_processed_{{$application->id}}"
@@ -50,17 +43,15 @@
                         onclick="document.getElementById('referee_application_approved_{{$application->id}}').disabled=this.checked;
                                     document.getElementById('referee_application_processed_{{$application->id}}_value').value=(this.checked?'1':'0');"
                 />
+                <label for="referee_application_processed_{{$application->id}}">
+                    {{ __('Processed') }}
+                </label>
                 <input  id="referee_application_processed_{{$application->id}}_value"
                         name="referee_application_processed_{{$application->id}}_value"
                         value="{{$application->processed ? '1' : '0'}}"
                         type="hidden"/>
             </div>
-            <div class="col-1">
-                <label for="referee_application_approved_{{$application->id}}">
-                    {{ __('Approved') }}
-                </label>
-            </div>
-            <div class="col-1">
+            <div class="col-2">
                 <input  id="referee_application_approved_{{$application->id}}"
                         name="referee_application_approved_{{$application->id}}"
                         value="referee_application_approved_{{$application->id}}"
@@ -73,6 +64,9 @@
                         @endif
                         onclick="document.getElementById('referee_application_approved_{{$application->id}}_value').value=(this.checked?'1':'0');"
                 />
+                <label for="referee_application_approved_{{$application->id}}">
+                    {{ __('Approved') }}
+                </label>
                 <input  id="referee_application_approved_{{$application->id}}_value"
                         name="referee_application_approved_{{$application->id}}_value"
                         value="{{$application->approved ? '1' : '0'}}"
@@ -82,9 +76,7 @@
     @endforeach
     <div class="yjrb29-application-row">
         <div class="yjrb29-application-spacer"></div>
-        <div class="yjrb29-application-group">
-            <label for="referee_applications">{{ __('Umpire applications') }}</label>
-        </div>
+        <div class="yjrb29-application-group">{{ __('Umpire applications') }}</div>
         <div class="col-6">
             @if(!count($umpireApplications))
                 <input type="text" readonly class="form-control-plaintext" id="referee_applications"
@@ -97,12 +89,7 @@
         <div class="yjrb29-application-row">
             <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
-            <div class="col-1">
-                <label for="umpire_application_processed_{{$application->id}}">
-                    {{ __('Processed') }}
-                </label>
-            </div>
-            <div class="col-1">
+            <div class="col-2">
                 <input  id="umpire_application_processed_{{$application->id}}"
                         name="umpire_application_processed_{{$application->id}}"
                         value="umpire_application_processed_{{$application->id}}"
@@ -113,17 +100,15 @@
                         onclick="document.getElementById('umpire_application_approved_{{$application->id}}').disabled=this.checked;
                                     document.getElementById('umpire_application_processed_{{$application->id}}_value').value=(this.checked?'1':'0');"
                 />
+                <label for="umpire_application_processed_{{$application->id}}">
+                    {{ __('Processed') }}
+                </label>
                 <input  id="umpire_application_processed_{{$application->id}}_value"
                         name="umpire_application_processed_{{$application->id}}_value"
                         value="{{$application->processed ? '1' : '0'}}"
                         type="hidden"/>
             </div>
-            <div class="col-1">
-                <label for="umpire_application_approved_{{$application->id}}">
-                    {{ __('Approved') }}
-                </label>
-            </div>
-            <div class="col-1">
+            <div class="col-2">
                 <input  id="umpire_application_approved_{{$application->id}}"
                         name="umpire_application_approved_{{$application->id}}"
                         value="umpire_application_approved_{{$application->id}}"
@@ -136,6 +121,9 @@
                         @endif
                         onclick="document.getElementById('umpire_application_approved_{{$application->id}}_value').value=(this.checked?'1':'0')"
                 />
+                <label for="umpire_application_approved_{{$application->id}}">
+                    {{ __('Approved') }}
+                </label>
                 <input  id="umpire_application_approved_{{$application->id}}_value"
                         name="umpire_application_approved_{{$application->id}}_value"
                         value="{{$application->approved ? '1' : '0'}}"

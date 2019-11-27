@@ -2160,6 +2160,7 @@ pre code {
 }
 
 .no-gutters > .col,
+.no-gutters > .yjrb29-application-group,
 .no-gutters > .yjrb29-col-show-deleted,
 .no-gutters > [class*=col-] {
   padding-right: 0;
@@ -2223,6 +2224,7 @@ pre code {
 .col-sm-2,
 .col-sm-1,
 .col,
+.yjrb29-application-group,
 .yjrb29-col-show-deleted,
 .col-auto,
 .col-12,
@@ -2237,12 +2239,11 @@ pre code {
 .col-4,
 .yjrb29-form-content,
 .col-3,
-.yjrb29-application-group,
+.yjrb29-application-name,
 .yjrb29-application-spacer,
 .yjrb29-form-left-spacer,
 .col-2,
 .yjrb29-show-page-button,
-.yjrb29-application-name,
 .yjrb29-form-label,
 .col-1 {
   position: relative;
@@ -2252,6 +2253,7 @@ pre code {
 }
 
 .col,
+.yjrb29-application-group,
 .yjrb29-col-show-deleted {
   flex-basis: 0;
   -webkit-box-flex: 1;
@@ -2274,7 +2276,6 @@ pre code {
 
 .col-2,
 .yjrb29-show-page-button,
-.yjrb29-application-name,
 .yjrb29-form-label {
   -webkit-box-flex: 0;
           flex: 0 0 16.6666666667%;
@@ -2282,7 +2283,7 @@ pre code {
 }
 
 .col-3,
-.yjrb29-application-group,
+.yjrb29-application-name,
 .yjrb29-application-spacer,
 .yjrb29-form-left-spacer {
   -webkit-box-flex: 0;
@@ -3821,6 +3822,7 @@ textarea.form-control {
 }
 
 .form-row > .col,
+.form-row > .yjrb29-application-group,
 .form-row > .yjrb29-col-show-deleted,
 .form-row > [class*=col-] {
   padding-right: 5px;
