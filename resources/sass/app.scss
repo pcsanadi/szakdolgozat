@@ -48,19 +48,16 @@
 .yjrb29-btn-yellow {
     @extend .btn;
     @extend .btn-outline-warning;
-    @extend .text-center;
 }
 
 .yjrb29-btn-red {
     @extend .btn;
     @extend .btn-outline-danger;
-    @extend .text-center;
 }
 
 .yjrb29-btn-green {
     @extend .btn;
     @extend .btn-outline-success;
-    @extend .text-center;
 }
 
 .yjrb29-table-header-row {
@@ -85,6 +82,11 @@
     @extend .py-3;
 }
 
+.yjrb29-table-cell-center {
+    @extend .yjrb29-table-cell;
+    text-align: center;
+}
+
 .yjrb29-form-left-spacer {
     @extend .col-3;
 }
@@ -99,12 +101,33 @@
     @extend .col-2;
 }
 
+.yjrb29-application-placeholder {
+    @extend .col-3;
+}
+
+.yjrb29-application-group {
+    @extend .col-3;
+    @extend .font-weight-bold;
+    font-size: 120%;
+}
+
+.yjrb29-application-name {
+    @extend .col-2;
+}
+
+.yjrb29-application-row {
+    @extend .form-group;
+    @extend .row;
+    @extend .pt-3;
+}
+
 .yjrb29-form-content {
     @extend .col-4;
 }
 
 .yjrb29-show-page-button {
     @extend .col-2;
+    @extend .text-center;
 }
 
 .yjrb29-big {

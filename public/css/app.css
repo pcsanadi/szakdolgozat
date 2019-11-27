@@ -2143,6 +2143,7 @@ pre code {
 }
 
 .row,
+.yjrb29-application-row,
 .yjrb29-table-row,
 .yjrb29-table-header-row,
 .yjrb29-top-row {
@@ -2238,9 +2239,12 @@ pre code {
 .col-4,
 .yjrb29-form-content,
 .col-3,
+.yjrb29-application-group,
+.yjrb29-application-placeholder,
 .yjrb29-form-left-spacer,
 .col-2,
 .yjrb29-show-page-button,
+.yjrb29-application-name,
 .yjrb29-form-label,
 .col-1 {
   position: relative;
@@ -2273,6 +2277,7 @@ pre code {
 
 .col-2,
 .yjrb29-show-page-button,
+.yjrb29-application-name,
 .yjrb29-form-label {
   -webkit-box-flex: 0;
           flex: 0 0 16.6666666667%;
@@ -2280,6 +2285,8 @@ pre code {
 }
 
 .col-3,
+.yjrb29-application-group,
+.yjrb29-application-placeholder,
 .yjrb29-form-left-spacer {
   -webkit-box-flex: 0;
           flex: 0 0 25%;
@@ -3798,7 +3805,8 @@ textarea.form-control {
   height: auto;
 }
 
-.form-group {
+.form-group,
+.yjrb29-application-row {
   margin-bottom: 1rem;
 }
 
@@ -4170,7 +4178,8 @@ textarea.form-control.is-invalid {
     margin-bottom: 0;
   }
 
-  .form-inline .form-group {
+  .form-inline .form-group,
+  .form-inline .yjrb29-application-row {
     display: -webkit-box;
     display: flex;
     -webkit-box-flex: 0;
@@ -10686,8 +10695,10 @@ button.bg-dark:focus {
 }
 
 .pt-3,
+.yjrb29-application-row,
 .py-3,
 .yjrb29-table-cell,
+.yjrb29-table-cell-center,
 .yjrb29-table-header,
 .yjrb29-col-create-new {
   padding-top: 1rem !important;
@@ -10701,6 +10712,7 @@ button.bg-dark:focus {
 .pb-3,
 .py-3,
 .yjrb29-table-cell,
+.yjrb29-table-cell-center,
 .yjrb29-table-header,
 .yjrb29-col-create-new {
   padding-bottom: 1rem !important;
@@ -12672,10 +12684,8 @@ button.bg-dark:focus {
 }
 
 .text-center,
+.yjrb29-show-page-button,
 .yjrb29-table-header,
-.yjrb29-btn-green,
-.yjrb29-btn-red,
-.yjrb29-btn-yellow,
 .yjrb29-page-title,
 .yjrb29-page-title-bottom-padding {
   text-align: center !important;
@@ -12761,7 +12771,8 @@ button.bg-dark:focus {
   font-weight: 400 !important;
 }
 
-.font-weight-bold {
+.font-weight-bold,
+.yjrb29-application-group {
   font-weight: 700 !important;
 }
 
@@ -13016,8 +13027,16 @@ a.text-dark:focus {
   font-weight: bold;
 }
 
+.yjrb29-table-cell-center {
+  text-align: center;
+}
+
 .yjrb29-form-check {
   white-space: nowrap;
+}
+
+.yjrb29-application-group {
+  font-size: 120%;
 }
 
 .yjrb29-big,
