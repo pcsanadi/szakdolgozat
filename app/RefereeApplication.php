@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RefereeApplication extends Model
 {
-/**
+use SoftDeletes;
+
+    /**
      * The table associated with the model
      *
      * @var string
@@ -35,6 +38,16 @@ class RefereeApplication extends Model
     public $timestamps = true;
 
     /**
+     * The attributes that should be cast to native types
+     *
+     * @var array
+     */
+    protected $cast = [
+        "processed" => "boolean",
+        "approved" => "boolean"
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
@@ -42,6 +55,29 @@ class RefereeApplication extends Model
     protected $with = [
         "user",
         "tournament.venue"
+    ];
+
+    /**
+     * The attributes that are mass assignable
+     *
+     * @var array
+     */
+    protected $fillable = [
+        "umpire_id",
+        "tournament_id",
+        "processed",
+        "approved"
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "deleted_at"
     ];
 
     /**

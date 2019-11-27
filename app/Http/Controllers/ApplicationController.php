@@ -13,7 +13,7 @@ class ApplicationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware("auth");
     }
 
     /**
@@ -21,26 +21,7 @@ class ApplicationController extends Controller
      */
     public function addUmpire($id)
     {
-        $userId = \Auth::user()->id;
-        $tournament = \App\Tournament::find($id);
-        if( null == $tournament )
-        {
-            return redirect()->route("calendar")->with("error","tournament not found");
-        }
-        if( !$tournament->isFuture() )
-        {
-            abort(403,"Application to a tournament in the past.");
-        }
-        if( \App\UmpireApplication::where(['tournament_id'=>$id,'umpire_id'=>$userId])->count() > 0 )
-        {
-            return redirect()->route('calendar')->with('error','application already in database');
-        }
-        $application = new \App\UmpireApplication;
-        $application->umpire_id = $userId;
-        $application->tournament_id = $id;
-        $application->approved = null;
-        $application->save();
-        return redirect()->route('calendar');
+        return $this->add($id,"umpire");
     }
 
     /**
@@ -48,17 +29,7 @@ class ApplicationController extends Controller
      */
     public function removeUmpire(Request $request, $id)
     {
-        $filtered = $request->input('filtered');
-        $userId = \Auth::user()->id;
-        $application = \App\UmpireApplication::where(['tournament_id'=>$id,'umpire_id'=>$userId])->first();
-        if( is_null($application) )
-        {
-            return $filtered
-                ? redirect()->route('calendar',$userId)->with('error','application not found')
-                : redirect()->route('calendar')->with('error','application not found');
-        }
-        $application->delete();
-        return $filtered ? redirect()->route('calendar',$userId) : redirect()->route('calendar');
+        return $this->remove($request,$id,"umpire");
     }
 
     /**
@@ -66,25 +37,7 @@ class ApplicationController extends Controller
      */
     public function addReferee($id)
     {
-        $userId = \Auth::user()->id;
-        if( null == $tournament )
-        {
-            return redirect()->route("calendar")->with("error","tournament not found");
-        }
-        if( !$tournament->isFuture() )
-        {
-            abort(403,"Application to a tournament in the past.");
-        }
-        if( \App\RefereeApplication::where(['tournament_id'=>$id,'referee_id'=>$userId])->count() > 0 )
-        {
-            return redirect()->route('calendar')->with('error','application already in database');
-        }
-        $application = new \App\RefereeApplication;
-        $application->referee_id = $userId;
-        $application->tournament_id = $id;
-        $application->approved = null;
-        $application->save();
-        return redirect()->route('calendar');
+        return $this->add($id,"referee");
     }
 
     /**
@@ -92,17 +45,7 @@ class ApplicationController extends Controller
      */
     public function removeReferee(Request $request, $id)
     {
-        $filtered = $request->input('filtered');
-        $userId = \Auth::user()->id;
-        $application = \App\RefereeApplication::where(['tournament_id'=>$id,'referee_id'=>$userId])->first();
-        if( is_null($application) )
-        {
-            return $filtered
-                ? redirect()->route('calendar',$userId)->with('error','application not found')
-                : redirect()->route('calendar')->with('error','application not found');
-        }
-        $application->delete();
-        return $filtered ? redirect()->route('calendar',$userId) : redirect()->route('calendar');
+        return $this->remove($request,$id,"referee");
     }
 
     /**
@@ -110,9 +53,13 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        $umpireApplications = \App\UmpireApplication::where('tournament_id',$id)->get();
+        $umpireApplications = \App\UmpireApplication::where("tournament_id",$id)->get();
         $refereeApplications = \App\RefereeApplication::where('tournament_id',$id)->get();
         $tournament = \App\Tournament::find($id);
+        if( is_null($umpireApplications) or is_null($refereeApplications) or is_null($tournament) )
+        {
+            abort(500,"Internal Server Error");
+        }
 
         return view("tournament.applications",[ "umpireApplications" => $umpireApplications,
                                                 "refereeApplications" => $refereeApplications,
@@ -126,15 +73,22 @@ class ApplicationController extends Controller
     {
         $info = $request->all();
         // loop through all the applications of the tournament and check if we got information of them
-        $umpireApplications = \App\UmpireApplication::where('tournament_id',$id)->get();
-        $refereeApplications = \App\RefereeApplication::where('tournament_id',$id)->get();
+        $umpireApplications = \App\UmpireApplication::where("tournament_id",$id)->get();
+        $refereeApplications = \App\RefereeApplication::where("tournament_id",$id)->get();
+        if( is_null($umpireApplications) or is_null($refereeApplications) )
+        {
+            abort(500,"Internal Server Error");
+        }
         foreach($umpireApplications as $application)
         {
             $processed_name = "umpire_application_processed_" . strval($application->id) . "_value";
             $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
             $approved_name = "umpire_application_approved_" . strval($application->id) . "_value";
             $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
-            $application->save();
+            if( !$application->save() )
+            {
+                abort(500,"Internal Server Error");
+            }
         }
         foreach($refereeApplications as $application)
         {
@@ -142,8 +96,90 @@ class ApplicationController extends Controller
             $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
             $approved_name = "referee_application_approved_" . strval($application->id) . "_value";
             $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
-            $application->save();
+            if( !$application->save() )
+            {
+                abort(500,"Internal Server Error");
+            }
         }
-        return redirect()->route('tournaments');
+        return redirect()->route("tournaments");
+    }
+
+    /**
+     * Remove application from database
+     */
+    private function remove(Request $request, $id, $type)
+    {
+        $filtered = $request->input("filtered");
+        if( is_null($filtered) )
+        {
+            abort(500,"Internal Server Error");
+        }
+        $userId = \Auth::user()->id;
+        switch ($type)
+        {
+            case "referee":
+                $application = \App\RefereeApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
+                break;
+            case "umpire":
+                $application = \App\UmpireApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
+                break;
+            default:
+                abort(500,"Internal Server Error");
+        }
+        $application = \App\UmpireApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
+        if( is_null($application) )
+        {
+            return $filtered
+                ? redirect()->route("calendar",$userId)->with("error","application not found")
+                : redirect()->route("calendar")->with("error","application not found");
+        }
+        $application->delete();
+        return $filtered
+            ? redirect()->route("calendar",$userId)
+            : redirect()->route("calendar");
+    }
+
+    /**
+     * Add application to database
+     */
+    private function add($id,$type)
+    {
+        $userId = \Auth::user()->id;
+        $tournament = \App\Tournament::find($id);
+        if( is_null($tournament) )
+        {
+            return redirect()->route("calendar")->with("error","tournament not found");
+        }
+        if( !$tournament->isFuture() )
+        {
+            abort(403,"Application to a tournament in the past.");
+        }
+        switch ($type)
+        {
+            case "umpire":
+                if( \App\UmpireApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->count() > 0 )
+                {
+                    return redirect()->route("calendar")->with("error","application already in database");
+                }
+                $application = new \App\UmpireApplication;
+                $application->umpire_id = $userId;
+                break;
+            case "referee":
+                if( \App\RefereeApplication::where(["tournament_id"=>$id,"referee_id"=>$userId])->count() > 0 )
+                {
+                    return redirect()->route("calendar")->with("error","application already in database");
+                }
+                $application = new \App\RefereeApplication;
+                $application->referee_id = $userId;
+                break;
+            default:
+                abort(500,"Internal Server Error");
+        }
+        $application->tournament_id = $id;
+        $application->approved = false;
+        $application->processed = false;
+        return $application->save()
+            ? redirect()->route("calendar")
+            : redirect()->route("calendar")->with("error","could not save application");
     }
 }
