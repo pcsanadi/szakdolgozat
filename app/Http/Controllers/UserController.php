@@ -109,13 +109,9 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $user = \App\User::find($id);
-        if( is_null($user) )
-        {
-            return redirect()->route("users")->with("error","user not found");
-        }
-        $user->delete();
-        return redirect()->route("users")->with("showDeleted",$request->input('showDeleted'));
+        return \App\User::destroy($id)
+            ? redirect()->route("users")->with("showDeleted",$request->input("showDeleted"))
+            : redirect()->route("users")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete user"]);
     }
 
     /**
@@ -163,6 +159,6 @@ class UserController extends Controller
 
         return $user->save()
             ? redirect()->route("users")->with("message","user created successsfully")
-            : redirect()->route("users")->with("error","could not save user");
+            : redirect()->route("users")->with("error","could not create user");
     }
 }

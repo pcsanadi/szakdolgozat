@@ -105,13 +105,9 @@ class TournamentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $tournament = \App\Tournament::find($id);
-        if(is_null($tournament))
-        {
-            return redirect()->route("tournaments")->with("error","tournament not found");
-        }
-        $tournament->delete();
-        return redirect()->route("tournaments")->with("showDeleted",$request->input("showDeleted"));
+        return \App\Tournament::destroy($id)
+            ? redirect()->route("tournaments")->with("showDeleted",$request->input("showDeleted"))
+            : redirect()->route("tournaments")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete tournament"]);
     }
 
     /**
