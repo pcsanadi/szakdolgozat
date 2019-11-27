@@ -42,9 +42,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('calendar',Auth::user()->id) }}">{{ __('My applications') }}</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Documents') }}</a>
-                        </li> -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -90,17 +87,23 @@
         @endif
 
         <main class="py-4">
-            @if(session('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{session('error')}}
-                </div>
-            @endif
-            @if(session('message'))
-                <div class="alert alert-success" role="alert">
-                    {{session('message')}}
-                </div>
-            @endif
-            @yield('content')
+            <div class="container">
+                @if(session('error'))
+                    <div class="row justify-content-center">
+                        <div class="col col-auto alert alert-danger" role="alert">
+                            {{session('error')}}
+                        </div>
+                    </div>
+                @endif
+                @if(session('message'))
+                    <div class="row justify-content-center">
+                        <div class="col col-auto alert alert-success" role="alert">
+                            {{session('message')}}
+                        </div>
+                    </div>
+                @endif
+                @yield('content')
+            </div>
         </main>
     </div>
 </body>
