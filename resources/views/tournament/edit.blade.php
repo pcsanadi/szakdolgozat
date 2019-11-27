@@ -81,7 +81,7 @@
         <div class="form-group row">
             <div class="yjrb29-form-left-spacer"></div>
             <div class="yjrb29-form-label">
-                <label for="requested_umpires" class="col-form-label">{{ __('Requested umpires') }}</label>
+                <label for="requested_umpires">{{ __('Requested umpires') }}</label>
             </div>
             <div class="yjrb29-form-content">
                 <input id="requested_umpires" class="form-control" name="requested_umpires" type="number"
