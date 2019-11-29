@@ -11,8 +11,6 @@
 |
 */
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
 Route::view('/','auth.login');
 Route::view('/login','auth.login');
 
@@ -21,33 +19,33 @@ Auth::routes();
 Route::get('/users','UserController@index')->name('users');
 Route::post('/users','Usercontroller@store');
 Route::get('/users/create','Usercontroller@create')->name('createUser');
-Route::get('/users/{id}','UserController@show')->where('id','[0-9]+')->name('showUser');
-Route::put('/users/{id}','UserController@save')->where('id','[0-9]+');
-Route::delete('/users/{id}','UserController@destroy')->where('id','[0-9]+');
-Route::put('/users/{id}/restore','UserController@restore')->where('id','[0-9]+')->name('restoreUser');
+Route::get('/users/{id}','UserController@show')->name('showUser');
+Route::put('/users/{id}','UserController@save');
+Route::delete('/users/{id}','UserController@destroy');
+Route::put('/users/{id}/restore','UserController@restore')->name('restoreUser');
 
 Route::get('/venues','VenueController@index')->name('venues');
 Route::post('/venues','VenueController@store');
 Route::get('/venues/create','VenueController@create')->name('createVenue');
-Route::get('/venues/{id}','VenueController@show')->where('id','[0-9]+')->name('showVenue');
-Route::put('/venues/{id}','VenueController@save')->where('id','[0-9]+');
-Route::delete('/venues/{id}','VenueController@destroy')->where('id','[0-9]+');
-Route::put('/venues/{id}/restore','VenueController@restore')->where('id','[0-9]+')->name('restoreVenue');
+Route::get('/venues/{id}','VenueController@show')->name('showVenue');
+Route::put('/venues/{id}','VenueController@save');
+Route::delete('/venues/{id}','VenueController@destroy');
+Route::put('/venues/{id}/restore','VenueController@restore')->name('restoreVenue');
 
 Route::get('/tournaments','TournamentController@index')->name('tournaments');
 Route::post('/tournaments','TournamentController@store');
 
 Route::get('/tournaments/create','TournamentController@create')->name('createTournament');
-Route::get('/tournaments/{id}','TournamentController@show')->where('id','[0-9]+')->name('showTournament');
-Route::put('/tournaments/{id}','TournamentController@save')->where('id','[0-9]+');
-Route::delete('/tournaments/{id}','TournamentController@destroy')->where('id','[0-9]+');
-Route::put('/tournaments/{id}/restore','TournamentController@restore')->where('id','[0-9]+')->name('restoreTournament');
+Route::get('/tournaments/{id}','TournamentController@show')->name('showTournament');
+Route::put('/tournaments/{id}','TournamentController@save');
+Route::delete('/tournaments/{id}','TournamentController@destroy');
+Route::put('/tournaments/{id}/restore','TournamentController@restore')->name('restoreTournament');
 Route::match(['get','post'],'/tournament-calendar/{id?}','TournamentController@showCalendar')->name('calendar');
 
-Route::put('/umpire/{id}','ApplicationController@addUmpire')->where('id','[0-9]+')->name('umpire');
-Route::delete('/umpire/{id}','ApplicationController@removeUmpire')->where('id','[0-9]+');
-Route::put('/referee/{id}','ApplicationController@addReferee')->where('id','[0-9]+')->name('referee');
-Route::delete('/referee/{id}','ApplicationController@removeReferee')->where('id','[0-9]+');
+Route::put('/umpire/{id}','ApplicationController@addUmpire')->name('umpire');
+Route::delete('/umpire/{id}','ApplicationController@removeUmpire');
+Route::put('/referee/{id}','ApplicationController@addReferee')->name('referee');
+Route::delete('/referee/{id}','ApplicationController@removeReferee');
 
-Route::get('/applications/{id}','ApplicationController@show')->where('id','[0-9]+')->name('applications');
-Route::put('/applications/{id}','ApplicationController@save')->where('id','[0-9]+')->name('saveApplications');
+Route::get('/applications/{id}','ApplicationController@show')->name('applications');
+Route::put('/applications/{id}','ApplicationController@save')->name('saveApplications');
