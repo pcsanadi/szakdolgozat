@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center yjrb29-page-title-bottom-padding">
+<div class="row yjrb29-page-title-bottom-padding">
     <div class="col-auto" title="
 {{ __('Start date') }}: {{ $tournament->datefrom->format('Y. m. d.') }}
 {{ __('End date') }}: {{ $tournament->dateto->format('Y. m. d.') }}
@@ -18,9 +18,8 @@
     @method('PUT')
     @csrf
     <div class="yjrb29-application-row">
-        <div class="yjrb29-application-spacer"></div>
         <div class="yjrb29-application-group">{{ __('Referee applications') }}</div>
-        <div class="col-6">
+        <div class="col-md-6">
             @if(!count($refereeApplications))
                 <input type="text" readonly class="form-control-plaintext" id="referee_applications"
                         value="{{ __('There are no referee applications') }}"
@@ -30,9 +29,8 @@
     </div>
     @foreach($refereeApplications as $application)
         <div class="yjrb29-application-row">
-            <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
-            <div class="col-2">
+            <div class="col-md-2">
                 <input  id="referee_application_processed_{{$application->id}}"
                         name="referee_application_processed_{{$application->id}}"
                         value="referee_application_processed_{{$application->id}}"
@@ -51,7 +49,7 @@
                         value="{{$application->processed ? '1' : '0'}}"
                         type="hidden"/>
             </div>
-            <div class="col-2">
+            <div class="col-md-2">
                 <input  id="referee_application_approved_{{$application->id}}"
                         name="referee_application_approved_{{$application->id}}"
                         value="referee_application_approved_{{$application->id}}"
@@ -75,7 +73,6 @@
         </div>
     @endforeach
     <div class="yjrb29-application-row">
-        <div class="yjrb29-application-spacer"></div>
         <div class="yjrb29-application-group">{{ __('Umpire applications') }}</div>
         <div class="col-6">
             @if(!count($umpireApplications))
@@ -87,7 +84,6 @@
     </div>
     @foreach($umpireApplications as $application)
         <div class="yjrb29-application-row">
-            <div class="yjrb29-application-spacer"></div>
             <div class="yjrb29-application-name">{{ $application->user->name }}</div>
             <div class="col-2">
                 <input  id="umpire_application_processed_{{$application->id}}"
@@ -131,9 +127,8 @@
             </div>
         </div>
     @endforeach
-    <div class="form-group row">
-        <div class="yjrb29-form-left-spacer"></div>
-        <div class="yjrb29-show-page-button">
+    <div class="yjrb29-buttons-row">
+        <div class="yjrb29-show-page-button yjrb29-form-first-button">
             @if(count($refereeApplications) + count($umpireApplications))
                 <input type="reset" class="yjrb29-btn-blue" value="{{ __('Reset') }}"/>
             @endif

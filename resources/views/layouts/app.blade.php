@@ -85,19 +85,18 @@
             </div>
         </nav>
         @endif
-
         <main class="py-4">
             <div class="container">
                 @if(session('error'))
                     <div class="row justify-content-center">
-                        <div class="col col-auto alert alert-danger" role="alert">
+                        <div class="col col-md-auto alert alert-danger" role="alert">
                             {{ __(session('error')) }}
                         </div>
                     </div>
                 @endif
                 @if(session('message'))
                     <div class="row justify-content-center">
-                        <div class="col col-auto alert alert-success" role="alert">
+                        <div class="col col-md-auto alert alert-success" role="alert">
                             {{ __(session('message')) }}
                         </div>
                     </div>

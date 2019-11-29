@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center yjrb29-page-title-bottom-padding">
-    <div class="col-auto">
+<div class="yjrb29-page-title-bottom-padding">
+    <div class="col-md-auto">
         @if($filtered)
             {{ __('My applications') }}
         @else
@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-1">
+    <div class="col-md-1 text-center">
         <a href="#" onclick="document.getElementById('prev_form').submit()">prev</a>
         <form method="POST" id="prev_form"
             @if($filtered)
@@ -30,8 +30,8 @@
             <input type="hidden" name="season" value="{{ intval($season) - 1 }}"/>
         </form>
     </div>
-    <div class="col-1">{{ $season }}</div>
-    <div class="col-1">
+    <div class="col-md-2 text-center">{{ $season }}-{{ intval($season) + 1 }}</div>
+    <div class="col-md-1 text-center">
         <a href="#" onclick="document.getElementById('next_form').submit()">next</a>
         <form method="POST" id="next_form"
             @if($filtered)
@@ -46,32 +46,37 @@
     </div>
 </div>
 @if(empty($tournaments))
+    <div class="yjrb29-empty-list justify-content-center row text-center pt-md-4" style="font-size: 120%;">
+        <div class="col">
+            {{ __('No tournament to show') }}
+        </div>
+    </div>
 @else
     <div class="yjrb29-top-row">
-        <div class="col-2 yjrb29-table-header">{{ __('Date') }}</div>
-        <div class="col-3 yjrb29-table-header">{{ __('Title') }}</div>
-        <div class="col-2 yjrb29-table-header">{{ __('Location') }}</div>
-        <div class="col-1 yjrb29-table-header">{{ __('Requested umpires') }}</div>
-        <div class="col-1 yjrb29-table-header">{{ __('Umpire applications') }}</div>
+        <div class="yjrb29-table-header-2">{{ __('Date') }}</div>
+        <div class="yjrb29-table-header-3">{{ __('Title') }}</div>
+        <div class="yjrb29-table-header-2">{{ __('Location') }}</div>
+        <div class="yjrb29-table-header-1">{{ __('Requested umpires') }}</div>
+        <div class="yjrb29-table-header-1">{{ __('Umpire applications') }}</div>
         @if($user->possible_referee)
-            <div class="col yjrb29-table-header">D</div>
+            <div class="yjrb29-table-header">{{ __('Referee') }}</div>
         @endif
         @if($user->possible_umpire)
-            <div class="col yjrb29-table-header">Jv</div>
+            <div class="yjrb29-table-header">{{ __('Umpire') }}</div>
         @endif
     </div>
     @foreach($tournaments as $tournament)
         <div class="yjrb29-table-row">
-            <div class="col-2 yjrb29-table-cell">{{ $tournament->date }}</div>
-            <div class="col-3 yjrb29-table-cell">{{ $tournament->title }}</div>
-            <div class="col-2 yjrb29-table-cell text-center"
+            <div class="yjrb29-table-cell-2">{{ $tournament->date }}</div>
+            <div class="yjrb29-table-cell-3">{{ $tournament->title }}</div>
+            <div class="yjrb29-table-cell-2 text-center"
                 title="
 {{ $tournament->venue->name }}
 ({{$tournament->venue->address}})">
                 {{ $tournament->venue->short_name }}
             </div>
-            <div class="col-1 yjrb29-table-cell text-center">{{ $tournament->requested_umpires }}</div>
-            <div class="col-1 yjrb29-table-cell text-center"
+            <div class="yjrb29-table-cell-1 text-center">{{ $tournament->requested_umpires }}</div>
+            <div class="yjrb29-table-cell-1 text-center"
                 @if($user->admin)
                     title="
 @foreach($tournament->umpireApplications as $application)
@@ -82,7 +87,7 @@
             >{{ $tournament->umpireApplications->count() }}
             </div>
             @if($user->possible_referee)
-                <div class="col yjrb29-table-cell text-center">
+                <div class="yjrb29-table-cell text-center">
                     @if(!$tournament->past)
                         @if($tournament->appliedAsReferee)
                             @if($tournament->refereeApplicationProcessed)
@@ -118,7 +123,7 @@
                 </div>
             @endif
             @if($user->possible_umpire)
-                <div class="col yjrb29-table-cell text-center">
+                <div class="yjrb29-table-cell text-center">
                     @if(!$tournament->past)
                         @if($tournament->appliedAsUmpire)
                             @if($tournament->umpireApplicationProcessed)

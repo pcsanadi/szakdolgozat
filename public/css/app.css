@@ -2143,10 +2143,14 @@ pre code {
 }
 
 .row,
+.yjrb29-empty-list,
+.yjrb29-buttons-row,
 .yjrb29-application-row,
 .yjrb29-table-row,
 .yjrb29-table-header-row,
-.yjrb29-top-row {
+.yjrb29-top-row,
+.yjrb29-page-title,
+.yjrb29-page-title-bottom-padding {
   display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
@@ -2161,6 +2165,17 @@ pre code {
 
 .no-gutters > .col,
 .no-gutters > .yjrb29-application-group,
+.no-gutters > .yjrb29-table-cell,
+.no-gutters > .yjrb29-table-cell-3,
+.no-gutters > .yjrb29-table-cell-center,
+.no-gutters > .yjrb29-table-cell-2,
+.no-gutters > .yjrb29-table-cell-center-2,
+.no-gutters > .yjrb29-table-cell-1,
+.no-gutters > .yjrb29-table-cell-center-1,
+.no-gutters > .yjrb29-table-header,
+.no-gutters > .yjrb29-table-header-3,
+.no-gutters > .yjrb29-table-header-2,
+.no-gutters > .yjrb29-table-header-1,
 .no-gutters > .yjrb29-col-show-deleted,
 .no-gutters > [class*=col-] {
   padding-right: 0;
@@ -2202,13 +2217,27 @@ pre code {
 .col-md-10,
 .col-md-9,
 .col-md-8,
+.yjrb29-top-row-spacer,
 .col-md-7,
 .col-md-6,
 .col-md-5,
 .col-md-4,
+.yjrb29-form-content,
 .col-md-3,
+.yjrb29-application-name,
+.yjrb29-table-cell-3,
+.yjrb29-table-cell-center,
+.yjrb29-table-header-3,
 .col-md-2,
+.yjrb29-show-page-button,
+.yjrb29-form-label,
+.yjrb29-table-cell-2,
+.yjrb29-table-cell-center-2,
+.yjrb29-table-header-2,
 .col-md-1,
+.yjrb29-table-cell-1,
+.yjrb29-table-cell-center-1,
+.yjrb29-table-header-1,
 .col-sm,
 .col-sm-auto,
 .col-sm-12,
@@ -2225,6 +2254,8 @@ pre code {
 .col-sm-1,
 .col,
 .yjrb29-application-group,
+.yjrb29-table-cell,
+.yjrb29-table-header,
 .yjrb29-col-show-deleted,
 .col-auto,
 .col-12,
@@ -2232,19 +2263,12 @@ pre code {
 .col-10,
 .col-9,
 .col-8,
-.yjrb29-top-row-spacer,
 .col-7,
 .col-6,
 .col-5,
 .col-4,
-.yjrb29-form-content,
 .col-3,
-.yjrb29-application-name,
-.yjrb29-application-spacer,
-.yjrb29-form-left-spacer,
 .col-2,
-.yjrb29-show-page-button,
-.yjrb29-form-label,
 .col-1 {
   position: relative;
   width: 100%;
@@ -2254,6 +2278,17 @@ pre code {
 
 .col,
 .yjrb29-application-group,
+.yjrb29-table-cell,
+.yjrb29-table-cell-3,
+.yjrb29-table-cell-center,
+.yjrb29-table-cell-2,
+.yjrb29-table-cell-center-2,
+.yjrb29-table-cell-1,
+.yjrb29-table-cell-center-1,
+.yjrb29-table-header,
+.yjrb29-table-header-3,
+.yjrb29-table-header-2,
+.yjrb29-table-header-1,
 .yjrb29-col-show-deleted {
   flex-basis: 0;
   -webkit-box-flex: 1;
@@ -2274,25 +2309,19 @@ pre code {
   max-width: 8.3333333333%;
 }
 
-.col-2,
-.yjrb29-show-page-button,
-.yjrb29-form-label {
+.col-2 {
   -webkit-box-flex: 0;
           flex: 0 0 16.6666666667%;
   max-width: 16.6666666667%;
 }
 
-.col-3,
-.yjrb29-application-name,
-.yjrb29-application-spacer,
-.yjrb29-form-left-spacer {
+.col-3 {
   -webkit-box-flex: 0;
           flex: 0 0 25%;
   max-width: 25%;
 }
 
-.col-4,
-.yjrb29-form-content {
+.col-4 {
   -webkit-box-flex: 0;
           flex: 0 0 33.3333333333%;
   max-width: 33.3333333333%;
@@ -2316,8 +2345,7 @@ pre code {
   max-width: 58.3333333333%;
 }
 
-.col-8,
-.yjrb29-top-row-spacer {
+.col-8 {
   -webkit-box-flex: 0;
           flex: 0 0 66.6666666667%;
   max-width: 66.6666666667%;
@@ -2692,25 +2720,38 @@ pre code {
     max-width: 100%;
   }
 
-  .col-md-1 {
+  .col-md-1,
+  .yjrb29-table-cell-1,
+  .yjrb29-table-cell-center-1,
+  .yjrb29-table-header-1 {
     -webkit-box-flex: 0;
             flex: 0 0 8.3333333333%;
     max-width: 8.3333333333%;
   }
 
-  .col-md-2 {
+  .col-md-2,
+  .yjrb29-show-page-button,
+  .yjrb29-form-label,
+  .yjrb29-table-cell-2,
+  .yjrb29-table-cell-center-2,
+  .yjrb29-table-header-2 {
     -webkit-box-flex: 0;
             flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
 
-  .col-md-3 {
+  .col-md-3,
+  .yjrb29-application-name,
+  .yjrb29-table-cell-3,
+  .yjrb29-table-cell-center,
+  .yjrb29-table-header-3 {
     -webkit-box-flex: 0;
             flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .col-md-4 {
+  .col-md-4,
+  .yjrb29-form-content {
     -webkit-box-flex: 0;
             flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
@@ -2734,7 +2775,8 @@ pre code {
     max-width: 58.3333333333%;
   }
 
-  .col-md-8 {
+  .col-md-8,
+  .yjrb29-top-row-spacer {
     -webkit-box-flex: 0;
             flex: 0 0 66.6666666667%;
     max-width: 66.6666666667%;
@@ -2851,7 +2893,11 @@ pre code {
     margin-left: 16.6666666667%;
   }
 
-  .offset-md-3 {
+  .offset-md-3,
+  .yjrb29-form-first-button,
+  .yjrb29-application-name,
+  .yjrb29-application-group,
+  .yjrb29-form-label {
     margin-left: 25%;
   }
 
@@ -3823,6 +3869,17 @@ textarea.form-control {
 
 .form-row > .col,
 .form-row > .yjrb29-application-group,
+.form-row > .yjrb29-table-cell,
+.form-row > .yjrb29-table-cell-3,
+.form-row > .yjrb29-table-cell-center,
+.form-row > .yjrb29-table-cell-2,
+.form-row > .yjrb29-table-cell-center-2,
+.form-row > .yjrb29-table-cell-1,
+.form-row > .yjrb29-table-cell-center-1,
+.form-row > .yjrb29-table-header,
+.form-row > .yjrb29-table-header-3,
+.form-row > .yjrb29-table-header-2,
+.form-row > .yjrb29-table-header-1,
 .form-row > .yjrb29-col-show-deleted,
 .form-row > [class*=col-] {
   padding-right: 5px;
@@ -9427,7 +9484,10 @@ button.bg-dark:focus {
           justify-content: flex-end !important;
 }
 
-.justify-content-center {
+.justify-content-center,
+.yjrb29-empty-list,
+.yjrb29-page-title,
+.yjrb29-page-title-bottom-padding {
   -webkit-box-pack: center !important;
           justify-content: center !important;
 }
@@ -10460,8 +10520,7 @@ button.bg-dark:focus {
 }
 
 .mt-3,
-.my-3,
-.yjrb29-top-row {
+.my-3 {
   margin-top: 1rem !important;
 }
 
@@ -10471,8 +10530,7 @@ button.bg-dark:focus {
 }
 
 .mb-3,
-.my-3,
-.yjrb29-top-row {
+.my-3 {
   margin-bottom: 1rem !important;
 }
 
@@ -10606,11 +10664,7 @@ button.bg-dark:focus {
 }
 
 .pt-3,
-.yjrb29-application-row,
-.py-3,
-.yjrb29-table-cell,
-.yjrb29-table-cell-center,
-.yjrb29-table-header {
+.py-3 {
   padding-top: 1rem !important;
 }
 
@@ -10620,10 +10674,7 @@ button.bg-dark:focus {
 }
 
 .pb-3,
-.py-3,
-.yjrb29-table-cell,
-.yjrb29-table-cell-center,
-.yjrb29-table-header {
+.py-3 {
   padding-bottom: 1rem !important;
 }
 
@@ -10671,7 +10722,6 @@ button.bg-dark:focus {
 }
 
 .pb-5,
-.yjrb29-page-title-bottom-padding,
 .py-5 {
   padding-bottom: 3rem !important;
 }
@@ -11337,7 +11387,8 @@ button.bg-dark:focus {
   }
 
   .mt-md-3,
-  .my-md-3 {
+  .my-md-3,
+  .yjrb29-top-row {
     margin-top: 1rem !important;
   }
 
@@ -11347,7 +11398,8 @@ button.bg-dark:focus {
   }
 
   .mb-md-3,
-  .my-md-3 {
+  .my-md-3,
+  .yjrb29-top-row {
     margin-bottom: 1rem !important;
   }
 
@@ -11481,7 +11533,20 @@ button.bg-dark:focus {
   }
 
   .pt-md-3,
-  .py-md-3 {
+  .yjrb29-buttons-row,
+  .yjrb29-application-row,
+  .py-md-3,
+  .yjrb29-table-cell,
+  .yjrb29-table-cell-3,
+  .yjrb29-table-cell-center,
+  .yjrb29-table-cell-2,
+  .yjrb29-table-cell-center-2,
+  .yjrb29-table-cell-1,
+  .yjrb29-table-cell-center-1,
+  .yjrb29-table-header,
+  .yjrb29-table-header-3,
+  .yjrb29-table-header-2,
+  .yjrb29-table-header-1 {
     padding-top: 1rem !important;
   }
 
@@ -11491,7 +11556,18 @@ button.bg-dark:focus {
   }
 
   .pb-md-3,
-  .py-md-3 {
+  .py-md-3,
+  .yjrb29-table-cell,
+  .yjrb29-table-cell-3,
+  .yjrb29-table-cell-center,
+  .yjrb29-table-cell-2,
+  .yjrb29-table-cell-center-2,
+  .yjrb29-table-cell-1,
+  .yjrb29-table-cell-center-1,
+  .yjrb29-table-header,
+  .yjrb29-table-header-3,
+  .yjrb29-table-header-2,
+  .yjrb29-table-header-1 {
     padding-bottom: 1rem !important;
   }
 
@@ -11505,6 +11581,7 @@ button.bg-dark:focus {
   }
 
   .pt-md-4,
+  .yjrb29-empty-list,
   .py-md-4 {
     padding-top: 1.5rem !important;
   }
@@ -11539,6 +11616,7 @@ button.bg-dark:focus {
   }
 
   .pb-md-5,
+  .yjrb29-page-title-bottom-padding,
   .py-md-5 {
     padding-bottom: 3rem !important;
   }
@@ -12592,8 +12670,12 @@ button.bg-dark:focus {
 }
 
 .text-center,
+.yjrb29-empty-list,
 .yjrb29-show-page-button,
 .yjrb29-table-header,
+.yjrb29-table-header-3,
+.yjrb29-table-header-2,
+.yjrb29-table-header-1,
 .yjrb29-page-title,
 .yjrb29-page-title-bottom-padding {
   text-align: center !important;
@@ -12931,8 +13013,23 @@ a.text-dark:focus {
   border-bottom: 1px solid #dee2e6;
 }
 
-.yjrb29-table-header {
+.yjrb29-table-header,
+.yjrb29-table-header-3,
+.yjrb29-table-header-2,
+.yjrb29-table-header-1 {
   font-weight: bold;
+}
+
+.yjrb29-table-cell-center {
+  text-align: center;
+}
+
+.yjrb29-table-cell-center-1 {
+  text-align: center;
+}
+
+.yjrb29-table-cell-center-2 {
+  text-align: center;
 }
 
 .yjrb29-table-cell-center {
@@ -12957,5 +13054,9 @@ a.text-dark:focus {
 .yjrb29-small-green,
 .yjrb29-small-red {
   font-size: 50%;
+}
+
+.yjrb29-empty-list {
+  font-size: 120%;
 }
 

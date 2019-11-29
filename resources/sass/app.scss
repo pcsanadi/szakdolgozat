@@ -11,22 +11,24 @@
 
 .yjrb29-page-title {
     @extend .h1;
+    @extend .justify-content-center;
     @extend .text-center;
+    @extend .row;
 }
 
 .yjrb29-page-title-bottom-padding {
     @extend .yjrb29-page-title;
-    @extend .pb-5;
+    @extend .pb-md-5;
 }
 
 .yjrb29-top-row {
     @extend .row;
-    @extend .my-3;
+    @extend .my-md-3;
     @extend .align-items-center;
 }
 
 .yjrb29-top-row-spacer {
-    @extend .col-8;
+    @extend .col-md-8;
 }
 
 .yjrb29-col-show-deleted {
@@ -56,9 +58,25 @@
 }
 
 .yjrb29-table-header {
-    @extend .py-3;
+    @extend .col;
+    @extend .py-md-3;
     font-weight: bold;
     @extend .text-center;
+}
+
+.yjrb29-table-header-1 {
+    @extend .yjrb29-table-header;
+    @extend .col-md-1;
+}
+
+.yjrb29-table-header-2 {
+    @extend .yjrb29-table-header;
+    @extend .col-md-2;
+}
+
+.yjrb29-table-header-3 {
+    @extend .yjrb29-table-header;
+    @extend .col-md-3;
 }
 
 .yjrb29-table-row {
@@ -68,7 +86,8 @@
 }
 
 .yjrb29-table-cell {
-    @extend .py-3;
+    @extend .col;
+    @extend .py-md-3;
 }
 
 .yjrb29-table-cell-center {
@@ -76,8 +95,34 @@
     text-align: center;
 }
 
-.yjrb29-form-left-spacer {
-    @extend .col-3;
+.yjrb29-table-cell-1 {
+    @extend .yjrb29-table-cell;
+    @extend .col-md-1;
+}
+
+.yjrb29-table-cell-center-1 {
+    @extend .yjrb29-table-cell-1;
+    text-align: center;
+}
+
+.yjrb29-table-cell-2 {
+    @extend .yjrb29-table-cell;
+    @extend .col-md-2;
+}
+
+.yjrb29-table-cell-center-2 {
+    @extend .yjrb29-table-cell-2;
+    text-align: center;
+}
+
+.yjrb29-table-cell-3 {
+    @extend .yjrb29-table-cell;
+    @extend .col-md-3;
+}
+
+.yjrb29-table-cell-center {
+    @extend .yjrb29-table-cell-3;
+    text-align: center;
 }
 
 .yjrb29-form-check {
@@ -87,35 +132,43 @@
 
 .yjrb29-form-label {
     @extend .col-form-label;
-    @extend .col-2;
-}
-
-.yjrb29-application-spacer {
-    @extend .col-3;
+    @extend .col-md-2;
+    @extend .offset-md-3;
 }
 
 .yjrb29-application-group {
     @extend .col;
+    @extend .offset-md-3;
     @extend .font-weight-bold;
     font-size: 120%;
 }
 
 .yjrb29-application-name {
-    @extend .col-3;
+    @extend .col-md-3;
+    @extend .offset-md-3;
 }
 
 .yjrb29-application-row {
     @extend .form-group;
     @extend .row;
-    @extend .pt-3;
+    @extend .pt-md-3;
 }
 
 .yjrb29-form-content {
-    @extend .col-4;
+    @extend .col-md-4;
+}
+
+.yjrb29-form-first-button {
+    @extend .offset-md-3;
+}
+
+.yjrb29-buttons-row {
+    @extend .row;
+    @extend .pt-md-3;
 }
 
 .yjrb29-show-page-button {
-    @extend .col-2;
+    @extend .col-md-2;
     @extend .text-center;
 }
 
@@ -145,4 +198,12 @@
 .yjrb29-small-green {
     @extend .yjrb29-small;
     @extend .text-success;
+}
+
+.yjrb29-empty-list {
+    @extend .justify-content-center;
+    @extend .row;
+    @extend .text-center;
+    @extend .pt-md-4;
+    font-size: 120%;
 }

@@ -6,8 +6,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-auto yjrb29-page-title">{{ __('Venues') }}</div>
+<div class="yjrb29-page-title">
+    <div class="col-auto">{{ __('Venues') }}</div>
 </div>
 <div class="yjrb29-top-row">
     <div class="col">
@@ -18,7 +18,9 @@
         <div class="yjrb29-col-show-deleted">
             <div class="yjrb29-form-check">
                 <input class="form-check-input cbShowDeleted" type="checkbox"
-                    @if($showDeleted == "true") checked="checked" @endif
+                    @if($showDeleted == "true")
+                        checked="checked"
+                    @endif
                 />
                 <label class="form-check-label" for="cbShowDeleted">
                     {{ __('Show deleted') }}
@@ -28,12 +30,12 @@
     @endif
 </div>
 <div class="yjrb29-table-header-row">
-    <div class="col-3 yjrb29-table-header">{{ __('Name') }}</div>
-    <div class="col-2 yjrb29-table-header">{{ __('Short name') }}</div>
-    <div class="col-3 yjrb29-table-header">{{ __('Address') }}</div>
-    <div class="col-2 yjrb29-table-header">{{ __('# of courts') }}</div>
-    <div class="col-1 yjrb29-table-header"></div>
-    <div class="col-1 yjrb29-table-header"></div>
+    <div class="yjrb29-table-header-3">{{ __('Name') }}</div>
+    <div class="yjrb29-table-header-2">{{ __('Short name') }}</div>
+    <div class="yjrb29-table-header-3">{{ __('Address') }}</div>
+    <div class="yjrb29-table-header-2">{{ __('# of courts') }}</div>
+    <div class="yjrb29-table-header-1"></div>
+    <div class="yjrb29-table-header-1"></div>
 </div>
 @foreach( $venues as $venue )
     @php($deleted = !is_null($venue->deleted_at))
@@ -48,18 +50,18 @@
         @else
             class="yjrb29-table-row"
         @endif>
-        <div class="col-3 yjrb29-table-cell">{{ $venue->name }}</div>
-        <div class="col-2 yjrb29-table-cell-center">{{ $venue->short_name }}</div>
-        <div class="col-3 yjrb29-table-cell">{{ $venue->address }}</div>
-        <div class="col-2 yjrb29-table-cell-center">{{ $venue->courts }}</div>
-        <div class="col-1 yjrb29-table-cell-center">
+        <div class="yjrb29-table-cell-3">{{ $venue->name }}</div>
+        <div class="yjrb29-table-cell-center-2">{{ $venue->short_name }}</div>
+        <div class="yjrb29-table-cell-3">{{ $venue->address }}</div>
+        <div class="yjrb29-table-cell-center-2">{{ $venue->courts }}</div>
+        <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
                 <a href="{{route('showVenue',$venue->id)}}" class="text-info">
                     <span class="fas fa-edit" title="{{ __('Edit') }}"></span>
                 </a>
             @endif
         </div>
-        <div class="col-1 yjrb29-table-cell-center">
+        <div class="yjrb29-table-cell-center-1">
             @if($deleted)
                 <a href="#" class="text-success"
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$venue->id}}').submit();">

@@ -31,7 +31,7 @@ class TournamentController extends Controller
             abort(500,"Internal Server Error");
         }
 
-        return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
+        return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted","false");
     }
 
     /**
@@ -122,7 +122,7 @@ class TournamentController extends Controller
         {
             abort(500,"Internal Server Error");
         }
-        return view("tournament.create", ["venues" => $venues]);
+        return view("tournament.edit", ["venues" => $venues]);
     }
 
     /**
@@ -262,12 +262,12 @@ class TournamentController extends Controller
             $newTournament->umpireApplications = $tournament->umpireApplications;
             if( !is_null($newTournament->umpireApplications) )
             {
-                $newTournament->umpireApplications = $newTournament->umpireApplications->sort();
+                $newTournament->umpireApplications = $newTournament->umpireApplications->sortBy('user.name');
             }
             $newTournament->refereeApplications = $tournament->refereeApplications;
             if( !is_null($newTournament->refereeApplications) )
             {
-                $newTournament->refereeApplications = $newTournament->refereeApplications->sort();
+                $newTournament->refereeApplications = $newTournament->refereeApplications->sortBy('user.name');
             }
             array_push($newTournaments,$newTournament);
         }

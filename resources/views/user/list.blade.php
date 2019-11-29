@@ -6,8 +6,8 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-auto yjrb29-page-title">{{ __('Users') }}</div>
+<div class="yjrb29-page-title">
+    <div class="col-auto">{{ __('Users') }}</div>
 </div>
 <div class="yjrb29-top-row">
     <div class="col">
@@ -18,7 +18,9 @@
         <div class="yjrb29-col-show-deleted">
             <div class="yjrb29-form-check">
                 <input class="form-check-input cbShowDeleted" type="checkbox"
-                    @if($showDeleted == "true") checked="checked" @endif
+                    @if($showDeleted == "true")
+                        checked="checked"
+                    @endif
                 />
                 <label class="form-check-label" for="cbShowDeleted">
                     {{ __('Show deleted') }}
@@ -28,13 +30,13 @@
     @endif
 </div>
 <div class="yjrb29-table-header-row">
-        <div class="col-2 yjrb29-table-header">{{ __('Name') }}</div>
-        <div class="col-3 yjrb29-table-header"><span class="far fa-envelope"></span></div>
-        <div class="col-2 yjrb29-table-header">{{ __('U level') }}</div>
-        <div class="col-2 yjrb29-table-header">{{ __('R level') }}</div>
-        <div class="col-1 yjrb29-table-header">{{ __('Admin') }}</div>
-        <div class="col-1 yjrb29-table-header"></div>
-        <div class="col-1 yjrb29-table-header"></div>
+        <div class="yjrb29-table-header-2">{{ __('Name') }}</div>
+        <div class="yjrb29-table-header-3"><span class="far fa-envelope"></span></div>
+        <div class="yjrb29-table-header-2">{{ __('U level') }}</div>
+        <div class="yjrb29-table-header-2">{{ __('R level') }}</div>
+        <div class="yjrb29-table-header-1">{{ __('Admin') }}</div>
+        <div class="yjrb29-table-header-1"></div>
+        <div class="yjrb29-table-header-1"></div>
 </div>
 @foreach( $users as $user )
     @php($deleted = !is_null($user->deleted_at))
@@ -49,19 +51,19 @@
         @else
             class="yjrb29-table-row"
         @endif>
-        <div class="col-2 yjrb29-table-cell">{{ $user->name }}</div>
-        <div class="col-3 yjrb29-table-cell">{{ $user->email }}</div>
-        <div class="col-2 yjrb29-table-cell-center">{{ $user->umpireLevel->level }}</div>
-        <div class="col-2 yjrb29-table-cell-center">{{ $user->refereeLevel->level }}</div>
-        <div class="col-1 yjrb29-table-cell-center">@if( $user->admin )<span class="fas fa-check"></span>@endif</div>
-        <div class="col-1 yjrb29-table-cell-center">
+        <div class="yjrb29-table-cell-2">{{ $user->name }}</div>
+        <div class="yjrb29-table-cell-3">{{ $user->email }}</div>
+        <div class="yjrb29-table-cell-center-2">{{ $user->umpireLevel->level }}</div>
+        <div class="yjrb29-table-cell-center-2">{{ $user->refereeLevel->level }}</div>
+        <div class="yjrb29-table-cell-center-1">@if( $user->admin )<span class="fas fa-check"></span>@endif</div>
+        <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
                 <a href="{{route('showUser',$user->id)}}" class="text-info">
                     <span class="fas fa-edit" title="{{ __('Edit')}}"></span>
                 </a>
             @endif
         </div>
-        <div class="col-1 yjrb29-table-cell-center">
+        <div class="yjrb29-table-cell-center-1">
             @if($deleted)
                 <a href="#" class="text-success"
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$user->id}}').submit();">
