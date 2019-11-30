@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Venue;
 
 class VenueController extends Controller
@@ -47,6 +48,7 @@ class VenueController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validator($request,false)->validate();
         $venue = Venue::find($id);
         if( is_null($venue) )
         {
@@ -105,6 +107,7 @@ class VenueController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validator($request,true)->validate();
         abort_unless($request->has(["name","short_name","address","courts"]),500,"Internal Server Error");
         $venue = new Venue;
         $venue->name = $request->name;
@@ -114,5 +117,23 @@ class VenueController extends Controller
         return $venue->save()
             ? redirect()->route("venues.index")->with("message","venue created successsfully")
             : redirect()->route("venues.index")->with("error","could not create venue");
+    }
+
+    /**
+     * Create a validator and validate the request
+     *
+     * @param Illuminate\Http\Request
+     * @param boolean true if we try to create a new venue
+     *
+     */
+    private function validator(Request $request, $create)
+    {
+        $rules = [
+            "name" => ( $create ? "required|unique:venues" : "required" ),
+            "short_name" => ( $create ? "required|unique:venues" : "required" ),
+            "address" => ( $create ? "required|unique:venues" : "required" ),
+            "courts" => "numeric",
+        ];
+        return Validator::make( $request->all(), $rules );
     }
 }

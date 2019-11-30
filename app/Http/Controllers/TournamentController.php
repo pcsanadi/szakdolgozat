@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Tournament;
 
 class TournamentController extends Controller
@@ -55,6 +56,7 @@ class TournamentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validator($request)->validate();
         $tournament = \App\Tournament::find($id);
         if( is_null($tournament) or !$request->has(["title","datefrom","dateto","venue","requested_umpires"]) )
         {
@@ -117,6 +119,7 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validator($request)->validate();
         abort_unless(!$request->has(["title","datefrom","dateto","venue","requested_umpires"]),500,"Internal Server Error");
         $tournament = new \App\Tournament;
         $tournament->title = $request->title;
@@ -254,5 +257,23 @@ class TournamentController extends Controller
                                             "user" => $user,
                                             "filtered" => $filtered,
                                             "season" => $season]);
+    }
+
+    /**
+     * Create a validator and validate the request
+     *
+     * @param Illuminate\Http\Request
+     *
+     */
+    private function validator(Request $request)
+    {
+        $rules = [
+            "title" => "required",
+            "datefrom" => "bail|required|date|before_or_equal:dateto",
+            "dateto" => "bail|required|date|after_or_equal:datefrom",
+            "venue" => "required",
+            "requested_umpires" => "numeric",
+        ];
+        return Validator::make( $request->all(), $rules );
     }
 }

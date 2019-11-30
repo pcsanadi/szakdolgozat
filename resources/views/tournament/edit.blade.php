@@ -27,11 +27,15 @@
             <label for="title">{{ __('Title') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control" autocomplete="off" name="title" id="title" placeholder="{{ __('Title') }}"
-                @if(isset($tournament))
-                    value="{{ $tournament->title }}"
-                @endif
+            <input type="text" class="form-control @error('title') is-invalid @enderror"
+            autocomplete="off" name="title" id="title" required
+                value="{{ old('title') ? old('title') : ( isset($tournament) ? $tournament->title : '') }}"
             />
+            @error("title")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -39,11 +43,15 @@
             <label for="datefrom">{{ __('Start date') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control datepicker" autocomplete="off" id="datefrom" name="datefrom"
-                @if(isset($tournament))
-                    value="{{$tournament->datefrom->format('Y-m-d')}}"
-                @endif
+            <input type="text" class="form-control datepicker @error('datefrom') is-invalid @enderror"
+                autocomplete="off" id="datefrom" name="datefrom" required
+                value="{{ old('datefrom') ? old('datefrom') : ( isset($tournament) ? $tournament->datefrom->format('Y-m-d') : '') }}"
             />
+            @error("datefrom")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -51,11 +59,15 @@
             <label for="dateto">{{ __('End date') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control datepicker" autocomplete="off" id="dateto" name="dateto"
-                @if(isset($tournament))
-                    value="{{$tournament->dateto->format('Y-m-d')}}"
-                @endif
+            <input type="text" class="form-control datepicker @error('dateto') is-invalid @enderror"
+                autocomplete="off" id="dateto" name="dateto" required
+                value="{{ old('dateto') ? old('dateto') : ( isset($tournament) ? $tournament->dateto->format('Y-m-d') : '') }}"
             />
+            @error("dateto")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -63,16 +75,23 @@
             <label for="venue">{{ __('Venue') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <select id="venue" name="venue" class="form-control">
+            <select id="venue" name="venue" class="form-control @error('venue') is-invalid @enderror" required>
                 <option value="" selected disabled>{{ __('Choose') }}...</option>
                 @foreach($venues as $venue)
                     <option value="{{$venue->id}}"
-                        @if(isset($tournament) and $venue->id == $tournament->venue_id)
+                        @if( old('venue') and $venue->id == old('venue') )
+                            selected
+                        @elseif(isset($tournament) and $venue->id == $tournament->venue_id)
                             selected
                         @endif
                     >{{$venue->name}}</option>
                 @endforeach
             </select>
+            @error('venue')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -80,11 +99,15 @@
             <label for="requested_umpires">{{ __('Requested umpires') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input id="requested_umpires" class="form-control" autocomplete="off" name="requested_umpires" type="number"
-                @if(isset($tournament))
-                    value="{{ $tournament->requested_umpires }}"
-                @endif
+            <input id="requested_umpires" class="form-control @error('requested_umpires') is-invalid @enderror"
+                autocomplete="off" name="requested_umpires" type="number" required
+                value="{{ old('requested_umpires') ? old('requested_umpires') : ( isset($tournament) ? $tournament->requested_umpires : '') }}"
             />
+            @error("requested_umpires")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="yjrb29-buttons-row">

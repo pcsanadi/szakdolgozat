@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\UmpireLevel;
 use App\RefereeLevel;
@@ -60,6 +61,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validator($request,false)->validate();
         $user = User::find($id);
         if( is_null($user) )
         {
@@ -134,6 +136,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validator($request,true)->validate();
         if( !$request->has("name","email","password","ulevel","rlevel") )
         {
             return redirect()->route("users.index")->with("error","could not save user");
@@ -152,5 +155,24 @@ class UserController extends Controller
         return $user->save()
             ? redirect()->route("users.index")->with("message","user created successsfully")
             : redirect()->route("users.index")->with("error","could not create user");
+    }
+
+    /**
+     * Create a validator and validate the request
+     *
+     * @param Illuminate\Http\Request
+     * @param boolean true if we try to create a new user
+     *
+     */
+    private function validator(Request $request, $create)
+    {
+        $rules = [
+            "name" => "required",
+            "email" => ( $create ? "bail|required|email|unique:users" : "bail|required|email" ),
+            "password" => ( $create ? "required|filled" : "filled" ),
+            "ulevel" => "required",
+            "rlevel" => "required",
+        ];
+        return Validator::make( $request->all(), $rules );
     }
 }

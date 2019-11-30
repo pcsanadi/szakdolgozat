@@ -27,11 +27,15 @@
             <label for="name">{{ __('Name') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control" autocomplete="off" name="name" id="name" placeholder="{{ __('Name') }}"
-                @if(isset($venue))
-                    value="{{ $venue->name }}"
-                @endif
+            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                autocomplete="off" name="name" id="name" required
+                value="{{ old('name') ? old('name') : ( isset($venue) ? $venue->name : '') }}"
             />
+            @error("name")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -39,11 +43,15 @@
             <label for="short_name">{{ __('Short name') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control" autocomplete="off" name="short_name" id="short_name" placeholder="{{ __('Short name') }}"
-            @if(isset($venue))
-                value="{{ $venue->short_name }}"
-            @endif
-        />
+            <input type="text" class="form-control @error('short_name') is-invalid @enderror"
+                autocomplete="off" name="short_name" id="short_name" required
+                value="{{ old('short_name') ? old('short_name') : ( isset($venue) ? $venue->short_name : '') }}"
+            />
+            @error("short_name")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -51,11 +59,15 @@
             <label for="address">{{ __('Address') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control" autocomplete="off" name="address" id="address" placeholder="{{ __('Address') }}"
-                @if(isset($venue))
-                    value="{{ $venue->address }}"
-                @endif
+            <input type="text" class="form-control @error('address') is-invalid @enderror"
+                autocomplete="off" name="address" id="address" required
+                value="{{ old('address') ? old('address') : ( isset($venue) ? $venue->address : '') }}"
             />
+            @error("address")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -63,11 +75,15 @@
             <label for="courts">{{ __('# of courts') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="number" class="form-control" autocomplete="off" name="courts" id="courts" placeholder="{{ __('# of courts') }}"
-                @if(isset($venue))
-                    value="{{ $venue->courts }}"
-                @endif
+            <input type="number" class="form-control @error('courts') is-invalid @enderror"
+                autocomplete="off" name="courts" id="courts" required
+                value="{{ old('courts') ? old('courts') : ( isset($venue) ? $venue->courts : '') }}"
             />
+            @error("courts")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="yjrb29-buttons-row">

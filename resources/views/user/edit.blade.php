@@ -27,11 +27,15 @@
             <label for="name">{{ __('Name') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="text" class="form-control" autocomplete="off" id="name" name="name" placeholder="{{ __('Name') }}"
-                @if(isset($user))
-                    value="{{ $user->name }}"
-                @endif
+            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                autocomplete="off" id="name" name="name" required
+                value="{{ old('name') ? old('name') : ( isset($user) ? $user->name : '') }}"
             />
+            @error("name")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -39,11 +43,15 @@
             <label for="email">{{ __('Email address') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <input type="email" class="form-control" autocomplete="off" id="email" name="email" placeholder="{{ __('Email address') }}"
-                @if(isset($user))
-                    value="{{ $user->email }}"
-                @endif
+            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                autocomplete="off" id="email" name="email" required
+                value="{{ old('email') ? old('email') : ( isset($user) ? $user->email : '' ) }}"
             />
+            @error("email")
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -51,16 +59,23 @@
             <label for="ulevel">{{ __('Umpire level') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <select id="ulevel" name="ulevel" class="form-control" autocomplete="off">
+            <select id="ulevel" name="ulevel" class="form-control @error('ulevel') is-invalid @enderror" required>
                 <option value="" selected disabled>{{ __('Choose') }}...</option>
                 @foreach($umpire_levels as $ulevel)
                     <option value="{{ $ulevel->id }}"
-                        @if(isset($user) and $ulevel->id == $user->umpire_level)
+                        @if( old('ulevel') and $ulevel->id == old('ulevel') )
+                            selected
+                        @elseif(isset($user) and $ulevel->id == $user->umpire_level)
                             selected
                         @endif
                     >{{$ulevel->level}}</option>
                 @endforeach
             </select>
+            @error('ulevel')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -68,16 +83,23 @@
             <label for="rlevel">{{ __('Referee level') }}</label>
         </div>
         <div class="yjrb29-form-content">
-            <select id="rlevel" name="rlevel" class="form-control" autocomplete="off">
+            <select id="rlevel" name="rlevel" class="form-control @error('rlevel') is-invalid @enderror" required>
                 <option value="" selected disabled>{{ __('Choose') }}...</option>
                 @foreach($referee_levels as $rlevel)
                     <option value="{{ $rlevel->id }}"
-                        @if(isset($user) and $rlevel->id == $user->referee_level)
+                        @if( old('rlevel') and $rlevel->id == old('rlevel') )
+                            selected
+                        @elseif(isset($user) and $rlevel->id == $user->referee_level)
                             selected
                         @endif
                     >{{$rlevel->level}}</option>
                 @endforeach
             </select>
+            @error('rlevel')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
