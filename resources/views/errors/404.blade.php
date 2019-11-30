@@ -1,5 +1,21 @@
-@extends('errors::minimal')
+@extends('layouts.app')
 
-@section('title', __('Not Found'))
-@section('code', '404')
-@section('message', __('Not Found'))
+@section('content')
+<div class="row justify-content-center" style="font-size: 26px;">
+    <div class="col col-auto" style="position:relative;align-items:center;display:flex;color:#636b6f;">
+        <div class="row">
+            <div class="col" style="border-right:2px solid;">
+                404
+            </div>
+            <div class="col-auto">
+                {{ __('Page not found') }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col col-auto">
+        <a href="javascript:history.back()">{{ __('Back') }}</a>
+    </div>
+</div>
+@endsection
