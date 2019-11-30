@@ -51,9 +51,9 @@
                                     Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
-                                    <a class="nav-link" href="{{ route('users') }}">{{ __('Users') }}</a>
-                                    <a class="nav-link" href="{{ route('venues') }}">{{ __('Venues') }}</a>
-                                    <a class="nav-link" href="{{ route('tournaments') }}">{{ __('Tournaments') }}</a>
+                                    <a class="nav-link" href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                                    <a class="nav-link" href="{{ route('venues.index') }}">{{ __('Venues') }}</a>
+                                    <a class="nav-link" href="{{ route('tournaments.index') }}">{{ __('Tournaments') }}</a>
                                 </div>
                             </li>
                             <li class="nav-item">

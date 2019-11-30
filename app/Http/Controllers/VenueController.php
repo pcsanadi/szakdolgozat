@@ -38,21 +38,20 @@ class VenueController extends Controller
     {
         $venue = Venue::find($id);
         return is_null($venue)
-            ? redirect()->route("venues")->with("error", "venue not found")
+            ? redirect()->route("venues.index")->with("error", "venue not found")
             : view("venue.edit", ["venue" => $venue]);
     }
 
     /**
      * Update a venue
      */
-    public function save(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $info = $request->all();
         $venue = Venue::find($id);
         if( is_null($venue) )
         {
-            return redirect()->route("venues")->with("error","venue not found");
-        }
+            return redirect()->route("venues.index")->with("error","venue not found");
         if( !array_key_exists("name",$info)
             or !array_key_exists("short_name",$info)
             or !array_key_exists("address",$info)
@@ -65,8 +64,8 @@ class VenueController extends Controller
         $venue->address = $info["address"];
         $venue->courts = intval($info["courts"]);
         return $venue->save()
-            ? redirect()->route("venues")->with("message","venue saved successfully")
-            : redirect()->route("venues")->with("error","could not save venue");
+            ? redirect()->route("venues.index")->with("message","venue saved successfully")
+            : redirect()->route("venues.index")->with("error","could not save venue");
     }
 
     /**
@@ -77,10 +76,10 @@ class VenueController extends Controller
         $venue = Venue::onlyTrashed()->find($id);
         if( is_null($venue) )
         {
-            return redirect()->route("venues")->with("error","venue not found");
+            return redirect()->route("venues.index")->with("error","venue not found");
         }
         $venue->restore();
-        return redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"));
+        return redirect()->route("venues.index")->with("showDeleted",$request->showDeleted);
     }
 
     /**
@@ -91,8 +90,8 @@ class VenueController extends Controller
     public function destroy(Request $request, $id)
     {
         return Venue::destroy($id)
-            ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
-            : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete venue"]);
+            ? redirect()->route("venues.index")->with("showDeleted",$request->showDeleted)
+            : redirect()->route("venues.index")->with(["showDeleted" => $request->showDeleted, "error" => "could not delete venue"]);
     }
 
     /**
@@ -133,7 +132,7 @@ class VenueController extends Controller
         $venue->address = $info["address"];
         $venue->courts = intval($info["courts"]);
         return $venue->save()
-            ? redirect()->route("venues")->with("message","venue created successsfully")
-            : redirect()->route("venues")->with("error","could not create venue");
+            ? redirect()->route("venues.index")->with("message","venue created successsfully")
+            : redirect()->route("venues.index")->with("error","could not create venue");
     }
 }

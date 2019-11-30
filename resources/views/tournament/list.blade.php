@@ -6,7 +6,7 @@
 </div>
 <div class="yjrb29-top-row">
     <div class="col">
-        <a href="{{route('createTournament')}}" class="yjrb29-btn-green">{{ __('New tournament')}}</a>
+        <a href="{{route('tournaments.create')}}" class="yjrb29-btn-green">{{ __('New tournament')}}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>
     @if( $tournaments->count() > 0 )
@@ -52,17 +52,17 @@
         <div class="yjrb29-table-cell-center-1">{{$tournament->requested_umpires}}</div>
         <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
-                <a href="{{route('applications',$tournament->id)}}" class="text-dark">
+                <a href="{{route('applications.show',$tournament->id)}}" class="text-dark">
                     <span class="fas fa-user" title="{{ __('Edit applications') }}"></span>
                 </a>
-                <a href="#" class="text-dark">
+                <a href="{{route('sendmail',$tournament->id)}}" class="text-dark">
                     <span class="fas fa-envelope" title="{{ __('Send information email') }}"></span>
                 </a>
             @endif
         </div>
         <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
-                <a href="{{route('showTournament',$tournament->id)}}" class="text-info">
+                <a href="{{route('tournaments.show',$tournament->id)}}" class="text-info">
                     <span class="fas fa-edit" title="{{ __('Edit') }}"></span>
                 </a>
             @endif
@@ -73,7 +73,7 @@
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$tournament->id}}').submit();">
                     <span class="fas fa-trash-restore" title="{{ __('Restore') }}"></span>
                 </a>
-                <form method="POST" id="restore_form_{{$tournament->id}}" action="{{route('restoreTournament',$tournament->id)}}">
+                <form method="POST" id="restore_form_{{$tournament->id}}" action="{{route('tournaments.restore',$tournament->id)}}">
                     @method('PUT')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
@@ -83,7 +83,7 @@
                     onclick="event.preventDefault();document.getElementById('delete_form_{{$tournament->id}}').submit();">
                     <span class="fas fa-trash-alt" title="{{ __('Delete') }}"></span>
                 </a>
-                <form method="POST" id="delete_form_{{$tournament->id}}" action="{{route('showTournament',$tournament->id)}}">
+                <form method="POST" id="delete_form_{{$tournament->id}}" action="{{route('tournaments.show',$tournament->id)}}">
                     @method('DELETE')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>

@@ -16,10 +16,10 @@
 </div>
 <form method="POST"
     @if(isset($tournament))
-        action="{{route('showTournament',$tournament->id)}}">
+        action="{{route('tournaments.show',$tournament->id)}}">
         @method('PUT')
     @else
-        action="{{route('tournaments')}}">
+        action="{{route('tournaments.index')}}">
     @endif
     @csrf
     <div class="form-group row">
@@ -94,7 +94,7 @@
             @endif
         </div>
         <div class="yjrb29-show-page-button">
-            <a href="{{route('tournaments')}}" class="yjrb29-btn-red">{{ __('Cancel') }}</a>
+            <a href="{{route('tournaments.index')}}" class="yjrb29-btn-red">{{ __('Cancel') }}</a>
         </div>
         <div class="yjrb29-show-page-button">
             <input type="submit" class="yjrb29-btn-green"

@@ -69,16 +69,13 @@ class ApplicationController extends Controller
     /**
      * Save application details
      */
-    public function save(Request $request, $id)
+    public function store(Request $request, $id)
     {
         $info = $request->all();
         // loop through all the applications of the tournament and check if we got information of them
         $umpireApplications = UmpireApplication::where("tournament_id",$id)->get();
         $refereeApplications = RefereeApplication::where("tournament_id",$id)->get();
-        if( is_null($umpireApplications) or is_null($refereeApplications) )
-        {
-            abort(500,"Internal Server Error");
-        }
+        abort_if(is_null($umpireApplications) or is_null($refereeApplications),500,"Internal Server Error");
         foreach($umpireApplications as $application)
         {
             $processed_name = "umpire_application_processed_" . strval($application->id) . "_value";
@@ -95,7 +92,7 @@ class ApplicationController extends Controller
             $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
             abort_unless($application->save(),500,"Internal Server Error");
         }
-        return redirect()->route("tournaments");
+        return redirect()->route("tournaments.index");
     }
 
     /**

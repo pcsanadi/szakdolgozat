@@ -6,7 +6,7 @@
 </div>
 <div class="yjrb29-top-row">
     <div class="col">
-        <a href="{{route('createVenue')}}" class="yjrb29-btn-green">{{ __('New venue') }}</a>
+        <a href="{{route('venues.create')}}" class="yjrb29-btn-green">{{ __('New venue') }}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>
     @if( $venues->count() > 0 )
@@ -51,7 +51,7 @@
         <div class="yjrb29-table-cell-center-2">{{ $venue->courts }}</div>
         <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
-                <a href="{{route('showVenue',$venue->id)}}" class="text-info">
+                <a href="{{route('venues.show',$venue->id)}}" class="text-info">
                     <span class="fas fa-edit" title="{{ __('Edit') }}"></span>
                 </a>
             @endif

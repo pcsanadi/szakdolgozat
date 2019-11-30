@@ -43,7 +43,7 @@ class UserController extends Controller
         $user = User::find($id);
         if ( is_null($user) )
         {
-            return redirect()->route("users")->with("error","user not found");
+            return redirect()->route("users.index")->with("error","user not found");
         }
         $umpire_levels = UmpireLevel::all();
         $referee_levels = RefereeLevel::all();
@@ -58,7 +58,7 @@ class UserController extends Controller
      *
      * @return misc
      */
-    public function save(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $info = $request->all();
         $user = User::find($id);
@@ -71,7 +71,7 @@ class UserController extends Controller
             or !array_key_exists( "ulevel", $info )
             or !array_key_exists( "rlevel", $info ) )
         {
-            return redirect()->route("users")->with("error","could not save user");
+            return redirect()->route("users.index")->with("error","user not found");
         }
         $user->name = $info["name"];
         $user->email = $info["email"];
@@ -79,7 +79,6 @@ class UserController extends Controller
         $user->referee_level = $info["rlevel"];
         $user->admin = array_key_exists( "admin", $info );
         $user->password = Hash::make("5555");
-        if( $user->save() )
         {
             // TODO send out initial password
             return redirect()->route("users")->with("message","user saved successfully");
@@ -88,6 +87,9 @@ class UserController extends Controller
         {
             return redirect()->route("users")->with("error","could not save user");
         }
+        return $user->save()
+            ? redirect()->route("users.index")->with("message","user saved successfully")
+            : redirect()->route("users.index")->with("error","could not save user");
     }
 
     /**
@@ -100,10 +102,10 @@ class UserController extends Controller
         $user = User::onlyTrashed()->find($id);
         if( is_null($user) )
         {
-            return redirect()->route("users")->with("error","user not found");
+            return redirect()->route("users.index")->with("error","user not found");
         }
         $user->restore();
-        return redirect()->route("users")->with("showDeleted",$request->input("showDeleted"));
+        return redirect()->route("users.index")->with("showDeleted",$request->showDeleted);
     }
 
     /**
@@ -114,8 +116,8 @@ class UserController extends Controller
     public function destroy(Request $request, $id)
     {
         return User::destroy($id)
-            ? redirect()->route("users")->with("showDeleted",$request->input("showDeleted"))
-            : redirect()->route("users")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete user"]);
+            ? redirect()->route("users.index")->with("showDeleted",$request->showDeleted)
+            : redirect()->route("users.index")->with(["showDeleted" => $request->showDeleted, "error" => "could not delete user"]);
     }
 
     /**
@@ -141,7 +143,7 @@ class UserController extends Controller
     {
         $info = $request->all();
         {
-            return redirect()->route("users")->with("error","user with this email already exists");
+            return redirect()->route("users.index")->with("error","could not save user");
         }
         if( 0 != User::where("email",$request->email)->count() )
         if( !array_key_exists("name",$info)
@@ -149,7 +151,7 @@ class UserController extends Controller
             or !array_key_exists("ulevel",$info)
             or !array_key_exists("rlevel",$info) )
         {
-            return redirect()->route("users")->with("error","could not save user");
+            return redirect()->route("users.index")->with("error","user with this email already exists");
         }
         $user = new User;
         $user->name = $info["name"];
@@ -159,7 +161,7 @@ class UserController extends Controller
         $user->admin = array_key_exists("admin", $info);
 
         return $user->save()
-            ? redirect()->route("users")->with("message","user created successsfully")
-            : redirect()->route("users")->with("error","could not create user");
+            ? redirect()->route("users.index")->with("message","user created successsfully")
+            : redirect()->route("users.index")->with("error","could not create user");
     }
 }

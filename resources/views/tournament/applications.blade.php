@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
 <div class="row yjrb29-page-title-bottom-padding">
     <div class="col-auto" title="
@@ -10,7 +9,7 @@
 {{ __('Requested umpires') }}: {{ $tournament->requested_umpires }}
     ">{{ __('Applications') }} - {{ $tournament->title }}</div>
 </div>
-<form method="POST" action="{{route('saveApplications',$tournament->id)}}">
+<form method="POST" action="{{route('applications.store',$tournament->id)}}">
     @method('PUT')
     @csrf
     <div class="yjrb29-application-row">
@@ -130,7 +129,7 @@
             @endif
         </div>
         <div class="yjrb29-show-page-button">
-            <a href="{{route('tournaments')}}" class="yjrb29-btn-red">{{ __('Back') }}</a>
+            <a href="{{route('tournaments.index')}}" class="yjrb29-btn-red">{{ __('Back') }}</a>
         </div>
         <div class="yjrb29-show-page-button">
             @if(count($refereeApplications) + count($umpireApplications))

@@ -16,10 +16,10 @@
 </div>
 <form method="POST"
     @if(isset($user))
-        action="{{route('showUser',$user->id)}}">
+        action="{{route('users.show',$user->id)}}">
         @method('PUT')
     @else
-        action="{{route('users')}}">
+        action="{{route('users.index')}}">
     @endif
     @csrf
     <div class="form-group row">
@@ -99,7 +99,7 @@
             @endif
         </div>
         <div class="yjrb29-show-page-button">
-            <a href="{{route('users')}}" class="yjrb29-btn-red">{{ __('Cancel') }}</a>
+            <a href="{{route('users.index')}}" class="yjrb29-btn-red">{{ __('Cancel') }}</a>
         </div>
         <div class="yjrb29-show-page-button">
             <input type="submit" class="yjrb29-btn-green"

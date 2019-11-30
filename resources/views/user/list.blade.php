@@ -6,7 +6,7 @@
 </div>
 <div class="yjrb29-top-row">
     <div class="col">
-        <a href="{{route('createUser')}}" class="yjrb29-btn-green">{{ __('New user') }}</a>
+        <a href="{{route('users.create')}}" class="yjrb29-btn-green">{{ __('New user') }}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>
     @if( $users->count() > 0 )
@@ -53,7 +53,7 @@
         <div class="yjrb29-table-cell-center-1">@if( $user->admin )<span class="fas fa-check"></span>@endif</div>
         <div class="yjrb29-table-cell-center-1">
             @if(!$deleted)
-                <a href="{{route('showUser',$user->id)}}" class="text-info">
+                <a href="{{route('users.show',$user->id)}}" class="text-info">
                     <span class="fas fa-edit" title="{{ __('Edit')}}"></span>
                 </a>
             @endif
@@ -64,7 +64,7 @@
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$user->id}}').submit();">
                     <span class="fas fa-trash-restore" title="{{ __('Restore') }}"></span>
                 </a>
-                <form method="POST" id="restore_form_{{$user->id}}" action="{{route('restoreUser',$user->id)}}">
+                <form method="POST" id="restore_form_{{$user->id}}" action="{{route('users.restore',$user->id)}}">
                     @method('PUT')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
@@ -74,7 +74,7 @@
                     onclick="event.preventDefault();document.getElementById('delete_form_{{$user->id}}').submit();">
                     <span class="fas fa-trash-alt" title="{{ __('Delete') }}"></span>
                 </a>
-                <form method="POST" id="delete_form_{{$user->id}}" action="{{route('showUser',$user->id)}}">
+                <form method="POST" id="delete_form_{{$user->id}}" action="{{route('users.show',$user->id)}}">
                     @method('DELETE')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>

@@ -28,7 +28,7 @@ class TournamentController extends Controller
         $tournaments = \App\Tournament::withTrashed()
             ->where("dateto",">=",date("Y-m-d"))->get()->sortBy("datefrom");
         abort_if(is_null($tournaments),500,"Internal Server Error");
-        return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted","false");
+        return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
     }
 
     /**
@@ -36,12 +36,12 @@ class TournamentController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $tournament = \App\Tournament::find($id);
         if( is_null($tournament) )
         {
-            return redirect()->route("tournaments")->with("error","tournament not found");
+            return redirect()->route("tournaments.index")->with("error","tournament not found");
         }
         $venues = \App\Venue::all()->sortBy("name");
         abort_if(is_null($venues),500,"Internal Server Error");
@@ -53,7 +53,7 @@ class TournamentController extends Controller
      *
      * @return misc
      */
-    public function save(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $info = $request->all();
         $tournament = \App\Tournament::find($id);
@@ -64,7 +64,7 @@ class TournamentController extends Controller
             or !array_key_exists("venue",$info)
             or !array_key_exists("requested_umpires") )
         {
-            return redirect()->route("tournaments")->with("error","could not save tournament");
+            return redirect()->route("tournaments.index")->with("error","could not save tournament");
         }
         $tournament->title = $info["title"];
         $tournament->datefrom = $info["datefrom"];
@@ -72,8 +72,8 @@ class TournamentController extends Controller
         $tournament->venue_id = $info["venue"];
         $tournament->requested_umpires = intval($info["requested_umpires"]);
         return $tournament->save()
-            ? redirect()->route("tournaments")->with("message","tournament updated successfully")
-            : redirect()->route("tournaments")->with("error","could not save tournament");
+            ? redirect()->route("tournaments.index")->with("message","tournament updated successfully")
+            : redirect()->route("tournaments.index")->with("error","could not save tournament");
     }
 
     /**
@@ -86,10 +86,10 @@ class TournamentController extends Controller
         $tournament = \App\Tournament::onlyTrashed()->find($id);
         if(is_null($tournament))
         {
-            return redirect()->route("tournaments")->with("error","tournament not found");
+            return redirect()->route("tournaments.index")->with("error","tournament not found");
         }
         $tournament->restore();
-        return redirect()->route("tournaments")->with("showDeleted",$request->input('showDeleted'));
+        return redirect()->route("tournaments.index")->with("showDeleted",$request->showDeleted);
     }
 
     /**
@@ -100,8 +100,8 @@ class TournamentController extends Controller
     public function destroy(Request $request, $id)
     {
         return \App\Tournament::destroy($id)
-            ? redirect()->route("tournaments")->with("showDeleted",$request->input("showDeleted"))
-            : redirect()->route("tournaments")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete tournament"]);
+            ? redirect()->route("tournaments.index")->with("showDeleted",$request->showDeleted)
+            : redirect()->route("tournaments.index")->with(["showDeleted" => $request->showDeleted, "error" => "could not delete tournament"]);
     }
 
     /**
@@ -139,8 +139,8 @@ class TournamentController extends Controller
         $tournament->venue_id = intval($info["venue"]);
         $tournament->requested_umpires = intval($info["requested_umpires"]);
         return $tournament->save()
-            ? redirect()->route("tournaments")->with("message","tournament created successsfully")
-            : redirect()->route("tournaments")->with("error","could not create tournament");
+            ? redirect()->route("tournaments.index")->with("message","tournament created successsfully")
+            : redirect()->route("tournaments.index")->with("error","could not create tournament");
     }
 
     /**
