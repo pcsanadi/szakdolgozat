@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-@section('header_scripts')
-    @parent
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 check -->
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 times -->
-@endsection
-
 @section('content')
 <div class="yjrb29-page-title-bottom-padding">
     <div class="col-md-auto">
@@ -18,7 +12,7 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-md-1 text-center">
-        <a href="#" onclick="document.getElementById('prev_form').submit()">prev</a>
+        <a href="#" onclick="document.getElementById('prev_form').submit()">{{ __('prev') }}</a>
         <form method="POST" id="prev_form"
             @if($filtered)
                 action="{{ route('calendar') }}/{{ $user->id }}"
@@ -32,7 +26,7 @@
     </div>
     <div class="col-md-2 text-center">{{ $season }}-{{ intval($season) + 1 }}</div>
     <div class="col-md-1 text-center">
-        <a href="#" onclick="document.getElementById('next_form').submit()">next</a>
+        <a href="#" onclick="document.getElementById('next_form').submit()">{{ __('next') }}</a>
         <form method="POST" id="next_form"
             @if($filtered)
                 action="{{ route('calendar') }}/{{ $user->id }}"

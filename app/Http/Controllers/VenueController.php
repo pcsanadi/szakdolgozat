@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Venue;
 
 class VenueController extends Controller
 {
@@ -23,11 +24,8 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = \App\Venue::withTrashed()->get()->sortBy("name");
-        if( is_null($venues) )
-        {
-            abort(500,"Internal Server Error");
-        }
+        $venues = Venue::withTrashed()->get()->sortBy("name");
+        abort_if(is_null($venues),500,"Internal Server Error");
         return view("venue.list", [ "venues" => $venues ])->with("showDeleted",session("showDeleted","false"));
     }
 
@@ -36,9 +34,9 @@ class VenueController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $venue = \App\Venue::find($id);
+        $venue = Venue::find($id);
         return is_null($venue)
             ? redirect()->route("venues")->with("error", "venue not found")
             : view("venue.edit", ["venue" => $venue]);
@@ -50,7 +48,7 @@ class VenueController extends Controller
     public function save(Request $request, $id)
     {
         $info = $request->all();
-        $venue = \App\Venue::find($id);
+        $venue = Venue::find($id);
         if( is_null($venue) )
         {
             return redirect()->route("venues")->with("error","venue not found");
@@ -76,7 +74,7 @@ class VenueController extends Controller
      */
     public function restore(Request $request,$id)
     {
-        $venue = \App\Venue::onlyTrashed()->find($id);
+        $venue = Venue::onlyTrashed()->find($id);
         if( is_null($venue) )
         {
             return redirect()->route("venues")->with("error","venue not found");
@@ -92,7 +90,7 @@ class VenueController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        return \App\Venue::destroy($id)
+        return Venue::destroy($id)
             ? redirect()->route("venues")->with("showDeleted",$request->input("showDeleted"))
             : redirect()->route("venues")->with(["showDeleted" => $request->input("showDeleted"), "error" => "could not delete venue"]);
     }

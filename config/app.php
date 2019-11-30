@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Umpires - Hungarian Badminton Association'),
+    'name' => env('APP_NAME', 'MTLSZ JVB'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,10 +1,5 @@
 @extends('layouts.app')
 
-@section('header_scripts')
-    @parent
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 -->
-@endsection
-
 @section('content')
 <div class="yjrb29-page-title">
     <div class="col-auto">{{ __('Tournaments') }}</div>

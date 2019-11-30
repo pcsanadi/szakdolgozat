@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('header_scripts')
-    @parent
-    <script src="https://kit.fontawesome.com/d53001d225.js" crossorigin="anonymous"></script> <!-- Font Awesome 5 -->
-@endsection
 
 @section('content')
 <div class="row yjrb29-page-title-bottom-padding">
@@ -12,7 +8,7 @@
 {{ __('End date') }}: {{ $tournament->dateto->format('Y. m. d.') }}
 {{ __('Venue') }}: {{ $tournament->venue->short_name }}
 {{ __('Requested umpires') }}: {{ $tournament->requested_umpires }}
-    ">{{ __('Edit applications') }} - {{ $tournament->title }}</div>
+    ">{{ __('Applications') }} - {{ $tournament->title }}</div>
 </div>
 <form method="POST" action="{{route('saveApplications',$tournament->id)}}">
     @method('PUT')

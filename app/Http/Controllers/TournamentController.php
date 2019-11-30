@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tournament;
 
 class TournamentController extends Controller
 {
@@ -26,11 +27,7 @@ class TournamentController extends Controller
     {
         $tournaments = \App\Tournament::withTrashed()
             ->where("dateto",">=",date("Y-m-d"))->get()->sortBy("datefrom");
-        if( is_null($tournaments) )
-        {
-            abort(500,"Internal Server Error");
-        }
-
+        abort_if(is_null($tournaments),500,"Internal Server Error");
         return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted","false");
     }
 
@@ -47,10 +44,7 @@ class TournamentController extends Controller
             return redirect()->route("tournaments")->with("error","tournament not found");
         }
         $venues = \App\Venue::all()->sortBy("name");
-        if( is_null($venues) )
-        {
-            abort(500,"Internal Server Error");
-        }
+        abort_if(is_null($venues),500,"Internal Server Error");
         return view("tournament.edit", [ "tournament" => $tournament, "venues" => $venues ]);
     }
 
@@ -118,10 +112,7 @@ class TournamentController extends Controller
     public function create()
     {
         $venues = \App\Venue::all()->sortBy("name");
-        if( is_null($venues) )
-        {
-            abort(500,"Internal Server Error");
-        }
+        abort_if( is_null($venues),500,"Internal Server Error");
         return view("tournament.edit", ["venues" => $venues]);
     }
 
@@ -201,10 +192,7 @@ class TournamentController extends Controller
             ->where("dateto","<=",strval($season+1)."-08-31")
             ->get()
             ->sortBy("datefrom");
-        if( is_null($tournaments) )
-        {
-            abort(500,"Internal Server Error");
-        }
+        abort_if(is_null($tournaments),500,"Internal Server Error");
         $newTournaments = array();
         $userId = ( $filtered ? $id : \Auth::user()->id );
 
