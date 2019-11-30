@@ -15,23 +15,22 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-@section('header_scripts')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-@show
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script> <!-- Font Awesome 5 -->
 </head>
 <body>
     <div id="app">
         @auth
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <!-- <a class="navbar-brand" href="{{ route('login') }}">
-                    MTLSZ JVB
+                <a class="navbar-brand" href="{{ route('login') }}">
+                    {{ config('app.name', 'MTLSZ JVB') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button> -->
+                </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
