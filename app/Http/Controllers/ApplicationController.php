@@ -71,7 +71,6 @@ class ApplicationController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $info = $request->all();
         // loop through all the applications of the tournament and check if we got information of them
         $umpireApplications = UmpireApplication::where("tournament_id",$id)->get();
         $refereeApplications = RefereeApplication::where("tournament_id",$id)->get();
@@ -79,17 +78,17 @@ class ApplicationController extends Controller
         foreach($umpireApplications as $application)
         {
             $processed_name = "umpire_application_processed_" . strval($application->id) . "_value";
-            $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
+            $application->processed = ( $request->has($processed_name) and ( $request->input($processed_name) == "1" ) );
             $approved_name = "umpire_application_approved_" . strval($application->id) . "_value";
-            $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
+            $application->approved = ( $request->has($approved_name) and ( $request->input($approved_name) == "1" ) );
             abort_unless($application->save(),500,"Internal Server Error");
         }
         foreach($refereeApplications as $application)
         {
             $processed_name = "referee_application_processed_" . strval($application->id) . "_value";
-            $application->processed = ( array_key_exists($processed_name,$info) and ( $info[$processed_name] == "1" ) );
+            $application->processed = ( $request->has($processed_name) and ( $request->input($processed_name) == "1" ) );
             $approved_name = "referee_application_approved_" . strval($application->id) . "_value";
-            $application->approved = ( array_key_exists($approved_name,$info) and ( $info[$approved_name] == "1" ) );
+            $application->approved = ( $request->has($approved_name) and ( $request->input($approved_name) == "1" ) );
             abort_unless($application->save(),500,"Internal Server Error");
         }
         return redirect()->route("tournaments.index");

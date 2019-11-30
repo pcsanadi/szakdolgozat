@@ -60,33 +60,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $info = $request->all();
         $user = User::find($id);
         if( is_null($user) )
         {
-            return redirect()->route("users")->with("error","user not found");
-        }
-        if( !array_key_exists( "name", $info )
-            or !array_key_exists( "email", $info )
-            or !array_key_exists( "ulevel", $info )
-            or !array_key_exists( "rlevel", $info ) )
-        {
             return redirect()->route("users.index")->with("error","user not found");
         }
-        $user->name = $info["name"];
-        $user->email = $info["email"];
-        $user->umpire_level = $info["ulevel"];
-        $user->referee_level = $info["rlevel"];
-        $user->admin = array_key_exists( "admin", $info );
+        if( !$request->has(["name","email","ulevel","rlevel"]) )
         $user->password = Hash::make("5555");
         {
             // TODO send out initial password
-            return redirect()->route("users")->with("message","user saved successfully");
+            return redirect()->route("users.index")->with("error","could not save user");
         }
+        $user->name = $request->name;
+        $user->email = $request->email;
         else
         {
             return redirect()->route("users")->with("error","could not save user");
         }
+        $user->umpire_level = $request->ulevel;
+        $user->referee_level = $request->rlevel;
+        $user->admin = $request->has("admin");
         return $user->save()
             ? redirect()->route("users.index")->with("message","user saved successfully")
             : redirect()->route("users.index")->with("error","could not save user");
@@ -141,24 +134,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $info = $request->all();
+        if( !$request->has("name","email","password","ulevel","rlevel") )
         {
             return redirect()->route("users.index")->with("error","could not save user");
         }
         if( 0 != User::where("email",$request->email)->count() )
-        if( !array_key_exists("name",$info)
-            or !array_key_exists("email",$info)
-            or !array_key_exists("ulevel",$info)
-            or !array_key_exists("rlevel",$info) )
         {
             return redirect()->route("users.index")->with("error","user with this email already exists");
         }
         $user = new User;
-        $user->name = $info["name"];
-        $user->email = $info["email"];
-        $user->umpire_level = $info["ulevel"];
-        $user->referee_level = $info["rlevel"];
-        $user->admin = array_key_exists("admin", $info);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->umpire_level = $request->ulevel;
+        $user->referee_level = $request->rlevel;
+        $user->admin = $request->has("admin");
 
         return $user->save()
             ? redirect()->route("users.index")->with("message","user created successsfully")

@@ -55,22 +55,16 @@ class TournamentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $info = $request->all();
         $tournament = \App\Tournament::find($id);
-        if( is_null($tournament)
-            or !array_key_exists("title",$info)
-            or !array_key_exists("datefrom",$info)
-            or !array_key_exists("dateto",$info)
-            or !array_key_exists("venue",$info)
-            or !array_key_exists("requested_umpires") )
+        if( is_null($tournament) or !$request->has(["title","datefrom","dateto","venue","requested_umpires"]) )
         {
             return redirect()->route("tournaments.index")->with("error","could not save tournament");
         }
-        $tournament->title = $info["title"];
-        $tournament->datefrom = $info["datefrom"];
-        $tournament->dateto = $info["dateto"];
-        $tournament->venue_id = $info["venue"];
-        $tournament->requested_umpires = intval($info["requested_umpires"]);
+        $tournament->title = $request->title;
+        $tournament->datefrom = $request->datefrom;
+        $tournament->dateto = $request->dateto;
+        $tournament->venue_id = $request->venue;
+        $tournament->requested_umpires = intval($request->requested_umpires);
         return $tournament->save()
             ? redirect()->route("tournaments.index")->with("message","tournament updated successfully")
             : redirect()->route("tournaments.index")->with("error","could not save tournament");
@@ -123,21 +117,13 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
-        $info = $request->all();
-        if( !array_key_exists("title",$info)
-            or !array_key_exists("datefrom")
-            or !array_key_exists("dateto")
-            or !array_key_exists("venue")
-            or !array_key_exists("requested_umpires") )
-        {
-            abort(500,"Internal Server Error");
-        }
+        abort_unless(!$request->has(["title","datefrom","dateto","venue","requested_umpires"]),500,"Internal Server Error");
         $tournament = new \App\Tournament;
-        $tournament->title = $info["title"];
-        $tournament->datefrom = $info["datefrom"];
-        $tournament->dateto = $info["dateto"];
-        $tournament->venue_id = intval($info["venue"]);
-        $tournament->requested_umpires = intval($info["requested_umpires"]);
+        $tournament->title = $request->title;
+        $tournament->datefrom = $request->datefrom;
+        $tournament->dateto = $request->dateto;
+        $tournament->venue_id = intval($request->venue);
+        $tournament->requested_umpires = intval($request->requested_umpires);
         return $tournament->save()
             ? redirect()->route("tournaments.index")->with("message","tournament created successsfully")
             : redirect()->route("tournaments.index")->with("error","could not create tournament");
@@ -174,11 +160,9 @@ class TournamentController extends Controller
     */
     public function showCalendar(Request $request, $id = 0)
     {
-        $info = $request->all();
-
-        if( array_key_exists("season", $info ) )
+        if( $request->has("season") )
         {
-            $season = intval($info["season"]);
+            $season = intval($request->season);
         }
         else
         {

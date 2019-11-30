@@ -47,22 +47,16 @@ class VenueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $info = $request->all();
         $venue = Venue::find($id);
         if( is_null($venue) )
         {
             return redirect()->route("venues.index")->with("error","venue not found");
-        if( !array_key_exists("name",$info)
-            or !array_key_exists("short_name",$info)
-            or !array_key_exists("address",$info)
-            or !array_key_exists("courts",$info) )
-        {
-            abort(500,"Internal Server Error");
         }
-        $venue->name = $info["name"];
-        $venue->short_name = $info["short_name"];
-        $venue->address = $info["address"];
-        $venue->courts = intval($info["courts"]);
+        abort_unless($request->has(["name","short_name","address","courts"]),500,"Internal Server Error");
+        $venue->name = $request->name;
+        $venue->short_name = $request->short_name;
+        $venue->address = $request->address;
+        $venue->courts = intval($request->courts);
         return $venue->save()
             ? redirect()->route("venues.index")->with("message","venue saved successfully")
             : redirect()->route("venues.index")->with("error","could not save venue");
@@ -111,26 +105,12 @@ class VenueController extends Controller
      */
     public function store(Request $request)
     {
-        $info = $request->all();
-        if( 0 != \App\Venue::where("name",$info["name"])
-                    ->orWhere("short_name",$info["short_name"])
-                    ->orWhere("address",$info["address"])
-                    ->count() )
-        {
-            return redirect()->route("venues")->with("error","a venue with this name, short name or address already exists");
-        }
-        if( !array_key_exists("name",$info)
-            or !array_key_exists("short_name",$info)
-            or !array_key_exists("address",$info)
-            or !array_key_exists("courts",$info) )
-        {
-            abort(500,"Internal Server Error");
-        }
-        $venue = new \App\Venue;
-        $venue->name = $info["name"];
-        $venue->short_name = $info["short_name"];
-        $venue->address = $info["address"];
-        $venue->courts = intval($info["courts"]);
+        abort_unless($request->has(["name","short_name","address","courts"]),500,"Internal Server Error");
+        $venue = new Venue;
+        $venue->name = $request->name;
+        $venue->short_name = $request->short_name;
+        $venue->address = $request->address;
+        $venue->courts = intval($request->courts);
         return $venue->save()
             ? redirect()->route("venues.index")->with("message","venue created successsfully")
             : redirect()->route("venues.index")->with("error","could not create venue");
