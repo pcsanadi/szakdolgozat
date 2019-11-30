@@ -49,3 +49,5 @@ Route::delete('/referee/{id}','ApplicationController@removeReferee');
 
 Route::get('/applications/{id}','ApplicationController@show')->name('applications.show');
 Route::put('/applications/{id}','ApplicationController@store')->name('applications.store');
+
+Route::get('/sendmail/{id}','EmailController@sendmail')->name('sendmail');
