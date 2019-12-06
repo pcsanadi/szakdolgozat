@@ -59,6 +59,7 @@
             @endif
         </div>
         <div class="yjrb29-table-cell-center-1">
+        @if(\Auth::user()->id!=$user->id)
             @if($deleted)
                 <a href="#" class="text-success"
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$user->id}}').submit();">
@@ -80,6 +81,7 @@
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
                 </form>
             @endif
+        @endif
         </div>
     </div>
 @endforeach

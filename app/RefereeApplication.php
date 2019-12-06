@@ -85,7 +85,7 @@ use SoftDeletes;
      */
     public function user()
     {
-        return $this->belongsTo("App\User", "referee_id");
+        return $this->belongsTo("App\User", "referee_id")->withTrashed();
     }
 
     /**
@@ -93,6 +93,6 @@ use SoftDeletes;
     */
     public function tournament()
     {
-        return $this->belongsTo("App\Tournament", "tournament_id");
+        return $this->belongsTo("App\Tournament", "tournament_id")->withTrashed();
     }
 }

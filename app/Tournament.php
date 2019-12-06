@@ -90,7 +90,7 @@ class Tournament extends Model
      */
     public function venue()
     {
-        return $this->belongsTo("App\Venue", "venue_id");
+        return $this->belongsTo("App\Venue", "venue_id")->withTrashed();
     }
 
     /**

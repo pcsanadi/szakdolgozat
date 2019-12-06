@@ -62,7 +62,7 @@
                     onclick="event.preventDefault();document.getElementById('restore_form_{{$venue->id}}').submit();">
                     <span class="fas fa-trash-restore" title="{{ __('Restore') }}"></span>
                 </a>
-                <form method="POST" id="restore_form_{{$venue->id}}" action="{{route('restoreVenue',$venue->id)}}">
+                <form method="POST" id="restore_form_{{$venue->id}}" action="{{route('venues.restore',$venue->id)}}">
                     @method('PUT')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>
@@ -72,7 +72,7 @@
                     onclick="event.preventDefault();document.getElementById('delete_form_{{$venue->id}}').submit();">
                     <span class="fas fa-trash-alt" title="{{ __('Delete') }}"></span>
                 </a>
-                <form method="POST" id="delete_form_{{$venue->id}}" action="{{route('showVenue',$venue->id)}}">
+                <form method="POST" id="delete_form_{{$venue->id}}" action="{{route('venues.show',$venue->id)}}">
                     @method('DELETE')
                     @csrf
                     <input type="hidden" name="showDeleted" value="{{$showDeleted}}"/>

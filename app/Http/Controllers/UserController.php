@@ -68,16 +68,14 @@ class UserController extends Controller
             return redirect()->route("users.index")->with("error","user not found");
         }
         if( !$request->has(["name","email","ulevel","rlevel"]) )
-        $user->password = Hash::make("5555");
         {
-            // TODO send out initial password
             return redirect()->route("users.index")->with("error","could not save user");
         }
         $user->name = $request->name;
         $user->email = $request->email;
-        else
+        if( $request->has('password') )
         {
-            return redirect()->route("users")->with("error","could not save user");
+            $user->password = Hash::make($request->password);
         }
         $user->umpire_level = $request->ulevel;
         $user->referee_level = $request->rlevel;
@@ -148,6 +146,7 @@ class UserController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->password = Hash::make($request->password);
         $user->umpire_level = $request->ulevel;
         $user->referee_level = $request->rlevel;
         $user->admin = $request->has("admin");

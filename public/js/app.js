@@ -39970,6 +39970,9 @@ $(function () {
       sd[i].value = this.checked ? 'true' : 'false';
     }
   });
+  $('.password-generator').on('click', function () {
+    document.getElementById('password').text = Math.random().toString(36).substr(2, 8);
+  });
 });
 
 /***/ }),

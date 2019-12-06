@@ -85,7 +85,7 @@ class UmpireApplication extends Model
      */
     public function user()
     {
-        return $this->belongsTo("App\User", "umpire_id");
+        return $this->belongsTo("App\User", "umpire_id")->withTrashed();
     }
 
     /**
@@ -93,6 +93,6 @@ class UmpireApplication extends Model
     */
     public function tournament()
     {
-        return $this->belongsTo("App\Tournament", "ournament_id");
+        return $this->belongsTo("App\Tournament", "ournament_id")->withTrashed();
     }
 }

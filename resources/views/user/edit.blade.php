@@ -56,6 +56,23 @@
     </div>
     <div class="form-group row">
         <div class="yjrb29-form-label">
+            <label for="password">{{ __('Password') }}</label>
+        </div>
+        <div class="yjrb29-form-content">
+            <input type="text" class="form-control"
+                autocomplete="off" id="password" name="password"
+                @if(isset($user))
+                    placeholder="<{{ __('keep current password') }}>"
+                @else
+                    required
+                @endif/>
+        </div>
+        <div class="col my-auto">
+            <span class="fas fa-redo password-generator" title="{{ __('Generate random password') }}"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="yjrb29-form-label">
             <label for="ulevel">{{ __('Umpire level') }}</label>
         </div>
         <div class="yjrb29-form-content">
