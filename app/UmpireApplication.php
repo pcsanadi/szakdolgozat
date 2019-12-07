@@ -93,6 +93,6 @@ class UmpireApplication extends Model
     */
     public function tournament()
     {
-        return $this->belongsTo("App\Tournament", "ournament_id")->withTrashed();
+        return $this->belongsTo("App\Tournament", "tournament_id")->withTrashed();
     }
 }

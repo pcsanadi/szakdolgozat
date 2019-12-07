@@ -135,11 +135,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validator($request,true)->validate();
-        if( !$request->has("name","email","password","ulevel","rlevel") )
-        {
-            return redirect()->route("users.index")->with("error","could not save user");
-        }
-        if( 0 != User::where("email",$request->email)->count() )
+        abort_unless(!$request->has(["name","email","password","ulevel","rlevel"]),500,"Internal Server Error");
+        if( 0 != User::withTrashed()->where("email",$request->email)->count() )
         {
             return redirect()->route("users.index")->with("error","user with this email already exists");
         }
