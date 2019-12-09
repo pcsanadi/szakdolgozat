@@ -115,7 +115,7 @@ class VenueController extends Controller
         $venue->address = $request->address;
         $venue->courts = intval($request->courts);
         return $venue->save()
-            ? redirect()->route("venues.index")->with("message","venue created successsfully")
+            ? redirect()->route("venues.index")->with("message","venue created successfully")
             : redirect()->route("venues.index")->with("error","could not create venue");
     }
 

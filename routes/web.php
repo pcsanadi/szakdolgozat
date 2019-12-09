@@ -17,8 +17,8 @@ Route::view('/login','auth.login');
 Auth::routes();
 
 Route::get('/users','UserController@index')->name('users.index');
-Route::post('/users','Usercontroller@store');
-Route::get('/users/create','Usercontroller@create')->name('users.create');
+Route::post('/users','UserController@store');
+Route::get('/users/create','UserController@create')->name('users.create');
 Route::get('/users/{id}','UserController@show')->name('users.show');
 Route::put('/users/{id}','UserController@update');
 Route::delete('/users/{id}','UserController@destroy');

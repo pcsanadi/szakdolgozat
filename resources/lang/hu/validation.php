@@ -22,11 +22,11 @@ return [
         ],
         'datefrom' => [
             'required' => 'Kezdődátum megadása kötelező',
-            'before_or_equal' => 'Ez a dátum nem lehet későbbi, mint a végdátum',
+            'before_or_equal' => 'Ez a dátum nem lehet későbbi, mint a befejező dátum',
         ],
         'dateto' => [
             'required' => 'Végdátum megadása kötelező',
-            'after_or_equal' => 'Ez a dátum nem lehet korábbi, mint a kezdődátum',
+            'after_or_equal' => 'Ez a dátum nem lehet korábbi, mint a kezdő dátum',
         ],
         'email' => [
             'required' => 'Adj meg egy email címet',

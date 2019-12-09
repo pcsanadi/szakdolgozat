@@ -99,13 +99,13 @@ class ApplicationController extends Controller
      */
     private function remove(Request $request, $id, $type)
     {
-        $filtered = $request->input("filtered");
+        $filtered = !is_null($request->input("filtered"));
         abort_if(is_null($filtered),500,"Internal Server Error");
         $userId = \Auth::user()->id;
         switch ($type)
         {
             case "referee":
-                $application =RefereeApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
+                $application =RefereeApplication::where(["tournament_id"=>$id,"referee_id"=>$userId])->first();
                 break;
             case "umpire":
                 $application = UmpireApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
@@ -113,7 +113,6 @@ class ApplicationController extends Controller
             default:
                 abort(500,"Internal Server Error");
         }
-        $application = UmpireApplication::where(["tournament_id"=>$id,"umpire_id"=>$userId])->first();
         if( is_null($application) )
         {
             return $filtered

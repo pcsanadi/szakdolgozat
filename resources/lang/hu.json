@@ -2,6 +2,7 @@
     "a venue with this name, short name or address already exists": "ezzel a névvel, rövid névvel vagy címmel már létezik csarnok",
     "Address": "Cím",
     "application already in database": "Ez a jelentkezés már szerepel az adatbázisban",
+    "application not found": "a jelentkezés nem található",
     "Application to a tournament in the past.": "Jelentkezés múltbeli versenyre",
     "Applications": "Jelentkezések",
     "Apply": "Jelentkezem",
@@ -60,6 +61,7 @@
     "Restore": "Visszaállítás",
     "Revoke": "Visszavonom",
     "Save": "Mentés",
+    "Send information email": "Információs email kiküldése",
     "Short name": "Rövid név",
     "Show deleted": "Töröltek megjelenítése",
     "Start date": "Kezdő dátum",
@@ -75,9 +77,11 @@
     "Umpires": "Játékvezetők",
     "user created successfully": "a felhasználó létrehozása sikeres",
     "user not found": "a felhasználó nem található",
+    "user saved successfully": "a felhasználó mentése sikeres",
     "Users": "Felhasználók",
     "Venue": "Csarnok",
     "venue created successfully": "a csarnok létrehozása sikeres",
     "venue not found": "a csarnok nem található",
+    "venue saved successfully": "a csarnok mentése sikeres",
     "Venues": "Csarnokok"
 }

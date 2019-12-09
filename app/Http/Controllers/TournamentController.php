@@ -60,7 +60,7 @@ class TournamentController extends Controller
         $tournament = \App\Tournament::find($id);
         if( is_null($tournament) or !$request->has(["title","datefrom","dateto","venue","requested_umpires"]) )
         {
-            return redirect()->route("tournaments.index")->with("error","could not save tournament");
+            return redirect()->route("tournaments.index")->with("error","could not update tournament");
         }
         $tournament->title = $request->title;
         $tournament->datefrom = $request->datefrom;
@@ -69,7 +69,7 @@ class TournamentController extends Controller
         $tournament->requested_umpires = intval($request->requested_umpires);
         return $tournament->save()
             ? redirect()->route("tournaments.index")->with("message","tournament updated successfully")
-            : redirect()->route("tournaments.index")->with("error","could not save tournament");
+            : redirect()->route("tournaments.index")->with("error","could not update tournament");
     }
 
     /**

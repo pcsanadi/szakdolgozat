@@ -135,7 +135,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validator($request,true)->validate();
-        abort_unless(!$request->has(["name","email","password","ulevel","rlevel"]),500,"Internal Server Error");
+        abort_unless($request->has(["name","email","password","ulevel","rlevel"]),500,"Internal Server Error");
         if( 0 != User::withTrashed()->where("email",$request->email)->count() )
         {
             return redirect()->route("users.index")->with("error","user with this email already exists");
@@ -149,7 +149,7 @@ class UserController extends Controller
         $user->admin = $request->has("admin");
 
         return $user->save()
-            ? redirect()->route("users.index")->with("message","user created successsfully")
+            ? redirect()->route("users.index")->with("message","user created successfully")
             : redirect()->route("users.index")->with("error","could not create user");
     }
 
@@ -165,7 +165,7 @@ class UserController extends Controller
         $rules = [
             "name" => "required",
             "email" => ( $create ? "bail|required|email|unique:users" : "bail|required|email" ),
-            "password" => ( $create ? "required|filled" : "filled" ),
+            "password" => ( $create ? "required" : "" ),
             "ulevel" => "required",
             "rlevel" => "required",
         ];
