@@ -9,20 +9,18 @@
         <a href="{{route('users.create')}}" class="yjrb29-btn-green">{{ __('New user') }}</a>
     </div>
     <div class="yjrb29-top-row-spacer"></div>
-    @if( $users->count() > 0 )
-        <div class="yjrb29-col-show-deleted">
-            <div class="yjrb29-form-check">
-                <input class="form-check-input cbShowDeleted" type="checkbox"
-                    @if($showDeleted == "true")
-                        checked="checked"
-                    @endif
-                />
-                <label class="form-check-label" for="cbShowDeleted">
-                    {{ __('Show deleted') }}
-                </label>
-            </div>
+    <div class="yjrb29-col-show-deleted">
+        <div class="yjrb29-form-check">
+            <input class="form-check-input cbShowDeleted" type="checkbox"
+                @if($showDeleted == "true")
+                    checked="checked"
+                @endif
+            />
+            <label class="form-check-label" for="cbShowDeleted">
+                {{ __('Show deleted') }}
+            </label>
         </div>
-    @endif
+    </div>
 </div>
 <div class="yjrb29-table-header-row">
         <div class="yjrb29-table-header-2">{{ __('Name') }}</div>
