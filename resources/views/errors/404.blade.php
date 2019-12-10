@@ -15,7 +15,7 @@
 </div>
 <div class="row justify-content-center">
     <div class="col col-auto">
-        <a href="javascript:history.back()">{{ __('Back') }}</a>
+        <a href="{{ route('calendar') }}">{{ __('Tournament calendar') }}</a>
     </div>
 </div>
 @endsection

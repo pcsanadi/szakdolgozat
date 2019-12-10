@@ -39,9 +39,17 @@ class EmailController extends Controller
                 $message->to($application->user->email);
                 $message->subject("Információ - " . $tournament->title );
             });
-            echo "application: " . $application->user->name . " --> " . $tournament->venue->name . "<br/>\n";
+        }
+        foreach( $refereeApplications as $application )
+        {
+            $data["role"] = "referee";
+            \Mail::send( "email.notify", $data, function($message) use($application,$tournament) {
+                $message->from("mtlsz-jvb@googlegroups.com");
+                $message->to($application->user->email);
+                $message->subject("Információ - " . $tournament->title );
+            });
         }
 
-        return \Redirect::back();
+        return \Redirect::back()->with("message","Emails sent successfully");
     }
 }

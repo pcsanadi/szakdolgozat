@@ -31,6 +31,7 @@
     "Edit user": "Felhasználó szerkesztése",
     "Edit venue": "Csarnok szerkesztése",
     "Email address": "E-mail cím",
+    "Emails sent successfully": "emailek sikeresen kiküldve",
     "End date": "Befejező dátum",
     "Generate random password": "Véletlen jelszó generálása",
     "Initial password": "Kezdeti jelszó",
@@ -84,6 +85,6 @@
     "Venue": "Csarnok",
     "venue created successfully": "a csarnok létrehozása sikeres",
     "venue not found": "a csarnok nem található",
-    "venue saved successfully": "a csarnok mentése sikeres",
+    "venue saved successfully": "a csarnok frissítése sikeres",
     "Venues": "Csarnokok"
 }

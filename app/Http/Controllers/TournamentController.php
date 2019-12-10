@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Tournament;
+use App\Venue;
 
 class TournamentController extends Controller
 {
@@ -26,7 +27,7 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        $tournaments = \App\Tournament::withTrashed()
+        $tournaments = Tournament::withTrashed()
             ->where("dateto",">=",date("Y-m-d"))->get()->sortBy("datefrom");
         abort_if(is_null($tournaments),500,"Internal Server Error");
         return view("tournament.list", [ "tournaments" => $tournaments ])->with("showDeleted",session("showDeleted","false"));
@@ -39,12 +40,12 @@ class TournamentController extends Controller
      */
     public function show($id)
     {
-        $tournament = \App\Tournament::find($id);
+        $tournament = Tournament::find($id);
         if( is_null($tournament) )
         {
             return redirect()->route("tournaments.index")->with("error","tournament not found");
         }
-        $venues = \App\Venue::all()->sortBy("name");
+        $venues = Venue::all()->sortBy("name");
         abort_if(is_null($venues),500,"Internal Server Error");
         return view("tournament.edit", [ "tournament" => $tournament, "venues" => $venues ]);
     }
@@ -57,7 +58,7 @@ class TournamentController extends Controller
     public function update(Request $request, $id)
     {
         $this->validator($request)->validate();
-        $tournament = \App\Tournament::find($id);
+        $tournament = Tournament::find($id);
         if( is_null($tournament) or !$request->has(["title","datefrom","dateto","venue","requested_umpires"]) )
         {
             return redirect()->route("tournaments.index")->with("error","could not update tournament");
@@ -79,7 +80,7 @@ class TournamentController extends Controller
      */
     public function restore(Request $request, $id)
     {
-        $tournament = \App\Tournament::onlyTrashed()->find($id);
+        $tournament = Tournament::onlyTrashed()->find($id);
         if(is_null($tournament))
         {
             return redirect()->route("tournaments.index")->with("error","tournament not found");
@@ -95,7 +96,7 @@ class TournamentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        return \App\Tournament::destroy($id)
+        return Tournament::destroy($id)
             ? redirect()->route("tournaments.index")->with("showDeleted",$request->showDeleted)
             : redirect()->route("tournaments.index")->with(["showDeleted" => $request->showDeleted, "error" => "could not delete tournament"]);
     }
@@ -107,7 +108,7 @@ class TournamentController extends Controller
      */
     public function create()
     {
-        $venues = \App\Venue::all()->sortBy("name");
+        $venues = Venue::all()->sortBy("name");
         abort_if( is_null($venues),500,"Internal Server Error");
         return view("tournament.edit", ["venues" => $venues]);
     }
@@ -121,7 +122,7 @@ class TournamentController extends Controller
     {
         $this->validator($request)->validate();
         abort_unless(!$request->has(["title","datefrom","dateto","venue","requested_umpires"]),500,"Internal Server Error");
-        $tournament = new \App\Tournament;
+        $tournament = new Tournament;
         $tournament->title = $request->title;
         $tournament->datefrom = $request->datefrom;
         $tournament->dateto = $request->dateto;
@@ -174,7 +175,7 @@ class TournamentController extends Controller
 
         $filtered = ( $id != 0 );
 
-        $tournaments = \App\Tournament::with(["umpireApplications.user","refereeApplications.user"])
+        $tournaments = Tournament::with(["umpireApplications.user","refereeApplications.user"])
             ->where("datefrom",">=",strval($season)."-09-01")
             ->where("dateto","<=",strval($season+1)."-08-31")
             ->get()
